@@ -24,6 +24,8 @@ public class VoiceManager : MonoBehaviour
 
         Channel3DProperties channelProperties = new Channel3DProperties();
 
+        Debug.Log(channelProperties);
+
         await VivoxService.Instance.JoinPositionalChannelAsync(channelName, ChatCapability.AudioOnly, channelProperties);
     }
 }

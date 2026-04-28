@@ -12,14 +12,31 @@ using Unity.Netcode.Transports.UTP;
 
 public class RelayManager : MonoBehaviour
 {
+    public RelayManager Instance;
+
     [SerializeField] private TextMeshProUGUI joinCodeText;
     [SerializeField] private TMP_InputField joinCodeInput;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     private async void Start()
     {
         await UnityServices.InitializeAsync();
-
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        await VoiceManager.Instance.InitializeVoiceAsync();
     }
 
     public async void StartRelay()

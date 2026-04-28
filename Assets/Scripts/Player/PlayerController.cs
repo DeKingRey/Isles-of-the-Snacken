@@ -89,7 +89,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        PlayerUI ui = FindFirstObjectByType<PlayerUI>();
+        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
         ui.Bind(this);
     }
 

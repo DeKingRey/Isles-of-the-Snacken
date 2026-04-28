@@ -1,6 +1,10 @@
 using UnityEngine;
-using Unity.Netcode;
+using Unity.Services.Core;
 using Unity.Services.Vivox;
+using System;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Netcode;
 
 public class PlayerVoice : NetworkBehaviour
 {
@@ -9,6 +13,7 @@ public class PlayerVoice : NetworkBehaviour
     void LateUpdate()
     {
         if (!IsOwner) return;
+        if (!VoiceManager.Instance.IsVivoxReady) return;
 
         VivoxService.Instance.Set3DPosition(
             head,

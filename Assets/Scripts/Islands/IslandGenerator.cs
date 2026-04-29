@@ -1,23 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
-public class IslandGenerator : MonoBehaviour
+public class IslandGenerator : NetworkBehaviour
 {
-    [Header("Island Prefabs")]
     [SerializeField] GameObject[] islandPrefabs;
 
     [Header("Spawn Settings")]
     [SerializeField] int islandCount = 10;
     [SerializeField] float spawnRadius = 200f;
     [SerializeField] LayerMask waterLayer;
-
-    [Header("Spacing")]
     [SerializeField] float spacingPadding = 10f;
-
-    [Header("Auto Generate")]
-    [SerializeField] bool generateOnStart = false;
-    [SerializeField] bool useRandomSeed = true;
-    [SerializeField] int seed = 0;
 
     private List<PlacedIsland> placedIslands = new List<PlacedIsland>();
     private List<int> prefabBag = new List<int>();
@@ -34,36 +27,32 @@ public class IslandGenerator : MonoBehaviour
         }
     }
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        if (generateOnStart)
-            GenerateIslands();
+        if (!IsServer) return;
+
+        GenerateIslands();
     }
 
     public void GenerateIslands()
     {
         if (islandPrefabs == null || islandPrefabs.Length == 0)
-        {
             return;
-        }
-
-        if (useRandomSeed)
-        {
-            seed = Random.Range(0, 999999);
-        }
-
-        Random.InitState(seed);
+        
+        // Resets island placements
         placedIslands.Clear();
         RefillBag();
 
+        // Spawns the islands
         for (int i = 0; i < islandCount; i++)
         {
-            GameObject prefab = GetNextPrefab();
-            float islandRadius = GetIslandRadius(prefab);
+            GameObject island = GetNextPrefab();
+            float islandRadius = island.GetComponent<IslandSize>().islandRadius;
 
+            // Only spawns if far enough away from other islands
             if (TryGetValidPosition(islandRadius, out Vector3 spawnPos))
             {
-                SpawnIsland(prefab, spawnPos, islandRadius);
+                SpawnIsland(island, spawnPos, islandRadius);
             }
         }
     }
@@ -77,6 +66,7 @@ public class IslandGenerator : MonoBehaviour
             Vector2 circle = Random.insideUnitCircle * spawnRadius;
             Vector3 candidate = transform.position + new Vector3(circle.x, 0f, circle.y);
 
+            // Will only place islands on water
             if (waterLayer != 0)
             {
                 Vector3 rayStart = candidate + Vector3.up * 100f;
@@ -84,6 +74,7 @@ public class IslandGenerator : MonoBehaviour
                     continue;
             }
 
+            // Checks that island pos is far enough away from others
             if (IsFarEnough(candidate, islandRadius))
             {
                 position = candidate;
@@ -97,12 +88,13 @@ public class IslandGenerator : MonoBehaviour
 
     bool IsFarEnough(Vector3 candidate, float newRadius)
     {
-        foreach (PlacedIsland other in placedIslands)
+        foreach (PlacedIsland island in placedIslands)
         {
-            float minRequired = other.radius + newRadius + spacingPadding;
+            // Calculates min distance between islands and adds some randomness
+            float minRequired = island.radius + newRadius + spacingPadding;
             minRequired *= Random.Range(0.9f, 1.15f);
 
-            if (Vector3.Distance(candidate, other.position) < minRequired)
+            if (Vector3.Distance(candidate, island.position) < minRequired)
                 return false;
         }
 
@@ -111,29 +103,11 @@ public class IslandGenerator : MonoBehaviour
 
     void SpawnIsland(GameObject prefab, Vector3 position, float radius)
     {
-        GameObject island = Instantiate(prefab, position, Quaternion.identity, transform);
-        island.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+        GameObject island = Instantiate(prefab, position, Quaternion.identity);
+        island.GetComponent<NetworkObject>().Spawn();
+
+        island.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f); // Random rotation
         placedIslands.Add(new PlacedIsland(position, radius));
-    }
-
-    float GetIslandRadius(GameObject prefab)
-    {
-        IslandSize sizeComp = prefab.GetComponent<IslandSize>();
-        if (sizeComp != null)
-            return sizeComp.GetScaledRadius();
-
-        Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>();
-        if (renderers.Length > 0)
-        {
-            Bounds bounds = renderers[0].bounds;
-            foreach (Renderer r in renderers)
-                bounds.Encapsulate(r.bounds);
-
-            float estimated = Mathf.Max(bounds.extents.x, bounds.extents.z);
-            return estimated;
-        }
-        
-        return 30f;
     }
 
     void RefillBag()
@@ -145,6 +119,7 @@ public class IslandGenerator : MonoBehaviour
 
     GameObject GetNextPrefab()
     {
+        // The bag makes it so it won't always be the same islands
         if (prefabBag.Count == 0)
             RefillBag();
 

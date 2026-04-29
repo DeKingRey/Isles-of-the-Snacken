@@ -806,12 +806,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418749015}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1167251452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &418749017
 MonoBehaviour:
@@ -1868,12 +1868,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916021748}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1167251452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &941252497
 GameObject:
@@ -2347,11 +2347,45 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143294160}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 1167251452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1167251451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167251452}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1167251452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167251451}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 916021750}
+  - {fileID: 418749016}
+  - {fileID: 1143294163}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1177041170
@@ -2750,7 +2784,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 7487103466597829105, guid: 443333aa73ae5f844a353cc2cb6d52d5, type: 3}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 7c91ce3ad292a444483a402459fc4f5f, type: 2}
+      - {fileID: 11400000, guid: 7702f644f336543418bafceb7632e6d4, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -2782,8 +2816,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1428558914}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 9.7, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 9.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2833,7 +2867,7 @@ GameObject:
   - component: {fileID: 1461130218}
   - component: {fileID: 1461130221}
   - component: {fileID: 1461130222}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Ocean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2907,7 +2941,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8.05874, y: -0.5, z: 20.16574}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 400, y: 1, z: 400}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1527666742}
@@ -2978,7 +3012,7 @@ Transform:
   m_GameObject: {fileID: 1527666741}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.05874, y: -31, z: -20.16574}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3245,8 +3279,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2132818719}
+  - component: {fileID: 2132818722}
   - component: {fileID: 2132818721}
-  - component: {fileID: 2132818720}
   m_Layer: 0
   m_Name: IslandGenerator
   m_TagString: Untagged
@@ -3263,26 +3297,12 @@ Transform:
   m_GameObject: {fileID: 2132818716}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.5, y: -9.5, z: 16.45448}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2132818720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2132818716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109a0da48bc220f4180bb3182ee0e984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IslandSize
-  radius: 30
-  applyLossyScale: 1
 --- !u!114 &2132818721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3295,16 +3315,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86a402faba38524c8ff0a4f9879ecd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandGenerator
-  islandPrefabs: []
+  ShowTopMostFoldoutHeaderGroup: 1
+  islandPrefabs:
+  - {fileID: 3685677960795214012, guid: a24eedda13a7b9043a0b9f933adedb41, type: 3}
   islandCount: 10
   spawnRadius: 200
   waterLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16
   spacingPadding: 10
-  generateOnStart: 0
-  useRandomSeed: 1
-  seed: 0
+--- !u!114 &2132818722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132818716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 678641509
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &2143734447
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,7 +3516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6993026527237985812, guid: b8292c42122bdc445b0c50f79b307ee0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30.017
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 6993026527237985812, guid: b8292c42122bdc445b0c50f79b307ee0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3518,12 +3562,11 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1126233001}
+  - {fileID: 2132818719}
   - {fileID: 897656408}
   - {fileID: 1282959632}
   - {fileID: 1428558916}
-  - {fileID: 916021750}
-  - {fileID: 418749016}
-  - {fileID: 1143294163}
+  - {fileID: 1167251452}
   - {fileID: 195803845}
   - {fileID: 1317101597}
   - {fileID: 377698838}
@@ -3531,4 +3574,3 @@ SceneRoots:
   - {fileID: 1674953536}
   - {fileID: 1527666742}
   - {fileID: 5306494363470631970}
-  - {fileID: 2132818719}

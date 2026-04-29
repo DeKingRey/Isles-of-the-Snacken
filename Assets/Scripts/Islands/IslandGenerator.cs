@@ -45,18 +45,12 @@ public class IslandGenerator : MonoBehaviour
     {
         if (islandPrefabs == null || islandPrefabs.Length == 0)
         {
-            Debug.LogError("IslandGenerator: No island prefabs assigned!");
             return;
         }
 
         if (useRandomSeed)
         {
             seed = Random.Range(0, 999999);
-            Debug.Log($"IslandGenerator: Using random seed {seed}");
-        }
-        else
-        {
-            Debug.Log($"IslandGenerator: Using fixed seed {seed}");
         }
 
         Random.InitState(seed);
@@ -72,13 +66,7 @@ public class IslandGenerator : MonoBehaviour
             {
                 SpawnIsland(prefab, spawnPos, islandRadius);
             }
-            else
-            {
-                Debug.LogWarning($"IslandGenerator: Could not place island {i + 1} after max attempts — try increasing spawnRadius or reducing islandCount.");
-            }
         }
-
-        Debug.Log($"IslandGenerator: Placed {placedIslands.Count}/{islandCount} islands.");
     }
 
     bool TryGetValidPosition(float islandRadius, out Vector3 position)
@@ -143,11 +131,9 @@ public class IslandGenerator : MonoBehaviour
                 bounds.Encapsulate(r.bounds);
 
             float estimated = Mathf.Max(bounds.extents.x, bounds.extents.z);
-            Debug.Log($"IslandGenerator: No IslandSize found on {prefab.name}, estimated radius = {estimated}");
             return estimated;
         }
-
-        Debug.LogWarning($"IslandGenerator: Could not determine size of {prefab.name}, using default radius of 30.");
+        
         return 30f;
     }
 

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class IslandSize : MonoBehaviour
 {
-
     public float radius = 30f;
 
     public bool applyLossyScale = true;

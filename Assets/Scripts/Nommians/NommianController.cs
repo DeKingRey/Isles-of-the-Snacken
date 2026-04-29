@@ -70,4 +70,22 @@ public class NommianController : NetworkBehaviour
     {
         agent.speed = speed;
     }
+
+    // Randomly moves around
+    private void Fleeing()
+    {
+        agent.speed = speed;
+    }
+
+    // Randomly moves around
+    private void Chasing()
+    {
+        agent.speed = speed;
+    }
+
+    // Randomly moves around
+    private void Attacking()
+    {
+        agent.speed = speed;
+    }
 }

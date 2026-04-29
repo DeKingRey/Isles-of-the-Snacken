@@ -12,7 +12,6 @@ public class IslandGenerator : MonoBehaviour
     [SerializeField] LayerMask waterLayer;
 
     [Header("Spacing")]
-    [SerializeField] float minDistanceBetweenIslands = 50f;
     [SerializeField] float spacingPadding = 10f;
 
     [Header("Auto Generate")]

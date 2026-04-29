@@ -2620,6 +2620,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2132818716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132818719}
+  - component: {fileID: 2132818718}
+  - component: {fileID: 2132818717}
+  m_Layer: 0
+  m_Name: IslandGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2132818717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132818716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b10b65e3979b7499d6311f3f0502df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IslandSize
+  radius: 30
+  applyLossyScale: 1
+--- !u!114 &2132818718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132818716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a66cc6c5e74b1c4ebc5f92b3874d7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IslandGenerator
+  islandPrefabs:
+  - {fileID: 919132149155446097, guid: c1b40bbf834009a40b748b35c2c3fc90, type: 3}
+  - {fileID: 919132149155446097, guid: 1d6ca44793fc5ce48941fb2d7e174566, type: 3}
+  - {fileID: 919132149155446097, guid: 2b5578443692bff45902d57e47a63017, type: 3}
+  - {fileID: 919132149155446097, guid: bbd1c3156c8ab624c9372f318e7fc6b5, type: 3}
+  - {fileID: 919132149155446097, guid: 09bf145ff49270840b31996d536810f8, type: 3}
+  islandCount: 5
+  spawnRadius: 650
+  waterLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  minDistanceBetweenIslands: 50
+  spacingPadding: 10
+  generateOnStart: 1
+  useRandomSeed: 1
+  seed: 2147483647
+--- !u!4 &2132818719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132818716}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.5, y: -9.5, z: 16.45448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2143734447
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,3 +2849,4 @@ SceneRoots:
   - {fileID: 2075915423}
   - {fileID: 755892406}
   - {fileID: 1674953536}
+  - {fileID: 2132818719}

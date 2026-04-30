@@ -42,7 +42,7 @@ public class NommianController : NetworkBehaviour
         if (!IsServer) return;
 
         currentState = State.Roaming;
-        roamTarget = PickNewRoamPoint();
+        roamTarget = GetRandomPoint();
     }
 
     void Update()
@@ -103,20 +103,47 @@ public class NommianController : NetworkBehaviour
 
         if (Vector3.Distance(transform.position, roamTarget) < 1f)
         {
-            roamTarget = PickNewRoamPoint();
+            roamTarget = GetRandomPoint();
         }
         
         agent.SetDestination(roamTarget);
     }
 
-    // Randomly moves around
+    // Runs away from the player
     private void Fleeing()
     {
-        Vector3 dir = (transform.position - currentTarget.position).normalized;
-        Vector3 fleePoint = transform.position + dir * roamRadius;
-
+        if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
-        agent.SetDestination(fleePoint);
+
+        Vector3 bestPoint = transform.position;
+        float bestDistance = float.MinValue;
+
+        Vector3 awayDir = (transform.position - currentTarget.position).normalized;
+
+        // Gets the furthest away point in a variety of directions
+        for (int i =  0; i < 8; i++)
+        {
+            // Slightly random direction
+            Vector3 dir = Quaternion.Euler(0, Random.Range(-60f, 60f), 0) * awayDir;
+
+            Vector3 candidate = transform.position + dir * roamRadius;
+
+            if (!IsValidPosition(candidate))
+                continue;
+
+            NavMesh.SamplePosition(candidate, out NavMeshHit hit, roamRadius, NavMesh.AllAreas);
+            
+            float distance = Vector3.Distance(hit.position, currentTarget.position);
+
+            // Finds the furthest distance
+            if (distance > bestDistance)
+            {
+                bestDistance = distance;
+                bestPoint = hit.position;
+            }
+        }
+
+        agent.SetDestination(bestPoint);
     }
 
     // Randomly moves around
@@ -150,33 +177,43 @@ public class NommianController : NetworkBehaviour
         return closest;
     }
 
-    private Vector3 PickNewRoamPoint()
+    private Vector3 GetRandomPoint()
     {
-        Vector2 random = Random.insideUnitCircle * roamRadius;
-
-        Vector3 point = new Vector3(
-            transform.position.x + random.x,
-            transform.position.y,
-            transform.position.z + random.y
-        );
-
-        // Checks that the chosen position is valid
-        if (NavMesh.SamplePosition(point, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
+        for (int i = 0; i < 10; i++)
         {
-            if (IsReachable(hit.position))
+            Vector2 random = Random.insideUnitCircle * roamRadius;
+
+            Vector3 candidate = new Vector3(
+                transform.position.x + random.x,
+                transform.position.y,
+                transform.position.z + random.y
+            );
+
+            if (IsValidPosition(candidate))
+            {
+                NavMesh.SamplePosition(candidate, out NavMeshHit hit, roamRadius, NavMesh.AllAreas);
                 return hit.position;
+            }
         }
         return transform.position;
     }
 
-    private bool IsReachable(Vector3 target)
+    private bool IsValidPosition(Vector3 point)
     {
-        NavMeshPath path = new NavMeshPath();
-
-        if (!agent.CalculatePath(target, path))
+        // Checks that point is valid position on navmesh
+        if (!NavMesh.SamplePosition(point, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
             return false;
         
-        return path.status == NavMeshPathStatus.PathComplete;
+        NavMeshPath path = new NavMeshPath();
+        
+        // Ensures that path can be reached
+        if (!agent.CalculatePath(hit.position, path))
+            return false;
+        
+        if (path.status != NavMeshPathStatus.PathComplete)
+            return false;
+        
+        return true;
     }
 
     void OnDrawGizmosSelected()

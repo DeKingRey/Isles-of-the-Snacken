@@ -50,6 +50,11 @@ public class RelayManager : MonoBehaviour
         await StartClientWithRelay(joinCodeInput.text);
     }
 
+    public void CopyToClipboard()
+    {
+        GUIUtility.systemCopyBuffer = joinCodeText.text;
+    }
+
     private async Task<string> StartHostWithRelay(int maxConnections = 4)
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);

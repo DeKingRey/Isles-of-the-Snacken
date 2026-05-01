@@ -85,12 +85,18 @@ public class PlayerController : NetworkBehaviour
     private float sprintTime = 0f;
     private float walkSfxTimer;
 
+    private bool inputEnabled = true;
+
+    private SteeringWheel wheel;
+    [HideInInspector] public bool canSteer = false;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
-
+        
+        wheel = FindAnyObjectByType<SteeringWheel>();
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
-        ui.Bind(this);
+        ui.BindPlayer(this);
     }
 
     void Start()
@@ -105,6 +111,16 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
 
         HandleMovement();
+
+        if (inputEnabled && canSteer && Input.GetKeyDown(KeyCode.E))
+        {
+            wheel.TrySteerShip(this);
+        }
+    }
+
+    public void ToggleInput()
+    {
+        inputEnabled = !inputEnabled;
     }
 
     void HandleMovement()
@@ -114,8 +130,12 @@ public class PlayerController : NetworkBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Left Shift to run, left control to crouch
-        isSprinting = Input.GetKey(KeyCode.LeftShift);
-        isCrouching = Input.GetKey(KeyCode.LeftControl);
+        if (inputEnabled)
+        {
+            isSprinting = Input.GetKey(KeyCode.LeftShift);
+            isCrouching = Input.GetKey(KeyCode.LeftControl);
+        }
+        
 
         // Ensures you don't do two movement techniques at once
         if (isSprinting) isCrouching = false;
@@ -125,10 +145,13 @@ public class PlayerController : NetworkBehaviour
         if (currentStamina <= 0.25f) sprintSpeed = walkSpeed;
 
         // Current speed is dependent on whether the player is sprinting/crouching (speed is then multiplied by input)
+        float inputX = inputEnabled ? Input.GetAxis("Vertical") : 0;
+        float inputZ = inputEnabled ? Input.GetAxis("Horizontal") : 0;
+
         float currentSpeedX = canMove ? (isSprinting ? sprintSpeed : isCrouching ? crouchSpeed : walkSpeed) 
-                                            * Input.GetAxis("Vertical") : 0;
+                                            * inputX : 0;
         float currentSpeedZ = canMove ? (isSprinting ? sprintSpeed : isCrouching ? crouchSpeed : walkSpeed)
-                                            * Input.GetAxis("Horizontal") : 0;
+                                            * inputZ : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * currentSpeedX) + (right * currentSpeedZ);
 
@@ -214,7 +237,7 @@ public class PlayerController : NetworkBehaviour
         #endregion
 
         #region Handles Jumping
-        if (Input.GetButton("Jump") && canMove && controller.isGrounded && currentStamina >= 0.5f)
+        if (Input.GetButton("Jump") && canMove && controller.isGrounded && currentStamina >= 0.5f && inputEnabled)
         {
             isJumping = true;
             SoundManager.Instance.PlayAudio(jumpSfx, 1f, transform);

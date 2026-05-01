@@ -24,6 +24,8 @@ public class PlayerCam: NetworkBehaviour
 
     private float xRotation;
 
+    private bool inputEnabled = true;
+
     void Start()
     {
         if (!IsOwner)
@@ -34,17 +36,27 @@ public class PlayerCam: NetworkBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
+        ui.BindCamera(this);
     }
 
     void Update()
     {
         if (!IsOwner) return;
 
-        Look();
+        HandleLookInput();
     }
 
-    void Look()
+    public void ToggleInput()
     {
+        inputEnabled = !inputEnabled;
+    }
+
+    void HandleLookInput()
+    {
+        if (!inputEnabled) return;
+
         float mouseX = Input.GetAxisRaw("Mouse X") * sensX * sensitivityMultiplier * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * sensY * sensitivityMultiplier * Time.deltaTime;
 

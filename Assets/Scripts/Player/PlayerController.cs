@@ -87,14 +87,14 @@ public class PlayerController : NetworkBehaviour
 
     private bool inputEnabled = true;
 
-    private SteeringWheel wheel;
-    [HideInInspector] public bool canSteer = false;
+    private bool isSteering;
+    private SteeringWheel wheelInRange;
+    private ShipController currentShip;
 
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
         
-        wheel = FindAnyObjectByType<SteeringWheel>();
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
         ui.BindPlayer(this);
     }
@@ -112,15 +112,27 @@ public class PlayerController : NetworkBehaviour
 
         HandleMovement();
 
-        if (inputEnabled && canSteer && Input.GetKeyDown(KeyCode.E))
-        {
-            wheel.TrySteerShip(this);
-        }
+        HandleInput();
     }
 
-    public void ToggleInput()
+    public void ToggleInput(bool enabled)
     {
-        inputEnabled = !inputEnabled;
+        inputEnabled = enabled;
+    }
+
+    void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!isSteering && wheelInRange != null && inputEnabled)
+            {
+                wheelInRange.TrySteerShip(this);
+            }
+            else if (isSteering && currentShip != null)
+            {
+                currentShip.StopSteerServerRpc(OwnerClientId);
+            }
+        }
     }
 
     void HandleMovement()
@@ -345,5 +357,38 @@ public class PlayerController : NetworkBehaviour
 
         slideDirection = Vector3.zero;
         return false;
+    }
+
+    public void StartSteering(ShipController ship)
+    {
+        isSteering = true;
+        inputEnabled = false;
+        currentShip = ship;
+    }
+
+    public void StopSteering()
+    {
+        isSteering = false;
+        inputEnabled = true;
+        currentShip = null;
+    }
+
+    private void OnTriggerEnter(Collider obj)
+    {
+        if (obj.CompareTag("SteeringWheel"))
+        {
+            wheelInRange = obj.GetComponent<SteeringWheel>();
+        }
+    }
+
+    private void OnTriggerExit(Collider obj)
+    {
+        if (obj.CompareTag("SteeringWheel"))
+        {
+            if (wheelInRange == obj.GetComponent<SteeringWheel>())
+            {
+                wheelInRange = null;
+            }
+        }
     }
 }

@@ -1,32 +1,18 @@
 using UnityEngine;
 
-public class ShipController : MonoBehaviour
+public class SteeringWheel : MonoBehaviour
 {
-    private bool playerSteering = false;
+    private ShipController ship;
+
+    private void Awake()
+    {
+        ship = GetComponentInParent<ShipController>();
+    }
 
     public void TrySteerShip(PlayerController player)
     {
-        if (playerSteering) return;
+        if (ship.HasDriver) return;
 
-        playerSteering = true;
-        player.ToggleInput();
-    }
-
-    private void OnTriggerEnter(Collider obj)
-    {
-        if (obj.CompareTag("Steering Wheel") && !ship.playerControlling)
-        {
-            player = obj.GetComponent<PlayerController>();
-            player.canSteer = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider obj)
-    {
-        if (obj.CompareTag("Steering Wheel") && !ship.playerControlling)
-        {
-            player = obj.GetComponent<PlayerController>();
-            player.canSteer = false;
-        }
+        ship.RequestSteerServerRpc(player.OwnerClientId);
     }
 }

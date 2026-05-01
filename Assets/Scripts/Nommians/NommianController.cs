@@ -165,6 +165,9 @@ public class NommianController : NetworkBehaviour
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
+            if (client.PlayerObject == null)
+                continue;
+
             float dist = Vector3.Distance(transform.position, client.PlayerObject.transform.position);
 
             if (dist < minDist)

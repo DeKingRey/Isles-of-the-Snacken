@@ -35,7 +35,7 @@ public class PlayerUI : MonoBehaviour
         menu.SetActive(menuOpen);
 
         // Toggles input
-        player.ToggleInput();
+        player.ToggleInput(!menuOpen);
         playerCam.ToggleInput();
 
         // Toggles cursor usability

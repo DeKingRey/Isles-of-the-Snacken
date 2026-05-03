@@ -122,6 +122,7 @@ public class PlayerController : NetworkBehaviour
 
     void HandleInput()
     {
+        // Enables/disables steering depending on whether player is steering or not
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!isSteering && wheelInRange != null && inputEnabled)
@@ -130,7 +131,7 @@ public class PlayerController : NetworkBehaviour
             }
             else if (isSteering && currentShip != null)
             {
-                currentShip.StopSteerServerRpc(OwnerClientId);
+                currentShip.StopSteerRpc(OwnerClientId);
             }
         }
     }
@@ -385,10 +386,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (obj.CompareTag("SteeringWheel"))
         {
-            if (wheelInRange == obj.GetComponent<SteeringWheel>())
-            {
-                wheelInRange = null;
-            }
+            wheelInRange = null;
         }
     }
 }

@@ -12,51 +12,135 @@ public class ShipController : NetworkBehaviour
 
     public bool HasDriver => steeringClientId.Value != ulong.MaxValue;
 
+    [Header("Movement Settings")]
+    [SerializeField] private float acceleration;
+    [SerializeField] private float turnSpeed;
+    [SerializeField] private float maxSpeed;
+
+    [Space(10)]
+
+    [Header("Drift Settings")]
+    [SerializeField] private float driftMutliplier;
+    [SerializeField] private float minSpeedFactor;
+
+    [Space(10)]
+
+    // Used to slow down ship when no input
+    [Header("Drag Settings")]
+    [SerializeField] private float dragSpeed;
+    [SerializeField] private float targetDrag;
+
+    private Rigidbody rb;
+
+    private float accelerationInput = 0f;
+    private float steeringInput = 0f;
+    private float rotationAngle = 0f;
+
     void Update()
     {
         if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
             return;
+        
+        steeringInput = Input.GetAxis("Horizontal");
+        accelerationInput = Input.GetAxis("Vertical");
     }
 
+    void FixedUpdate()
+    {
+        if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
+            return;
+
+        HandleSailing();
+        HandleSteering();
+        ReduceDrift();
+    }
+
+    void HandleSailing()
+    {
+        // How much we are going forward
+        float forwardVelocity = Vector3.Dot(transform.forward, rb.linearVelocity);
+
+        float speedThreshold = 0.1f;
+        bool isMoving = rb.linearVelocity.sqrMagnitude > speedThreshold * speedThreshold;
+
+        // Limits max speed in forward direction
+        if (forwardVelocity > maxSpeed && accelerationInput > 0) return;
+
+        // Limits max speed in backwards direction
+        if (forwardVelocity < -maxSpeed * 0.5f && accelerationInput > 0) return;
+
+        // Limits max speed in any direction
+        if (rb.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
+
+        // Slows down ship if no input
+        if (accelerationInput == 0) rb.linearDamping = Mathf.Lerp(rb.linearDamping, targetDrag, dragSpeed * Time.deltaTime);
+        else rb.linearDamping = 0;
+
+        Vector3 sailForce = transform.forward * accelerationInput * acceleration;
+
+        // Applies force, pushing ship forward
+        rb.AddForce(sailForce, ForceMode.Force);
+    }
+
+    void HandleSteering()
+    {
+        // Limits turning ability when going slow
+        float minTurnSpeed = rb.linearVelocity.magnitude / minSpeedFactor;
+        minTurnSpeed = Mathf.Clamp01(minTurnSpeed);
+
+        rotationAngle -= steeringInput * turnSpeed * minTurnSpeed;
+
+        rb.MoveRotation(rotationAngle);
+    }
+
+    void ReduceDrift()
+    {
+        Vector3 forwardVelocity = transform.forward * Vector3.Dot(rb.linearVelocity, transform.forward);
+        Vector3 rightVelocity = transform.right * Vector3.Dot(rb.linearVelocity, transform.right); 
+
+        rb.linearVelocity = forwardVelocity + rightVelocity * driftMutliplier;
+    }
+
+    #region Enable Steering
     public bool CanClientSteer(ulong clientId)
     {
         return steeringClientId.Value == clientId;
     }
 
-    [ServerRpc]
-    public void RequestSteerServerRpc(ulong clientId)
+    [Rpc(SendTo.Server)]
+    public void RequestSteerRpc(ulong clientId)
     {
         if (HasDriver) return; // Ship is already being steered
 
         steeringClientId.Value = clientId;
-        StartSteeringClientRpc(clientId);
+
+        // Calls the start steering rpc on just the client
+        ClientStartSteeringRpc(RpcTarget.Single(clientId, RpcTargetUse.Temp));
     }
 
-    [ServerRpc]
-    public void StopSteerServerRpc(ulong clientId)
+    [Rpc(SendTo.Server)]
+    public void StopSteerRpc(ulong clientId)
     {
         if (steeringClientId.Value != clientId) return; // Ship being steered
 
         steeringClientId.Value = ulong.MaxValue;
 
-        StopSteeringClientRpc(clientId);
+        // Calls the start steering rpc on just the client
+        ClientStopSteeringRpc(RpcTarget.Single(clientId, RpcTargetUse.Temp));
     }
 
-    [ClientRpc]
-    public void StartSteeringClientRpc(ulong clientId)
+    [Rpc(SendTo.SpecifiedInParams)]
+    public void ClientStartSteeringRpc(RpcParams rpcParams = default)
     {
-        if (NetworkManager.Singleton.LocalClientId != clientId) return;
-
         var player = FindAnyObjectByType<PlayerController>();
         player.StartSteering(this);
     }
 
-    [ClientRpc]
-    public void StopSteeringClientRpc(ulong clientId)
+    [Rpc(SendTo.SpecifiedInParams)]
+    public void ClientStopSteeringRpc(RpcParams rpcParams = default)
     {
-        if (NetworkManager.Singleton.LocalClientId != clientId) return;
-
         var player = FindAnyObjectByType<PlayerController>();
         player.StopSteering();
     }
+    #endregion
 }

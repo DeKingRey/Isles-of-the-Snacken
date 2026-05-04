@@ -87,6 +87,7 @@ public class PlayerController : NetworkBehaviour
 
     private bool inputEnabled = true;
 
+    private PlayerCam cam;
     private bool isSteering;
     private SteeringWheel wheelInRange;
     private ShipController currentShip;
@@ -99,6 +100,8 @@ public class PlayerController : NetworkBehaviour
         
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
         ui.BindPlayer(this);
+
+        cam = GetComponent<PlayerCam>();
     }
 
     void Start()
@@ -374,6 +377,8 @@ public class PlayerController : NetworkBehaviour
 
         lastShipPos = ship.transform.position;
         lastShipRot = ship.transform.rotation;
+
+        cam.EnableThirdPerson();
     }
 
     public void StopSteering()
@@ -381,6 +386,8 @@ public class PlayerController : NetworkBehaviour
         isSteering = false;
         inputEnabled = true;
         currentShip = null;
+
+        cam.EnableFirstPerson();
     }
 
     Vector3 GetShipMovementDelta()

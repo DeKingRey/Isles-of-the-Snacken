@@ -5,7 +5,8 @@ using Unity.Cinemachine;
 public class PlayerCam: NetworkBehaviour
 {
     [Header("References")]
-    [SerializeField] private CinemachineCamera virtualCamera;
+    [SerializeField] private CinemachineCamera firstPersonCam;
+    [SerializeField] private CinemachineCamera thirdPersonCam;
     [SerializeField] private Transform playerModel; // Rotates Y, left/right
     [SerializeField] private Transform cameraHolder; // Rotates X, up/down
 
@@ -84,6 +85,19 @@ public class PlayerCam: NetworkBehaviour
         CinemachineBrain brain = GetComponentInChildren<CinemachineBrain>();
         if (brain != null) brain.enabled = false;
 
-        if (virtualCamera != null) virtualCamera.gameObject.SetActive(false);
+        if (firstPersonCam != null) firstPersonCam.gameObject.SetActive(false);
+        if (thirdPersonCam != null) thirdPersonCam.gameObject.SetActive(false);
+    }
+
+    public void EnableFirstPerson()
+    {
+        firstPersonCam.Priority = 10;
+        thirdPersonCam.Priority = 5;
+    }
+
+    public void EnableThirdPerson()
+    {
+        thirdPersonCam.Priority = 10;
+        firstPersonCam.Priority = 5;
     }
 }

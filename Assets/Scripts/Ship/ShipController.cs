@@ -94,7 +94,7 @@ public class ShipController : NetworkBehaviour
 
         float turn = steeringInput * turnSpeed * minTurnSpeed * Time.fixedDeltaTime;
 
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, -turn, 0f));
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, turn, 0f));
     }
 
     void ReduceDrift()

@@ -102,9 +102,9 @@ GameObject:
   - component: {fileID: 8461484224697724170}
   - component: {fileID: 5351447366692671845}
   - component: {fileID: 4702765584056907006}
-  - component: {fileID: 3012358593755062286}
   - component: {fileID: 431849085773625669}
   - component: {fileID: 6762106931069452867}
+  - component: {fileID: 1544513601808259384}
   m_Layer: 0
   m_Name: Wheel
   m_TagString: SteeringWheel
@@ -184,28 +184,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3012358593755062286
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3816364293301502003}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2309305249758762421, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!65 &431849085773625669
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -239,6 +217,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cd08322a874dd428f405fc54c2b352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SteeringWheel
+--- !u!65 &1544513601808259384
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3816364293301502003}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.026955534, y: 0.026279703, z: 0.047864735}
+  m_Center: {x: 0.0000000013969839, y: -0.000445602, z: -0.013932369}
 --- !u!1 &5324099793160656420
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2422573317
+  GlobalObjectIdHash: 864872899
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

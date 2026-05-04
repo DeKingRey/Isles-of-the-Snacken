@@ -90,6 +90,8 @@ public class PlayerController : NetworkBehaviour
     private bool isSteering;
     private SteeringWheel wheelInRange;
     private ShipController currentShip;
+    private Vector3 lastShipPos;
+    private Quaternion lastShipRot;
 
     public override void OnNetworkSpawn()
     {
@@ -301,6 +303,10 @@ public class PlayerController : NetworkBehaviour
 
         #endregion
 
+        // Allows player to move with ship
+        Vector3 shipDelta = isSteering && currentShip != null ? GetShipMovementDelta() : Vector3.zero;
+        moveDirection += shipDelta / Time.deltaTime;
+
         controller.Move(moveDirection * Time.deltaTime);
     }
 
@@ -365,6 +371,9 @@ public class PlayerController : NetworkBehaviour
         isSteering = true;
         inputEnabled = false;
         currentShip = ship;
+
+        lastShipPos = ship.transform.position;
+        lastShipRot = ship.transform.rotation;
     }
 
     public void StopSteering()
@@ -372,6 +381,27 @@ public class PlayerController : NetworkBehaviour
         isSteering = false;
         inputEnabled = true;
         currentShip = null;
+    }
+
+    Vector3 GetShipMovementDelta()
+    {
+        if (currentShip == null) return Vector3.zero;
+        
+        // Gets change in pos and rot
+        Vector3 positionDelta = currentShip.transform.position - lastShipPos;
+        Quaternion rotationDelta = currentShip.transform.rotation * Quaternion.Inverse(lastShipRot);
+
+        // Updates last pos and rot
+        lastShipPos = currentShip.transform.position;
+        lastShipRot = currentShip.transform.rotation;
+
+        // Apply rotation around ship center
+        Vector3 offset = transform.position - currentShip.transform.position;
+        offset = rotationDelta * offset;
+
+        Vector3 rotatedPosition = currentShip.transform.position + offset;
+
+        return (rotatedPosition - transform.position) + positionDelta; 
     }
 
     private void OnTriggerEnter(Collider obj)

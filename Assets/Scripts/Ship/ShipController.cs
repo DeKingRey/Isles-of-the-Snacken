@@ -34,7 +34,11 @@ public class ShipController : NetworkBehaviour
 
     private float accelerationInput = 0f;
     private float steeringInput = 0f;
-    private float rotationAngle = 0f;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -88,9 +92,9 @@ public class ShipController : NetworkBehaviour
         float minTurnSpeed = rb.linearVelocity.magnitude / minSpeedFactor;
         minTurnSpeed = Mathf.Clamp01(minTurnSpeed);
 
-        rotationAngle -= steeringInput * turnSpeed * minTurnSpeed;
+        float turn = steeringInput * turnSpeed * minTurnSpeed * Time.fixedDeltaTime;
 
-        rb.MoveRotation(rotationAngle);
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, -turn, 0f));
     }
 
     void ReduceDrift()

@@ -1658,7 +1658,7 @@ GameObject:
   - component: {fileID: 696555860}
   - component: {fileID: 696555859}
   - component: {fileID: 696555858}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Island
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1846,7 +1846,7 @@ GameObject:
   - component: {fileID: 762733502}
   - component: {fileID: 762733501}
   - component: {fileID: 762733500}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Island (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2940,7 +2940,7 @@ GameObject:
   - component: {fileID: 1177041175}
   - component: {fileID: 1177041174}
   - component: {fileID: 1177041173}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Island (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3324,7 +3324,7 @@ GameObject:
   - component: {fileID: 1364348309}
   - component: {fileID: 1364348308}
   - component: {fileID: 1364348307}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Island (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

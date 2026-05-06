@@ -137,7 +137,7 @@ public class ShipController : NetworkBehaviour
     public void ClientStartSteeringRpc(RpcParams rpcParams = default)
     {
         var player = FindAnyObjectByType<PlayerController>();
-        player.StartSteering(this);
+        player.StartSteering();
     }
 
     [Rpc(SendTo.SpecifiedInParams)]

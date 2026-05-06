@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &526389989358303325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8711056734157390974}
+  m_Layer: 0
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8711056734157390974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526389989358303325}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.07936, y: 0.51, z: 0.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 180290841042001025}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3113444717507057763
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +536,7 @@ GameObject:
   - component: {fileID: 1746314673208561798}
   - component: {fileID: 16986303052819258}
   - component: {fileID: 6285879830632402320}
+  - component: {fileID: 4978335669300418664}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -527,6 +559,7 @@ Transform:
   m_Children:
   - {fileID: 134991548573891381}
   - {fileID: 1850893656218380089}
+  - {fileID: 8711056734157390974}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3716513214595896317
@@ -626,6 +659,7 @@ MonoBehaviour:
   jumpSfx: {fileID: 8300000, guid: 3508d65067334b3439b312cc9d5d9601, type: 3}
   landSfx: {fileID: 8300000, guid: ba468f41cb73aa044b007673e6d89146, type: 3}
   smoothedSprintValue: 0
+  inputEnabled: 1
 --- !u!114 &5611422173065917471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,6 +839,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVoice
   ShowTopMostFoldoutHeaderGroup: 1
   head: {fileID: 7075908339442438895}
+--- !u!114 &4978335669300418664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487103466597829105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa2d74d0d3592f4b9952c3c8fe6f3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapGun
+  bulletPrefab: {fileID: 8207442291574369161, guid: 746fad9394a402345b475ad5bcc32563, type: 3}
+  shootPoint: {fileID: 8711056734157390974}
+  shootForce: 15
+  selectedTrap: {fileID: 4139877944364351615, guid: 03f2c4e636601f34e810cc2dfff4b1b3, type: 3}
+  currentTrap: {fileID: 0}
 --- !u!1 &7762325149408409815
 GameObject:
   m_ObjectHideFlags: 0

@@ -85,7 +85,7 @@ public class PlayerController : NetworkBehaviour
     private float sprintTime = 0f;
     private float walkSfxTimer;
 
-    private bool inputEnabled = true;
+    [HideInInspector] public bool inputEnabled = true;
 
     private PlayerCam cam;
     private bool isSteering;
@@ -369,14 +369,13 @@ public class PlayerController : NetworkBehaviour
         return false;
     }
 
-    public void StartSteering(ShipController ship)
+    public void StartSteering()
     {
         isSteering = true;
         inputEnabled = false;
-        currentShip = ship;
 
-        lastShipPos = ship.transform.position;
-        lastShipRot = ship.transform.rotation;
+        lastShipPos = currentShip.transform.position;
+        lastShipRot = currentShip.transform.rotation;
 
         cam.EnableThirdPerson();
     }
@@ -385,7 +384,6 @@ public class PlayerController : NetworkBehaviour
     {
         isSteering = false;
         inputEnabled = true;
-        currentShip = null;
 
         cam.EnableFirstPerson();
     }
@@ -417,6 +415,11 @@ public class PlayerController : NetworkBehaviour
         {
             wheelInRange = obj.GetComponent<SteeringWheel>();
         }
+
+        if (obj.CompareTag("Ship"))
+        {
+            currentShip = obj.GetComponent<ShipController>();
+        }
     }
 
     private void OnTriggerExit(Collider obj)
@@ -424,6 +427,11 @@ public class PlayerController : NetworkBehaviour
         if (obj.CompareTag("SteeringWheel"))
         {
             wheelInRange = null;
+        }
+
+        if (obj.CompareTag("Ship"))
+        {
+            currentShip = null;
         }
     }
 }

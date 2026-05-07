@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SteeringWheel
   - Ship
+  - Trap
   layers:
   - Default
   - TransparentFX

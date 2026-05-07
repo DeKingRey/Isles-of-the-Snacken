@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class Health : NetworkBehaviour, IDamageable
+public class HealthManager : NetworkBehaviour, IDamageable
 {
     [SerializeField] private float maxHealth = 100f;
     private float currentHealth;
@@ -25,5 +25,16 @@ public class Health : NetworkBehaviour, IDamageable
     private void Die()
     {
         Debug.Log("You dead");
+    }
+
+    void OnTriggerEnter(Collider obj)
+    {
+        if (obj.CompareTag("Trap"))
+        {
+            if (obj.GetComponent<Trap>().canCapture)
+            {
+                Die(); // Enemy/player is captured
+            }
+        }
     }
 }

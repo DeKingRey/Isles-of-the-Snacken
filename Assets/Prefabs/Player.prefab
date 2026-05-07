@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -854,7 +854,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8207442291574369161, guid: 746fad9394a402345b475ad5bcc32563, type: 3}
   shootPoint: {fileID: 8711056734157390974}
   shootForce: 15
-  selectedTrap: {fileID: 4139877944364351615, guid: 03f2c4e636601f34e810cc2dfff4b1b3, type: 3}
+  fireRate: 0.25
+  selectedTrap: {fileID: 5985833625798612892, guid: 72fa56e32bb3090468c4e7828417e176, type: 3}
   currentTrap: {fileID: 0}
 --- !u!1 &7762325149408409815
 GameObject:

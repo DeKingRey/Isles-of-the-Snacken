@@ -1,11 +1,17 @@
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+public abstract class Trap : MonoBehaviour
 {
-    [SerializeField] private float expiryTime;
+    [HideInInspector] public bool canCapture;
+    private Animator anim;
 
-    public void Activate()
+    void Start()
     {
-        Debug.Log("Activate");
+        anim = GetComponent<Animator>();
+    }
+
+    public virtual void Activate()
+    {
+        anim.SetTrigger("Activate");
     }
 }

@@ -123,6 +123,9 @@ GameObject:
   - component: {fileID: 2758130506882357690}
   - component: {fileID: 3778093150415766415}
   - component: {fileID: 1021532726450492115}
+  - component: {fileID: 8504270508633671144}
+  - component: {fileID: 3704525640958594346}
+  - component: {fileID: 1015653627183575081}
   m_Layer: 0
   m_Name: BaitTrap
   m_TagString: Trap
@@ -160,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaitTrap
   canCapture: 0
+  gun: {fileID: 0}
   trapDuration: 4
 --- !u!95 &1021532726450492115
 Animator:
@@ -183,6 +187,78 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8504270508633671144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985833625798612892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2954835792
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &3704525640958594346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985833625798612892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
+  m_Animator: {fileID: 1021532726450492115}
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1253007760
+    DestinationState: -239349869
+    TransitionDuration: 0
+    TriggerNameHash: 1326475003
+    TransitionIndex: 0
+  AnimatorParameterEntries:
+    ParameterEntries:
+    - name: Activate
+      NameHash: 1326475003
+      Synchronize: 1
+      ParameterType: 9
+  AnimatorParametersExpanded: 0
+--- !u!208 &1015653627183575081
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985833625798612892}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &1067498099884513299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,11 +315,69 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaitTrapModel
       objectReference: {fileID: 0}
+    - target: {fileID: 675516669441421138, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}
+      propertyPath: m_TagString
+      value: Trap
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 675516669441421138, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 496275139266872713}
+    - targetCorrespondingSourceObject: {fileID: 675516669441421138, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2468684767140058229}
   m_SourcePrefab: {fileID: 100100000, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}
+--- !u!1 &544769568450312001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 675516669441421138, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}
+  m_PrefabInstance: {fileID: 1067498099884513299}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &496275139266872713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544769568450312001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0881995, y: 0.07882644, z: 0.045902014}
+  m_Center: {x: 0.04022642, y: -0.035211846, z: 0.019456327}
+--- !u!64 &2468684767140058229
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544769568450312001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8634338456207152865, guid: 09e5eedec1c8d7d4dbbe009169bf1289, type: 3}
 --- !u!4 &920064345857863163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 149808976481580520, guid: 9e933025ef91b2946858be9c4dbf126e, type: 3}

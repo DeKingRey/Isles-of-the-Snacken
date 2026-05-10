@@ -90,7 +90,7 @@ public class PlayerController : NetworkBehaviour
     private PlayerCam cam;
     private bool isSteering;
     private SteeringWheel wheelInRange;
-    private ShipController currentShip;
+    private GameObject currentShip;
     private Vector3 lastShipPos;
     private Quaternion lastShipRot;
 
@@ -136,7 +136,7 @@ public class PlayerController : NetworkBehaviour
             }
             else if (isSteering && currentShip != null)
             {
-                currentShip.StopSteerRpc(OwnerClientId);
+                currentShip.GetComponentInParent<ShipController>().StopSteerRpc(OwnerClientId);
             }
         }
     }
@@ -307,7 +307,7 @@ public class PlayerController : NetworkBehaviour
         #endregion
 
         // Allows player to move with ship
-        Vector3 shipDelta = isSteering && currentShip != null ? GetShipMovementDelta() : Vector3.zero;
+        Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
         moveDirection += shipDelta / Time.deltaTime;
 
         controller.Move(moveDirection * Time.deltaTime);
@@ -418,7 +418,7 @@ public class PlayerController : NetworkBehaviour
 
         if (obj.CompareTag("Ship"))
         {
-            currentShip = obj.GetComponent<ShipController>();
+            currentShip = obj.gameObject;
         }
     }
 

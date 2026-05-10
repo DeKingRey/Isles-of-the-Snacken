@@ -7,6 +7,7 @@ public class BaitTrap : Trap
 
     public override void Activate()
     {
+        base.Activate();
         StartCoroutine(CheckForContents());
     }
 

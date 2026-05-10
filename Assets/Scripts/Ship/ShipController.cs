@@ -45,13 +45,29 @@ public class ShipController : NetworkBehaviour
         if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
             return;
         
-        steeringInput = Input.GetAxis("Horizontal");
-        accelerationInput = Input.GetAxis("Vertical");
+        float steer = Input.GetAxis("Horizontal");
+        float accel = Input.GetAxis("Vertical");
+
+        SubmitInputRpc(steer, accel);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void SubmitInputRpc(float steer, float accel, RpcParams rpcParams = default)
+    {
+        if (rpcParams.Receive.SenderClientId != steeringClientId.Value)
+            return;
+        
+        steeringInput = steer;
+        accelerationInput = accel;
     }
 
     void FixedUpdate()
     {
-        if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
+        // Only server can run physics
+        if (!IsServer)
+            return;
+
+        if (!HasDriver)
             return;
 
         HandleSailing();
@@ -71,7 +87,7 @@ public class ShipController : NetworkBehaviour
         if (forwardVelocity > maxSpeed && accelerationInput > 0) return;
 
         // Limits max speed in backwards direction
-        if (forwardVelocity < -maxSpeed * 0.5f && accelerationInput > 0) return;
+        if (forwardVelocity < -maxSpeed * 0.5f && accelerationInput < 0) return;
 
         // Limits max speed in any direction
         if (rb.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
@@ -136,14 +152,14 @@ public class ShipController : NetworkBehaviour
     [Rpc(SendTo.SpecifiedInParams)]
     public void ClientStartSteeringRpc(RpcParams rpcParams = default)
     {
-        var player = FindAnyObjectByType<PlayerController>();
+        var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
         player.StartSteering();
     }
 
     [Rpc(SendTo.SpecifiedInParams)]
     public void ClientStopSteeringRpc(RpcParams rpcParams = default)
     {
-        var player = FindAnyObjectByType<PlayerController>();
+        var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
         player.StopSteering();
     }
     #endregion

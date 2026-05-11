@@ -35,6 +35,8 @@ public class NommianController : NetworkBehaviour
 
     private float detectTimer = 0.2f;
 
+    [HideInInspector] public bool isCaptured = false;
+
     public override void OnNetworkSpawn()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -48,6 +50,7 @@ public class NommianController : NetworkBehaviour
     void Update()
     {
         if (!IsServer) return;
+        if (isCaptured) return;
 
         detectTimer -= Time.deltaTime;
         if (detectTimer <= 0f)

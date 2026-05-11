@@ -31,6 +31,7 @@ public class ShipController : NetworkBehaviour
     [SerializeField] private float targetDrag;
 
     private Rigidbody rb;
+    private PlayerController currentPlayer;
 
     private float accelerationInput = 0f;
     private float steeringInput = 0f;
@@ -45,6 +46,8 @@ public class ShipController : NetworkBehaviour
         if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
             return;
         
+        if (currentPlayer != null)
+            currentPlayer.ToggleInput(false);
         float steer = Input.GetAxis("Horizontal");
         float accel = Input.GetAxis("Vertical");
 
@@ -152,15 +155,15 @@ public class ShipController : NetworkBehaviour
     [Rpc(SendTo.SpecifiedInParams)]
     public void ClientStartSteeringRpc(RpcParams rpcParams = default)
     {
-        var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
-        player.StartSteering();
+        currentPlayer = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
+        currentPlayer.StartSteering();
     }
 
     [Rpc(SendTo.SpecifiedInParams)]
     public void ClientStopSteeringRpc(RpcParams rpcParams = default)
     {
-        var player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
-        player.StopSteering();
+        currentPlayer.StopSteering();
+        currentPlayer = null;
     }
     #endregion
 }

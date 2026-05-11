@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5402533201403246464}
   - component: {fileID: 8266776761814883266}
   - component: {fileID: 4497221322583115226}
+  - component: {fileID: 7092358859893777857}
   m_Layer: 0
   m_Name: Run Nommian
   m_TagString: Untagged
@@ -160,6 +161,7 @@ MonoBehaviour:
   speedMultiplier: 2
   roamRadius: 20
   detectionRadius: 10
+  isCaptured: 0
 --- !u!195 &5402533201403246464
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -242,3 +244,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  entityType: 1
+--- !u!54 &7092358859893777857
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4150088306172251401}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -1,15 +1,31 @@
 using UnityEngine;
 using Unity.Netcode;
+using Unity.AI;
 
 public class HealthManager : NetworkBehaviour, IDamageable
 {
+    public enum EntityType
+    {
+        Player,
+        Nommian
+    }
+
     [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private EntityType entityType;
     private float currentHealth;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
             currentHealth = maxHealth;
+    }
+
+    void Update()
+    {
+        if (currentHealth <= 0 && entityType == EntityType.Player)
+        {
+            GetComponent<PlayerController>().ToggleInput(false);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -24,16 +40,34 @@ public class HealthManager : NetworkBehaviour, IDamageable
 
     private void Die()
     {
-        Debug.Log("You dead");
+        switch (entityType)
+        {
+            case EntityType.Player:
+                PlayerDie();
+                break;
+            case EntityType.Nommian:
+                NommianDie();
+                break;
+        }
     }
 
-    void OnTriggerEnter(Collider obj)
+    private void PlayerDie()
+    {
+        GetComponent<PlayerController>().ToggleInput(false);
+    }
+
+    private void NommianDie()
+    {
+        GetComponent<NommianController>().isCaptured = true;
+    }
+
+    void OnTriggerStay(Collider obj)
     {
         if (obj.CompareTag("Trap"))
         {
-            if (obj.GetComponent<Trap>().canCapture)
+            if (obj.GetComponentInParent<Trap>().canCapture)
             {
-                Die(); // Enemy/player is captured
+                TakeDamage(maxHealth);
             }
         }
     }

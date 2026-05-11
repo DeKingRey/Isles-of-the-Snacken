@@ -103,10 +103,10 @@ public class IslandGenerator : NetworkBehaviour
 
     void SpawnIsland(GameObject prefab, Vector3 position, float radius)
     {
-        GameObject island = Instantiate(prefab, position, Quaternion.identity);
+        GameObject island = Instantiate(prefab, position, Quaternion.Euler(-90f, 0, 0));
         island.GetComponent<NetworkObject>().Spawn();
 
-        island.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f); // Random rotation
+        island.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f); // Random rotation
         placedIslands.Add(new PlacedIsland(position, radius));
     }
 

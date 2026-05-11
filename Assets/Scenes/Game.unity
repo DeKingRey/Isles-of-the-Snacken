@@ -3189,7 +3189,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8.05874, y: -0.5, z: 20.16574}
-  m_LocalScale: {x: 400, y: 1, z: 400}
+  m_LocalScale: {x: 800, y: 1, z: 800}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1527666742}
@@ -3695,7 +3695,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IslandGenerator
   ShowTopMostFoldoutHeaderGroup: 1
   islandPrefabs:
-  - {fileID: 3685677960795214012, guid: a24eedda13a7b9043a0b9f933adedb41, type: 3}
+  - {fileID: 2984658787901123375, guid: 2524ec485504dc2499fd74ef143506d7, type: 3}
+  - {fileID: 6105000583785874263, guid: ca52849ca85eea446ab4a8c4769df107, type: 3}
+  - {fileID: 4712211285461642099, guid: 73397f5d7da28124f90444a261dcd5a8, type: 3}
+  - {fileID: 8168240622968686994, guid: 336e982614efe2245b904c07368e2def, type: 3}
+  - {fileID: 4633593835981895979, guid: 52c5a9f584b3a764e83a2a5a3e2d6bfe, type: 3}
+  - {fileID: 8221467634187870435, guid: fa156cec57b08a549b4882e3cee7106e, type: 3}
   islandCount: 10
   spawnRadius: 200
   waterLayer:

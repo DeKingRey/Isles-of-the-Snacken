@@ -374,9 +374,6 @@ public class PlayerController : NetworkBehaviour
         isSteering = true;
         inputEnabled = false;
 
-        lastShipPos = currentShip.transform.position;
-        lastShipRot = currentShip.transform.rotation;
-
         cam.EnableThirdPerson();
     }
 
@@ -419,6 +416,8 @@ public class PlayerController : NetworkBehaviour
         if (obj.CompareTag("Ship"))
         {
             currentShip = obj.gameObject;
+            lastShipPos = currentShip.transform.position;
+            lastShipRot = currentShip.transform.rotation;
         }
     }
 

@@ -35,7 +35,11 @@ public class TrapGun : NetworkBehaviour
         if (Input.GetMouseButtonDown(0) && shootTimer <= 0f)
         {
             if (currentTrap.Value.TryGet(out NetworkObject trapObj))
-                trapObj.Despawn(true);
+            {
+                if (!trapObj.GetComponent<Trap>().canHarvest)
+                    trapObj.Despawn(true);
+            }
+                
             ShootRpc();
             shootTimer = fireRate;
         }

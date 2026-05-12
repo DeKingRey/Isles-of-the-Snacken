@@ -8,11 +8,11 @@ public class BaitTrap : Trap
     public override void Activate()
     {
         base.Activate();
-        StartCoroutine(CheckForContents());
+        StartCoroutine(TrapContents());
     }
 
     // Brief time in which trap will check for contents 
-    private IEnumerator CheckForContents()
+    private IEnumerator TrapContents()
     {
         canCapture = true;
 

@@ -65,9 +65,11 @@ public class HealthManager : NetworkBehaviour, IDamageable
     {
         if (obj.CompareTag("Trap"))
         {
-            if (obj.GetComponentInParent<Trap>().canCapture)
+            Trap trap = obj.GetComponentInParent<Trap>();
+            if (trap.canCapture)
             {
                 TakeDamage(maxHealth);
+                trap.AddContent(gameObject);
             }
         }
     }

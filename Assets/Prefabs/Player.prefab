@@ -638,10 +638,10 @@ MonoBehaviour:
   - 0
   camHolder: {fileID: 1850893656218380089}
   crouchScaleY: 0.5
-  maxStamina: 15
+  maxStamina: 60
   regainStaminaDelay: 1
   staminaDrainRate: 10
-  staminaRegenRate: 5
+  staminaRegenRate: 10
   sliderSmoothSpeed: 10
   jumpMultiplier: 40
   maxJumpTime: 0.35
@@ -876,6 +876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  entityType: 0
 --- !u!1 &7762325149408409815
 GameObject:
   m_ObjectHideFlags: 0

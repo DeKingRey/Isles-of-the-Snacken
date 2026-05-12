@@ -39,9 +39,10 @@ public class TrapBullet : NetworkBehaviour
             
             TrapGun gun = client.PlayerObject.GetComponent<TrapGun>();
 
+            // Ensures old trap is removed
             if (gun.currentTrap.Value.TryGet(out NetworkObject oldTrap))
             {
-                if (oldTrap != null && oldTrap.IsSpawned)
+                if (oldTrap != null && oldTrap.IsSpawned && !oldTrap.GetComponent<Trap>().canHarvest)
                 {
                     oldTrap.Despawn(true);
                 }

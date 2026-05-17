@@ -57,9 +57,3 @@ MonoBehaviour:
   - folder: {fileID: 102900000, guid: 6e4ad28499358aa43a2b0b57be04afb0, type: 3}
     folderIcon: {fileID: 2800000, guid: 058ecf8bcb6faa3498c9bdf66e816692, type: 3}
     overlayIcon: {fileID: 0}
-  - folder: {fileID: 102900000, guid: 86b5f3bf25f539d419ce9779fea30eca, type: 3}
-    folderIcon: {fileID: 2800000, guid: 9fa0a8a285c94f6438b0da659f1dd9a5, type: 3}
-    overlayIcon: {fileID: 0}
-  - folder: {fileID: 102900000, guid: 26b96dea6eca71242b597bd0d8238704, type: 3}
-    folderIcon: {fileID: 2800000, guid: 1bc1353e82a1dbc449b2085d00634931, type: 3}
-    overlayIcon: {fileID: 0}

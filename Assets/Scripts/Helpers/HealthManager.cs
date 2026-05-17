@@ -4,12 +4,6 @@ using Unity.AI;
 
 public class HealthManager : NetworkBehaviour, IDamageable
 {
-    public enum EntityType
-    {
-        Player,
-        Nommian
-    }
-
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private EntityType entityType;
     private float currentHealth;
@@ -59,6 +53,8 @@ public class HealthManager : NetworkBehaviour, IDamageable
     private void NommianDie()
     {
         GetComponent<NommianController>().isCaptured = true;
+        GetComponent<Unity.AI.NavMeshAgent>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     void OnTriggerStay(Collider obj)

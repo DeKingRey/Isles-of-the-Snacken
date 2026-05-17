@@ -530,14 +530,15 @@ GameObject:
   m_Component:
   - component: {fileID: 180290841042001025}
   - component: {fileID: 3716513214595896317}
-  - component: {fileID: 6856558699730831396}
   - component: {fileID: 1670998759269376155}
   - component: {fileID: 5611422173065917471}
+  - component: {fileID: 4978335669300418664}
+  - component: {fileID: 3364828103697874581}
+  - component: {fileID: 8881642065030468221}
+  - component: {fileID: 6856558699730831396}
   - component: {fileID: 1746314673208561798}
   - component: {fileID: 16986303052819258}
   - component: {fileID: 6285879830632402320}
-  - component: {fileID: 4978335669300418664}
-  - component: {fileID: 3364828103697874581}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -588,31 +589,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!143 &6856558699730831396
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7487103466597829105}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.6
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1670998759269376155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +659,81 @@ MonoBehaviour:
   sensitivityMultiplier: 1
   minX: -85
   maxX: 85
+--- !u!114 &4978335669300418664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487103466597829105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa2d74d0d3592f4b9952c3c8fe6f3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapGun
+  ShowTopMostFoldoutHeaderGroup: 1
+  bulletPrefab: {fileID: 8207442291574369161, guid: 746fad9394a402345b475ad5bcc32563, type: 3}
+  shootPoint: {fileID: 8711056734157390974}
+  shootForce: 0.0000015
+  fireRate: 0.25
+  selectedTrap: {fileID: 5985833625798612892, guid: 72fa56e32bb3090468c4e7828417e176, type: 3}
+  currentTrap:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+--- !u!114 &3364828103697874581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487103466597829105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1a406a902722f4d8552750a76a1c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 100
+  entityType: 0
+--- !u!114 &8881642065030468221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487103466597829105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f518b482c2319c48b2d1ce0051d3da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBag
+  maxCapacity: 1
+--- !u!143 &6856558699730831396
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487103466597829105}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.6
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &1746314673208561798
 AudioSource:
   m_ObjectHideFlags: 0
@@ -840,43 +891,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVoice
   ShowTopMostFoldoutHeaderGroup: 1
   head: {fileID: 7075908339442438895}
---- !u!114 &4978335669300418664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7487103466597829105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caa2d74d0d3592f4b9952c3c8fe6f3f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrapGun
-  ShowTopMostFoldoutHeaderGroup: 1
-  bulletPrefab: {fileID: 8207442291574369161, guid: 746fad9394a402345b475ad5bcc32563, type: 3}
-  shootPoint: {fileID: 8711056734157390974}
-  shootForce: 0.0000015
-  fireRate: 0.25
-  selectedTrap: {fileID: 5985833625798612892, guid: 72fa56e32bb3090468c4e7828417e176, type: 3}
-  currentTrap:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
---- !u!114 &3364828103697874581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7487103466597829105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1a406a902722f4d8552750a76a1c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthManager
-  ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
-  entityType: 0
 --- !u!1 &7762325149408409815
 GameObject:
   m_ObjectHideFlags: 0

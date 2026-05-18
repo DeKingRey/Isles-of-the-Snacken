@@ -1,21 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class BillboardUI : MonoBehaviour
 {
     private Camera cam;
 
-    void Start()
-    {
-        cam = Camera.main;
-    }
-
     void LateUpdate()
     {
         if (cam == null)
         {
-            cam = Camera.main;
+            cam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Camera>();
 
             if (cam == null) return;
         }

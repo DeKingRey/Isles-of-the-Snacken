@@ -49,9 +49,8 @@ public class NommianController : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer) return;
-        if (isCaptured) return;
-
+        if (!IsServer || isCaptured) return;
+        
         detectTimer -= Time.deltaTime;
         if (detectTimer <= 0f)
         {

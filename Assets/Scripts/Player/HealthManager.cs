@@ -53,7 +53,7 @@ public class HealthManager : NetworkBehaviour, IDamageable
     private void NommianDie()
     {
         GetComponent<NommianController>().isCaptured = true;
-        GetComponent<Unity.AI.NavMeshAgent>().enabled = false;
+        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
     }
 

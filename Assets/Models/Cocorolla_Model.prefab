@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6796046965850935296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6028626804263696859}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4138522043661784780}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1204956504142162193}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone15_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4583950165524759890}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1584915706489302233}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone12_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2842177257310623634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7467134084352395584}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 693814939933228001}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5605011766888391454}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8616486071530832038}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone8_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2529862222418636243}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone6_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9065409468712542697}
   - component: {fileID: 7125946684329035986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1722967009148882802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,18 +528,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2827117275644195081}
-  - component: {fileID: 2580395196150433969}
-  - component: {fileID: 2227591635399571495}
-  - component: {fileID: 2069111565736495974}
   - component: {fileID: 8479977445432229468}
-  - component: {fileID: 7017206260487373787}
   - component: {fileID: 4982968232751113426}
-  - component: {fileID: 91031259469255194}
-  - component: {fileID: 4700900401782247875}
-  - component: {fileID: 8148142386723300621}
-  - component: {fileID: 6237262722574789181}
-  m_Layer: 0
-  m_Name: Cocorolla
+  - component: {fileID: 6577547681783690887}
+  - component: {fileID: 5959851421952692273}
+  - component: {fileID: 303096504825944363}
+  m_Layer: 8
+  m_Name: Cocorolla_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,65 +557,6 @@ Transform:
   - {fileID: 9065409468712542697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2580395196150433969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3047149796
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
---- !u!114 &2227591635399571495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194eefd0cdb890d428c21df77299ff97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NommianController
-  ShowTopMostFoldoutHeaderGroup: 1
-  type: 1
-  speed: 5
-  speedMultiplier: 2
-  roamRadius: 20
-  detectionRadius: 10
-  isCaptured: 0
---- !u!114 &2069111565736495974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1a406a902722f4d8552750a76a1c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthManager
-  ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
-  entityType: 1
 --- !u!135 &8479977445432229468
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -642,28 +578,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.27100825
   m_Center: {x: 0, y: 0.27781808, z: 0}
---- !u!195 &7017206260487373787
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.25
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.5
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!54 &4982968232751113426
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -691,7 +605,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &91031259469255194
+--- !u!114 &6577547681783690887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806185602228787728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &5959851421952692273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -721,9 +660,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -737,7 +676,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &4700900401782247875
+--- !u!114 &303096504825944363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -754,45 +693,6 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 0
---- !u!114 &8148142386723300621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f2f16e027f08144bccb56a1dc22413, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  itemData:
-    name: Cocorolla
-    weight: 1
-    value: 1
-  type: 1
---- !u!95 &6237262722574789181
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 33d3fbaaf1ce0c84394de9aa50f095d1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5524377800213535621
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,7 +702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6109945432519520598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -834,7 +734,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6621709343067517861}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,7 +766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 192108459319728992}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,7 +798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6437659706812361652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone5_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +829,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3806418518781453545}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,7 +861,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6665231446671477168}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -993,7 +893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7937943030726384025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1025,7 +925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6059461138768408802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone13_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 836919767336196844}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1088,7 +988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6563681634794225651}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1126,7 +1026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871096345482437701}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1159,7 +1059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 919639930099346485}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bone17_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}

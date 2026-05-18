@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class Trap : NetworkBehaviour
 {
     [Header("Harvest Settings")]
-    [SerializeField] private float harvestHoldTime;
+    [SerializeField] private float harvestHoldTime = 1f;
     [SerializeField] private float rayRadius = 0.5f;
     [SerializeField] private float rayDistance = 5f;
     [SerializeField] private LayerMask trapLayer;

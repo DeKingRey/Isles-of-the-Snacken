@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaitTrap
   ShowTopMostFoldoutHeaderGroup: 1
-  harvestHoldTime: 0
+  harvestHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
   trapLayer:

@@ -6,14 +6,12 @@ public class SteeringWheel : MonoBehaviour
 
     private void Awake()
     {
-        ship = GetComponentInParent<ShipController>();
+        ship = FindAnyObjectByType<ShipController>();
     }
 
     public void TrySteerShip(PlayerController player)
     {
         if (ship.HasDriver) return;
-
-        Debug.Log($"Request steer: {player.OwnerClientId}");
 
         ship.RequestSteerRpc(player.OwnerClientId);
     }

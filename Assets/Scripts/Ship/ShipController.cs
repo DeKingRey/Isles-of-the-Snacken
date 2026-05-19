@@ -38,7 +38,7 @@ public class ShipController : NetworkBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponentInChildren<Rigidbody>();
     }
 
     void Update()

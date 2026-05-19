@@ -13,8 +13,6 @@ public class SteeringWheel : MonoBehaviour
     {
         if (ship.HasDriver) return;
 
-        Debug.Log($"Request steer: {player.OwnerClientId}");
-
         ship.RequestSteerRpc(player.OwnerClientId);
     }
 }

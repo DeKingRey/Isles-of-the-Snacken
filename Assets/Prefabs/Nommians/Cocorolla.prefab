@@ -530,13 +530,13 @@ GameObject:
   - component: {fileID: 2827117275644195081}
   - component: {fileID: 2580395196150433969}
   - component: {fileID: 2227591635399571495}
+  - component: {fileID: 8148142386723300621}
   - component: {fileID: 2069111565736495974}
   - component: {fileID: 8479977445432229468}
   - component: {fileID: 7017206260487373787}
   - component: {fileID: 4982968232751113426}
   - component: {fileID: 91031259469255194}
   - component: {fileID: 4700900401782247875}
-  - component: {fileID: 8148142386723300621}
   - component: {fileID: 6237262722574789181}
   m_Layer: 0
   m_Name: Cocorolla
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3047149796
+  GlobalObjectIdHash: 1220454200
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -606,6 +606,20 @@ MonoBehaviour:
   roamRadius: 20
   detectionRadius: 10
   isCaptured: 0
+--- !u!114 &8148142386723300621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806185602228787728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f2f16e027f08144bccb56a1dc22413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  itemData: {fileID: 11400000, guid: d6430b3c9d3856345bfc4e155b1e03ce, type: 2}
+  type: 1
 --- !u!114 &2069111565736495974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,23 +768,6 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 0
---- !u!114 &8148142386723300621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806185602228787728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f2f16e027f08144bccb56a1dc22413, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  itemData:
-    name: Cocorolla
-    weight: 1
-    value: 1
-  type: 1
 --- !u!95 &6237262722574789181
 Animator:
   serializedVersion: 7

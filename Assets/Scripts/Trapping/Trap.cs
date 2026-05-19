@@ -75,7 +75,7 @@ public abstract class Trap : NetworkBehaviour
                 // Adds contents to players bag if possible
                 foreach (GameObject obj in contents)
                 {
-                    bool hasCollected = bag.TryAddItem(obj.GetComponent<Item>());
+                    bool hasCollected = bag.TryAddItem(obj.GetComponent<Item>().itemData);
 
                     // Despawns obj if collection was successful
                     if (hasCollected)

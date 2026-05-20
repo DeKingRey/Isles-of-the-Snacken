@@ -10,5 +10,5 @@ public class ItemData : ScriptableObject
     [Space(5)]
 
     public GameObject itemModel;
-    public GameObject itemSprite;
+    public Sprite itemSprite;
 }

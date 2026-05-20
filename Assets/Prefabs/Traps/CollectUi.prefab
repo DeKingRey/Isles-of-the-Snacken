@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 8888261481955709695}
   - component: {fileID: 8521372119195790407}
   m_Layer: 5
-  m_Name: TrapUI
+  m_Name: CollectUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

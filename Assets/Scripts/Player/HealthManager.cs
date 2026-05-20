@@ -6,17 +6,17 @@ public class HealthManager : NetworkBehaviour, IDamageable
 {
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private EntityType entityType;
-    private float currentHealth;
+    [HideInInspector] public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
-            currentHealth = maxHealth;
+            currentHealth.Value = maxHealth;
     }
 
     void Update()
     {
-        if (currentHealth <= 0 && entityType == EntityType.Player)
+        if (currentHealth.Value <= 0 && entityType == EntityType.Player)
         {
             GetComponent<PlayerController>().ToggleInput(false);
         }
@@ -26,9 +26,9 @@ public class HealthManager : NetworkBehaviour, IDamageable
     {
         if (!IsServer) return;
 
-        currentHealth -= damage;
+        currentHealth.Value -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth.Value <= 0)
             Die();
     }
 

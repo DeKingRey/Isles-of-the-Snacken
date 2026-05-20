@@ -13,6 +13,7 @@ public class PlayerUI : MonoBehaviour
     public void BindPlayer(PlayerController p)
     {
         player = p;
+        staminaSlider.maxValue = player.maxStamina;
     }
 
     public void BindCamera(PlayerCam c)

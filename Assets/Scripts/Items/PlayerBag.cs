@@ -26,9 +26,22 @@ public class PlayerBag : NetworkBehaviour
     private DeliveryManager deliveryManager;
     private float elapsedHoldTime = 0f;
 
+    private Camera cam;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            cam = GetComponentInChildren<Camera>();
+        }
+    }
+
     void Update()
     {
         if (deliveryManager == null || !IsOwner) return;
+
+        deliveryUI = deliveryManager.deliveryUI;
+        progressRing = deliveryManager.progressRing;
 
         HandleDelivery();
     }
@@ -63,12 +76,12 @@ public class PlayerBag : NetworkBehaviour
             // Delivers contents
             if (elapsedHoldTime >= deliveryHoldTime && capacity > 0)
             {
-                i = 0;
-                foreach (ItemData data in items)
+                // Loop backwards to safely delete entries
+                for (int i = items.Count - 1; i >= 0; i--)
                 {
-                    deliveryManager.DeliverItem(data);
+                    int id = GameManager.Instance.GetItemId(items[i]);
+                    deliveryManager.DeliverItemRpc(id);
                     RemoveItem(i);
-                    i++;
                 }
             }
         } else
@@ -106,7 +119,7 @@ public class PlayerBag : NetworkBehaviour
     {
         if (obj.CompareTag("DeliveryPoint"))
         {
-            deliveryManager = obj.GetComponent<DeliveryManager>();
+            deliveryManager = obj.GetComponentInParent<DeliveryManager>();
         }
     }
 

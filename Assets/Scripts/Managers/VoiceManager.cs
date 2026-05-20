@@ -17,7 +17,7 @@ public class VoiceManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {

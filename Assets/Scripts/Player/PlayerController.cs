@@ -31,7 +31,7 @@ public class PlayerController : NetworkBehaviour
     [Header("Stamina Settings")]
 
     [Tooltip("The max stamina - the y intercept")]
-    [SerializeField] private float maxStamina;
+    public float maxStamina;
     
     [Tooltip("Delay before stamina starts regenerating")]
     [SerializeField] private float regainStaminaDelay;
@@ -85,7 +85,7 @@ public class PlayerController : NetworkBehaviour
     private float sprintTime = 0f;
     private float walkSfxTimer;
 
-    [HideInInspector] public bool inputEnabled = true;
+    public bool inputEnabled = true;
 
     private PlayerCam cam;
     private bool isSteering;
@@ -373,6 +373,8 @@ public class PlayerController : NetworkBehaviour
     {
         isSteering = true;
         inputEnabled = false;
+
+        Debug.Log("Steering");
 
         cam.EnableThirdPerson();
     }

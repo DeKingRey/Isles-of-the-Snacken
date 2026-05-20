@@ -30,6 +30,8 @@ public abstract class Trap : NetworkBehaviour
     private float elapsedHoldTime;
     private bool hasHarvested;
 
+    private bool serverHasHarvested = false;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -70,26 +72,43 @@ public abstract class Trap : NetworkBehaviour
             if (elapsedHoldTime >= harvestHoldTime && !hasHarvested)
             {
                 hasHarvested = true;
-                PlayerBag bag = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<PlayerBag>();
-
-                // Adds contents to players bag if possible
-                foreach (GameObject obj in contents)
-                {
-                    bool hasCollected = bag.TryAddItem(obj.GetComponent<Item>().itemData);
-
-                    // Despawns obj if collection was successful
-                    if (hasCollected)
-                    {
-                        obj.GetComponent<NetworkObject>()?.Despawn(true);
-                    }
-                }
-                GetComponent<NetworkObject>().Despawn(true);
+                RequestHarvestRpc();
             }
         } else
         {
             elapsedHoldTime -= Time.deltaTime;
             if (elapsedHoldTime < 0) elapsedHoldTime = 0f;
         }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void RequestHarvestRpc(RpcParams rpcParams = default)
+    {
+        if (!canHarvest || serverHasHarvested)
+            return;
+
+        serverHasHarvested = true;
+
+        ulong clientId = rpcParams.Receive.SenderClientId;
+        NetworkObject playerObj = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+
+        if (playerObj == null)
+            return;
+        
+        PlayerBag bag = playerObj.GetComponent<PlayerBag>();
+
+        // Adds contents to players bag if possible
+        foreach (GameObject obj in contents)
+        {
+            bool hasCollected = bag.TryAddItem(obj.GetComponent<Item>().itemData);
+
+            // Despawns obj if collection was successful
+            if (hasCollected)
+            {
+                obj.GetComponent<NetworkObject>()?.Despawn(true);
+            }
+        }
+        GetComponent<NetworkObject>().Despawn(true);
     }
 
     public virtual void Activate()

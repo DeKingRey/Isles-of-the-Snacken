@@ -9,12 +9,10 @@ public class BillboardUI : MonoBehaviour
 
     void LateUpdate()
     {
-        if (cam == null)
-        {
-            cam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Camera>();
+        cam = NetworkManager.Singleton?.LocalClient?.PlayerObject?.GetComponentInChildren<Camera>();
 
-            if (cam == null) return;
-        }
+        if (cam == null)
+            return;
         
         transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
     }

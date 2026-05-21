@@ -16,4 +16,4 @@ MonoBehaviour:
   weight: 1
   value: 1
   itemModel: {fileID: 4806185602228787728, guid: 97f4fc72aa8462c41b8ff0d275c7f34b, type: 3}
-  itemSprite: {fileID: 21300000, guid: 93c6a2715693c4cd9b79893146dbd2a2, type: 3}
+  itemSprite: {fileID: 21300000, guid: 763111dfbdcf0264f91119611d666583, type: 3}

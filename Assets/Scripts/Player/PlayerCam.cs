@@ -49,9 +49,9 @@ public class PlayerCam: NetworkBehaviour
         HandleLookInput();
     }
 
-    public void ToggleInput()
+    public void ToggleInput(bool enable)
     {
-        inputEnabled = !inputEnabled;
+        inputEnabled = enable;
     }
 
     void HandleLookInput()

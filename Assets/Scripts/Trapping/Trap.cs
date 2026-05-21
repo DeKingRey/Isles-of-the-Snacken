@@ -95,12 +95,12 @@ public abstract class Trap : NetworkBehaviour
         if (playerObj == null)
             return;
         
-        PlayerBag bag = playerObj.GetComponent<PlayerBag>();
+        PlayerInventory inventory = playerObj.GetComponent<PlayerInventory>();
 
-        // Adds contents to players bag if possible
+        // Adds contents to players inventory if possible
         foreach (GameObject obj in contents)
         {
-            bool hasCollected = bag.TryAddItem(obj.GetComponent<Item>().itemData);
+            bool hasCollected = inventory.TryAddItem(obj.GetComponent<Item>().itemData);
 
             // Despawns obj if collection was successful
             if (hasCollected)

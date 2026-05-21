@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.UI;
 
-public class PlayerBag : NetworkBehaviour
+public class PlayerInventory : NetworkBehaviour
 {
     [SerializeField] private int maxCapacity = 1;
 
@@ -14,10 +14,8 @@ public class PlayerBag : NetworkBehaviour
     [SerializeField] private float rayDistance = 5f;
     [SerializeField] private LayerMask deliveryLayer;
 
-    [Space(5)]
-
-    [SerializeField] private GameObject deliveryUI;
-    [SerializeField] private Image progressRing;
+    private GameObject deliveryUI;
+    private Image progressRing;
 
     private List<ItemData> items = new List<ItemData>();
     private int capacity = 0;
@@ -27,13 +25,16 @@ public class PlayerBag : NetworkBehaviour
     private float elapsedHoldTime = 0f;
 
     private Camera cam;
+    private PlayerUI ui;
 
     public override void OnNetworkSpawn()
     {
-        if (IsOwner)
-        {
-            cam = GetComponentInChildren<Camera>();
-        }
+        if (!IsOwner) return;
+
+        cam = GetComponentInChildren<Camera>();
+
+        ui = FindAnyObjectByType<PlayerUI>();
+        ui.BindInventory(this);
     }
 
     void Update()
@@ -68,7 +69,7 @@ public class PlayerBag : NetworkBehaviour
             return;
         }
 
-        // Hold down to deliver contents of bag
+        // Hold down to deliver contents of inventory
         if (Input.GetKey(KeyCode.E))
         {
             elapsedHoldTime += Time.deltaTime;
@@ -94,13 +95,14 @@ public class PlayerBag : NetworkBehaviour
     private void AddItem(ItemData data)
     {
         items.Add(data);
+        ui.AddItemUI(data.itemSprite);
         totalWeight += data.weight;
         capacity++;
     }
 
     public bool TryAddItem(ItemData data)
     {
-        // Bag is full
+        // Inventory is full
         if (capacity + 1 > maxCapacity)
             return false;
         
@@ -112,6 +114,7 @@ public class PlayerBag : NetworkBehaviour
     {
         totalWeight -= items[dataIndex].weight;
         capacity--;
+        ui.RemoveItemUI(dataIndex);
         items.RemoveAt(dataIndex);
     }
 

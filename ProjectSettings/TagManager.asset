@@ -8,6 +8,8 @@ TagManager:
   - Ship
   - Trap
   - DeliveryPoint
+  - DeliveryUI
+  - DeliveryProgress
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - ItemOnly
   - 
   - Delivery
-  - 
+  - Collectable
   - 
   - 
   - 

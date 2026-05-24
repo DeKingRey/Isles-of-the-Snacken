@@ -8,24 +8,15 @@ public class PlayerInventory : NetworkBehaviour
 {
     [SerializeField] private int maxCapacity = 1;
 
-    [Header("Delivery Settings")]
-    [SerializeField] private float deliveryHoldTime = 1f;
-    [SerializeField] private float rayRadius = 0.5f;
-    [SerializeField] private float rayDistance = 5f;
-    [SerializeField] private LayerMask deliveryLayer;
-
-    private GameObject deliveryUI;
-    private Image progressRing;
-
     private List<ItemData> items = new List<ItemData>();
     private int capacity = 0;
     private float totalWeight = 0;
 
     private DeliveryManager deliveryManager;
-    private float elapsedHoldTime = 0f;
-
-    private Camera cam;
     private PlayerUI ui;
+    private Interactable interaction;
+    
+    private Camera cam;
 
     public override void OnNetworkSpawn()
     {
@@ -33,6 +24,10 @@ public class PlayerInventory : NetworkBehaviour
 
         cam = GetComponentInChildren<Camera>();
 
+        // Assigns interaction
+        interaction = GetComponent<Interactable>();
+        interaction.OnInteractComplete += DeliverItems;
+        
         ui = FindAnyObjectByType<PlayerUI>();
         ui.BindInventory(this);
     }
@@ -41,61 +36,38 @@ public class PlayerInventory : NetworkBehaviour
     {
         if (deliveryManager == null || !IsOwner) return;
 
-        deliveryUI = deliveryManager.deliveryUI;
-        progressRing = deliveryManager.progressRing;
-
-        HandleDelivery();
-    }
-
-    void HandleDelivery()
-    {
-        RaycastHit hit;
-
-        // Only shows UI if the player has items to deliver
+        // Can only interact if the player has items
         if (capacity > 0)
         {
-            deliveryUI.SetActive(true);
-            progressRing.fillAmount = elapsedHoldTime / deliveryHoldTime;
+            interaction.canInteract = true;
         }
         else
         {
-            deliveryUI.SetActive(false);
+            interaction.canInteract = false;
             return;
         }
+    }
 
-        if (!Physics.SphereCast(cam.transform.position, rayRadius, cam.transform.forward, out hit, rayDistance, deliveryLayer))
+    private void DeliverItems()
+    {
+        // Loop backwards to safely delete entries
+        for (int i = items.Count - 1; i >= 0; i--)
         {
-            elapsedHoldTime = 0f;
-            return;
-        }
-
-        // Hold down to deliver contents of inventory
-        if (Input.GetKey(KeyCode.E))
-        {
-            elapsedHoldTime += Time.deltaTime;
-
-            // Delivers contents
-            if (elapsedHoldTime >= deliveryHoldTime && capacity > 0)
-            {
-                // Loop backwards to safely delete entries
-                for (int i = items.Count - 1; i >= 0; i--)
-                {
-                    int id = GameManager.Instance.GetItemId(items[i]);
-                    deliveryManager.DeliverItemRpc(id);
-                    RemoveItem(i);
-                }
-            }
-        } else
-        {
-            elapsedHoldTime -= Time.deltaTime;
-            if (elapsedHoldTime < 0) elapsedHoldTime = 0f;
+            int id = GameManager.Instance.GetItemId(items[i]);
+            deliveryManager.DeliverItemRpc(id);
+            RemoveItem(i);
         }
     }
 
     private void AddItem(ItemData data)
     {
         items.Add(data);
-        ui.AddItemUI(data.itemSprite);
+
+        if (IsOwner && ui != null)
+        {
+            ui.AddItemUI(data.itemSprite);
+        }
+
         totalWeight += data.weight;
         capacity++;
     }
@@ -110,12 +82,31 @@ public class PlayerInventory : NetworkBehaviour
         return true;
     }
 
-    private void RemoveItem(int dataIndex)
+    public void RemoveItem(int dataIndex)
     {
         totalWeight -= items[dataIndex].weight;
         capacity--;
-        ui.RemoveItemUI(dataIndex);
+
+        if (IsOwner && ui != null)
+        {
+            ui.RemoveItemUI(dataIndex);
+        }
+
         items.RemoveAt(dataIndex);
+    }
+
+    public void DropItem(int index)
+    {
+        int id = GameManager.Instance.GetItemId(items[index]);
+        RemoveItem(index);
+        
+        ItemData item = GameManager.Instance.itemDatabase[id];
+
+        GameObject newItem = Instantiate(item.itemModel, transform.position, Quaternion.identity);
+        newItem.GetComponent<NetworkObject>().Spawn();
+
+        // COULD CHANGE THIS TO CAN COLLECT LATER SO THAT PLAYERS CAN REMOVE DELIVERED ITEMS
+        newItem.GetComponent<Item>().canCollect = true;
     }
 
     void OnTriggerEnter(Collider obj)
@@ -123,6 +114,7 @@ public class PlayerInventory : NetworkBehaviour
         if (obj.CompareTag("DeliveryPoint"))
         {
             deliveryManager = obj.GetComponentInParent<DeliveryManager>();
+            interaction.AssignVariables(deliveryManager.deliveryUI, deliveryManager.progressRing, cam);
         }
     }
 

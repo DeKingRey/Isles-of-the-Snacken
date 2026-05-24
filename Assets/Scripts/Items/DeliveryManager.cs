@@ -19,5 +19,8 @@ public class DeliveryManager : NetworkBehaviour
 
         GameObject newItem = Instantiate(item.itemModel, deliverySpawnPoint.position, Quaternion.identity);
         newItem.GetComponent<NetworkObject>().Spawn();
+
+        // COULD CHANGE THIS TO CAN COLLECT LATER SO THAT PLAYERS CAN REMOVE DELIVERED ITEMS
+        newItem.GetComponent<Item>().canCollect = false;
     }
 }

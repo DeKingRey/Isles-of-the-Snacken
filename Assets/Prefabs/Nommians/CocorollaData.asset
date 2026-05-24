@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Cocorolla
   weight: 1
   value: 1
-  itemModel: {fileID: 4806185602228787728, guid: 97f4fc72aa8462c41b8ff0d275c7f34b, type: 3}
+  itemModel: {fileID: 4806185602228787728, guid: a2af7e7e9d0706345a1a908a026a9b5e, type: 3}
   itemSprite: {fileID: 21300000, guid: 763111dfbdcf0264f91119611d666583, type: 3}

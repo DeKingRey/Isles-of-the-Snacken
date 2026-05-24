@@ -6,14 +6,7 @@ using UnityEngine;
 
 public abstract class Trap : NetworkBehaviour
 {
-    [Header("Harvest Settings")]
-    [SerializeField] private float harvestHoldTime = 1f;
-    [SerializeField] private float rayRadius = 0.5f;
-    [SerializeField] private float rayDistance = 5f;
-    [SerializeField] private LayerMask trapLayer;
-
-    [Space(5)]
-
+    [Header("Harvest UI")]
     [SerializeField] private GameObject harvestUI;
     [SerializeField] private Image progressRing;
 
@@ -32,9 +25,17 @@ public abstract class Trap : NetworkBehaviour
 
     private bool serverHasHarvested = false;
 
+    private Interactable interaction;
+
     void Start()
     {
         anim = GetComponent<Animator>();
+        cam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Camera>();
+
+        // Assigns interaction
+        interaction = GetComponent<Interactable>();
+        interaction.OnInteractComplete += CollectContents;
+        interaction.AssignVariables(harvestUI, progressRing, cam);
     }
 
     void Update()
@@ -48,37 +49,14 @@ public abstract class Trap : NetworkBehaviour
             if (cam == null) return;
         }
 
-        HandleHarvest();
+        if (!hasHarvested) interaction.canInteract = true;
+        else interaction.canInteract = false;
     }
 
-    void HandleHarvest()
+    private void CollectContents()
     {
-        RaycastHit hit;
-
-        if (!hasHarvested) progressRing.fillAmount = elapsedHoldTime / harvestHoldTime;
-
-        if (!Physics.SphereCast(cam.transform.position, rayRadius, cam.transform.forward, out hit, rayDistance, trapLayer))
-        {
-            elapsedHoldTime = 0f;
-            return;
-        }
-
-        // Hold down to harvest contents of trap
-        if (Input.GetKey(KeyCode.E))
-        {
-            elapsedHoldTime += Time.deltaTime;
-
-            // Collects contents
-            if (elapsedHoldTime >= harvestHoldTime && !hasHarvested)
-            {
-                hasHarvested = true;
-                RequestHarvestRpc();
-            }
-        } else
-        {
-            elapsedHoldTime -= Time.deltaTime;
-            if (elapsedHoldTime < 0) elapsedHoldTime = 0f;
-        }
+        hasHarvested = true;
+        RequestHarvestRpc();
     }
 
     [Rpc(SendTo.Server)]

@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 3778093150415766415}
   - component: {fileID: 1021532726450492115}
   - component: {fileID: 3704525640958594346}
+  - component: {fileID: 869667531358291196}
   m_Layer: 7
   m_Name: BaitTrap
   m_TagString: Trap
@@ -314,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1882900965
+  GlobalObjectIdHash: 2954835792
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -340,12 +341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaitTrap
   ShowTopMostFoldoutHeaderGroup: 1
-  harvestHoldTime: 1
-  rayRadius: 0.5
-  rayDistance: 5
-  trapLayer:
-    serializedVersion: 2
-    m_Bits: 128
   harvestUI: {fileID: 6497919956922924726}
   progressRing: {fileID: 8553503438478165849}
   canCapture: 0
@@ -405,6 +400,26 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 9
   AnimatorParametersExpanded: 0
+--- !u!114 &869667531358291196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985833625798612892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9199920ea36edf842ba919977e67ceae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactHoldTime: 1
+  rayRadius: 0.5
+  rayDistance: 5
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  canInteract: 0
 --- !u!1001 &4898525777807698478
 PrefabInstance:
   m_ObjectHideFlags: 0

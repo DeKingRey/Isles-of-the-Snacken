@@ -11,10 +11,18 @@ public class PlayerUI : MonoBehaviour
     [Space(10)]
 
     [Header("Inventory UI")]
-    [Tooltip("In game inventory transform")]
-    [SerializeField] private Transform invGameTransform;
     [SerializeField] private GameObject inventoryMenu;
+
+    [Space(5)]
+
+    [Tooltip("In game inventory content box")]
+    [SerializeField] private Transform invGameTransform;
+
+    [Tooltip("Menu inventory content box")]
+    [SerializeField] private GameObject invMenuTransform;
+
     [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private GameObject itemMenuPrefab;
 
     private PlayerController player;
     private PlayerCam playerCam;
@@ -61,9 +69,13 @@ public class PlayerUI : MonoBehaviour
         itemsGame.Add(itemUI);
 
         // Menu item UI
-        GameObject menuItemUI = Instantiate(itemPrefab, inventoryMenu.transform);
+        // Insantiates as a child of the menu content
+        GameObject menuItemUI = Instantiate(itemMenuPrefab, invMenuTransform.transform);
         menuItemUI.transform.GetChild(0).GetComponent<Image>().sprite = itemSprite;
         itemsMenu.Add(menuItemUI);
+
+        // Assigning item button index data
+        menuItemUI.GetComponentInChildren<ItemButton>(true).AssignData(itemsMenu.IndexOf(menuItemUI), playerInventory);
     }
 
     public void RemoveItemUI(int index)
@@ -75,6 +87,19 @@ public class PlayerUI : MonoBehaviour
         // Menu item UI
         Destroy(itemsMenu[index]);
         itemsMenu.RemoveAt(index);
+
+        RefreshButtonIndices();
+    }
+
+    /// Corrects button data indexes when an item is removed
+    private void RefreshButtonIndices()
+    {
+        // Refresh in-game and menu item indices
+        for (int i = 0; i < itemsGame.Count; i++)
+        {
+            itemsGame[i].GetComponent<ItemButton>().AssignData(i, playerInventory);
+            itemsMenu[i].GetComponent<ItemButton>().AssignData(i, playerInventory);
+        }
     }
 
     void ToggleMenu()

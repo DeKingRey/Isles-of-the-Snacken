@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a996ff687203ed440a781d18e8c4b8e8, type: 3}
+  m_Name: CocorollaData
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemName: Cocorolla
+  weight: 1
+  value: 1
+  itemModel: {fileID: 4806185602228787728, guid: a2af7e7e9d0706345a1a908a026a9b5e, type: 3}
+  itemSprite: {fileID: 21300000, guid: 763111dfbdcf0264f91119611d666583, type: 3}

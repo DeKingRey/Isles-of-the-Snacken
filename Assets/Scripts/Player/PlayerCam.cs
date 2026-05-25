@@ -5,7 +5,8 @@ using Unity.Cinemachine;
 public class PlayerCam: NetworkBehaviour
 {
     [Header("References")]
-    [SerializeField] private CinemachineCamera virtualCamera;
+    [SerializeField] private CinemachineCamera firstPersonCam;
+    [SerializeField] private CinemachineCamera thirdPersonCam;
     [SerializeField] private Transform playerModel; // Rotates Y, left/right
     [SerializeField] private Transform cameraHolder; // Rotates X, up/down
 
@@ -24,6 +25,8 @@ public class PlayerCam: NetworkBehaviour
 
     private float xRotation;
 
+    private bool inputEnabled = true;
+
     void Start()
     {
         if (!IsOwner)
@@ -34,17 +37,27 @@ public class PlayerCam: NetworkBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
+        ui.BindCamera(this);
     }
 
     void Update()
     {
         if (!IsOwner) return;
 
-        Look();
+        HandleLookInput();
     }
 
-    void Look()
+    public void ToggleInput(bool enable)
     {
+        inputEnabled = enable;
+    }
+
+    void HandleLookInput()
+    {
+        if (!inputEnabled) return;
+
         float mouseX = Input.GetAxisRaw("Mouse X") * sensX * sensitivityMultiplier * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * sensY * sensitivityMultiplier * Time.deltaTime;
 
@@ -72,6 +85,19 @@ public class PlayerCam: NetworkBehaviour
         CinemachineBrain brain = GetComponentInChildren<CinemachineBrain>();
         if (brain != null) brain.enabled = false;
 
-        if (virtualCamera != null) virtualCamera.gameObject.SetActive(false);
+        if (firstPersonCam != null) firstPersonCam.gameObject.SetActive(false);
+        if (thirdPersonCam != null) thirdPersonCam.gameObject.SetActive(false);
+    }
+
+    public void EnableFirstPerson()
+    {
+        firstPersonCam.Priority = 10;
+        thirdPersonCam.Priority = 5;
+    }
+
+    public void EnableThirdPerson()
+    {
+        thirdPersonCam.Priority = 10;
+        firstPersonCam.Priority = 5;
     }
 }

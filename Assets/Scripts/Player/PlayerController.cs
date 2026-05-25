@@ -11,6 +11,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float defaultSprintSpeed;
     [SerializeField] private float slideStrength = 8f;
 
+    [Tooltip("Larger this is, the faster the player slows down from weight. Must be < 1")]
+    [SerializeField] private float weightMultiplier = 0.75f;
+
     [Space(10)]
 
     [Header("Crouch Settings")]
@@ -31,7 +34,7 @@ public class PlayerController : NetworkBehaviour
     [Header("Stamina Settings")]
 
     [Tooltip("The max stamina - the y intercept")]
-    [SerializeField] private float maxStamina;
+    public float maxStamina;
     
     [Tooltip("Delay before stamina starts regenerating")]
     [SerializeField] private float regainStaminaDelay;
@@ -85,12 +88,26 @@ public class PlayerController : NetworkBehaviour
     private float sprintTime = 0f;
     private float walkSfxTimer;
 
+    public bool inputEnabled = true;
+
+    private PlayerCam cam;
+    private bool isSteering;
+    private SteeringWheel wheelInRange;
+    private GameObject currentShip;
+    private Vector3 lastShipPos;
+    private Quaternion lastShipRot;
+
+    private PlayerInventory inv;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
-
+        
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
-        ui.Bind(this);
+        ui.BindPlayer(this);
+
+        cam = GetComponent<PlayerCam>();
+        inv = GetComponent<PlayerInventory>();
     }
 
     void Start()
@@ -105,6 +122,29 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
 
         HandleMovement();
+
+        HandleInput();
+    }
+
+    public void ToggleInput(bool enabled)
+    {
+        inputEnabled = enabled;
+    }
+
+    void HandleInput()
+    {
+        // Enables/disables steering depending on whether player is steering or not
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!isSteering && wheelInRange != null && inputEnabled)
+            {
+                wheelInRange.TrySteerShip(this);
+            }
+            else if (isSteering && currentShip != null)
+            {
+                currentShip.GetComponentInParent<ShipController>().StopSteerRpc(OwnerClientId);
+            }
+        }
     }
 
     void HandleMovement()
@@ -114,8 +154,11 @@ public class PlayerController : NetworkBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Left Shift to run, left control to crouch
-        isSprinting = Input.GetKey(KeyCode.LeftShift);
-        isCrouching = Input.GetKey(KeyCode.LeftControl);
+        if (inputEnabled)
+        {
+            isSprinting = Input.GetKey(KeyCode.LeftShift);
+            isCrouching = Input.GetKey(KeyCode.LeftControl);
+        }
 
         // Ensures you don't do two movement techniques at once
         if (isSprinting) isCrouching = false;
@@ -125,12 +168,19 @@ public class PlayerController : NetworkBehaviour
         if (currentStamina <= 0.25f) sprintSpeed = walkSpeed;
 
         // Current speed is dependent on whether the player is sprinting/crouching (speed is then multiplied by input)
+        float inputX = inputEnabled ? Input.GetAxis("Vertical") : 0;
+        float inputZ = inputEnabled ? Input.GetAxis("Horizontal") : 0;
+
         float currentSpeedX = canMove ? (isSprinting ? sprintSpeed : isCrouching ? crouchSpeed : walkSpeed) 
-                                            * Input.GetAxis("Vertical") : 0;
+                                            * inputX : 0;
         float currentSpeedZ = canMove ? (isSprinting ? sprintSpeed : isCrouching ? crouchSpeed : walkSpeed)
-                                            * Input.GetAxis("Horizontal") : 0;
+                                            * inputZ : 0;
         float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * currentSpeedX) + (right * currentSpeedZ);
+        
+        // Weight Slowdown
+        float slowdownFactor = 1 - (weightMultiplier * inv.weightPercent);
+
+        moveDirection = (forward * currentSpeedX * slowdownFactor) + (right * currentSpeedZ * slowdownFactor);
 
         isMoving = currentSpeedX != 0 || currentSpeedZ != 0;
 
@@ -214,7 +264,7 @@ public class PlayerController : NetworkBehaviour
         #endregion
 
         #region Handles Jumping
-        if (Input.GetButton("Jump") && canMove && controller.isGrounded && currentStamina >= 0.5f)
+        if (Input.GetButton("Jump") && canMove && controller.isGrounded && currentStamina >= 0.5f && inputEnabled)
         {
             isJumping = true;
             SoundManager.Instance.PlayAudio(jumpSfx, 1f, transform);
@@ -264,6 +314,10 @@ public class PlayerController : NetworkBehaviour
         }
 
         #endregion
+
+        // Allows player to move with ship
+        Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
+        moveDirection += shipDelta / Time.deltaTime;
 
         controller.Move(moveDirection * Time.deltaTime);
     }
@@ -322,5 +376,72 @@ public class PlayerController : NetworkBehaviour
 
         slideDirection = Vector3.zero;
         return false;
+    }
+
+    public void StartSteering()
+    {
+        isSteering = true;
+        inputEnabled = false;
+
+        Debug.Log("Steering");
+
+        cam.EnableThirdPerson();
+    }
+
+    public void StopSteering()
+    {
+        isSteering = false;
+        inputEnabled = true;
+
+        cam.EnableFirstPerson();
+    }
+
+    Vector3 GetShipMovementDelta()
+    {
+        if (currentShip == null) return Vector3.zero;
+        
+        // Gets change in pos and rot
+        Vector3 positionDelta = currentShip.transform.position - lastShipPos;
+        Quaternion rotationDelta = currentShip.transform.rotation * Quaternion.Inverse(lastShipRot);
+
+        // Updates last pos and rot
+        lastShipPos = currentShip.transform.position;
+        lastShipRot = currentShip.transform.rotation;
+
+        // Apply rotation around ship center
+        Vector3 offset = transform.position - currentShip.transform.position;
+        offset = rotationDelta * offset;
+
+        Vector3 rotatedPosition = currentShip.transform.position + offset;
+
+        return (rotatedPosition - transform.position) + positionDelta; 
+    }
+
+    private void OnTriggerEnter(Collider obj)
+    {
+        if (obj.CompareTag("SteeringWheel"))
+        {
+            wheelInRange = obj.GetComponent<SteeringWheel>();
+        }
+
+        if (obj.CompareTag("Ship"))
+        {
+            currentShip = obj.gameObject;
+            lastShipPos = currentShip.transform.position;
+            lastShipRot = currentShip.transform.rotation;
+        }
+    }
+
+    private void OnTriggerExit(Collider obj)
+    {
+        if (obj.CompareTag("SteeringWheel"))
+        {
+            wheelInRange = null;
+        }
+
+        if (obj.CompareTag("Ship"))
+        {
+            currentShip = null;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class RelayManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -48,6 +48,11 @@ public class RelayManager : MonoBehaviour
     public async void JoinRelay()
     {
         await StartClientWithRelay(joinCodeInput.text);
+    }
+
+    public void CopyToClipboard()
+    {
+        GUIUtility.systemCopyBuffer = joinCodeText.text;
     }
 
     private async Task<string> StartHostWithRelay(int maxConnections = 4)

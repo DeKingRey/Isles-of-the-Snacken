@@ -35,6 +35,8 @@ public class NommianController : NetworkBehaviour
 
     private float detectTimer = 0.2f;
 
+    [HideInInspector] public bool isCaptured = false;
+
     public override void OnNetworkSpawn()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -47,8 +49,8 @@ public class NommianController : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer) return;
-
+        if (!IsServer || isCaptured) return;
+        
         detectTimer -= Time.deltaTime;
         if (detectTimer <= 0f)
         {
@@ -165,6 +167,9 @@ public class NommianController : NetworkBehaviour
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
+            if (client.PlayerObject == null)
+                continue;
+
             float dist = Vector3.Distance(transform.position, client.PlayerObject.transform.position);
 
             if (dist < minDist)

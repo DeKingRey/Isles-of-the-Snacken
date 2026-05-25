@@ -4285,6 +4285,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SteeringWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 5322698119326700409, guid: 4f22015c5e77ed7489cabd12c8d18e2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5324099793160656420, guid: 4f22015c5e77ed7489cabd12c8d18e2a, type: 3}
       propertyPath: m_Name
       value: Ship

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8711056734157390974}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shoot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 134991548573891381}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4586113715629005025}
   - component: {fileID: 4918712966902722365}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirstPersonCM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 6144354802776198832}
   - component: {fileID: 4505151459004940528}
   - component: {fileID: 683122466711186066}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 4744436408908585657}
   - component: {fileID: 5978499820294059521}
   - component: {fileID: 4866622785063339449}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 6942174574677734525}
   - component: {fileID: 3837884413391013397}
   - component: {fileID: 7012772232289994427}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Third Person Aim Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1850893656218380089}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,7 +540,7 @@ GameObject:
   - component: {fileID: 4978335669300418664}
   - component: {fileID: 3364828103697874581}
   - component: {fileID: 3965972292294852162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -631,6 +631,7 @@ MonoBehaviour:
   walkSpeed: 4
   defaultSprintSpeed: 7
   slideStrength: 8
+  weightMultiplier: 0.75
   crouchSpeed: 2
   crouchHeights:
   - 2
@@ -676,7 +677,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBag
   ShowTopMostFoldoutHeaderGroup: 1
+  weightPercent: 0
   maxCapacity: 1
+  maxWeight: 5
+  currentWeight: 0
 --- !u!114 &5611422173065917471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +935,7 @@ GameObject:
   - component: {fileID: 415803247439374685}
   - component: {fileID: 85886252209229286}
   - component: {fileID: 4117338998404721418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}

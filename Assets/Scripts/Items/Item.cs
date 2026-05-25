@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using System;
 
 public enum EntityType
 {
@@ -18,6 +19,8 @@ public class Item : NetworkBehaviour
     
     [Header("Collection Settings")]
     public bool canCollect = false;
+    [SerializeField] private float interactRadius = 10f;
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private GameObject collectUI;
     [SerializeField] private Image progressRing;
     
@@ -41,7 +44,13 @@ public class Item : NetworkBehaviour
     {
         if (!IsOwner) return;
         
-        interaction.canInteract = canCollect;
+        // Only activates interaction when player is in range
+        if (canCollect && Physics.CheckSphere(transform.position, interactRadius, playerLayer))
+        {
+            interaction.canInteract = true;
+        } else {
+            interaction.canInteract = false;
+        }
     }
 
     void CollectItem()

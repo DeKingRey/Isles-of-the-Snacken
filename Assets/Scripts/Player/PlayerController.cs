@@ -11,6 +11,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float defaultSprintSpeed;
     [SerializeField] private float slideStrength = 8f;
 
+    [Tooltip("Larger this is, the faster the player slows down from weight. Must be < 1")]
+    [SerializeField] private float weightMultiplier = 0.75f;
+
     [Space(10)]
 
     [Header("Crouch Settings")]
@@ -94,6 +97,8 @@ public class PlayerController : NetworkBehaviour
     private Vector3 lastShipPos;
     private Quaternion lastShipRot;
 
+    private PlayerInventory inv;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
@@ -102,6 +107,7 @@ public class PlayerController : NetworkBehaviour
         ui.BindPlayer(this);
 
         cam = GetComponent<PlayerCam>();
+        inv = GetComponent<PlayerInventory>();
     }
 
     void Start()
@@ -153,7 +159,6 @@ public class PlayerController : NetworkBehaviour
             isSprinting = Input.GetKey(KeyCode.LeftShift);
             isCrouching = Input.GetKey(KeyCode.LeftControl);
         }
-        
 
         // Ensures you don't do two movement techniques at once
         if (isSprinting) isCrouching = false;
@@ -171,7 +176,11 @@ public class PlayerController : NetworkBehaviour
         float currentSpeedZ = canMove ? (isSprinting ? sprintSpeed : isCrouching ? crouchSpeed : walkSpeed)
                                             * inputZ : 0;
         float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * currentSpeedX) + (right * currentSpeedZ);
+        
+        // Weight Slowdown
+        float slowdownFactor = 1 - (weightMultiplier * inv.weightPercent);
+
+        moveDirection = (forward * currentSpeedX * slowdownFactor) + (right * currentSpeedZ * slowdownFactor);
 
         isMoving = currentSpeedX != 0 || currentSpeedZ != 0;
 

@@ -624,6 +624,10 @@ MonoBehaviour:
   itemData: {fileID: 11400000, guid: d6430b3c9d3856345bfc4e155b1e03ce, type: 2}
   type: 1
   canCollect: 1
+  interactRadius: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   collectUI: {fileID: 2061818835294144915}
   progressRing: {fileID: 3459912972711227516}
 --- !u!114 &2069111565736495974
@@ -1228,6 +1232,10 @@ PrefabInstance:
     - target: {fileID: 1861729338582209688, guid: 061c29afd7c747e4080f7ff596141d0b, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861729338582209688, guid: 061c29afd7c747e4080f7ff596141d0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5688746021371261054, guid: 061c29afd7c747e4080f7ff596141d0b, type: 3}
       propertyPath: m_PresetInfoIsWorld

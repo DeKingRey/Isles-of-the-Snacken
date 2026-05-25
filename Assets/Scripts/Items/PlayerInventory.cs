@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class PlayerInventory : NetworkBehaviour
 {
+    [HideInInspector] public float weightPercent; // Current weight / total weight
+
     [SerializeField] private int maxCapacity = 1;
+    [SerializeField] private float maxWeight = 5f;
 
     private List<ItemData> items = new List<ItemData>();
     private int capacity = 0;
-    private float totalWeight = 0;
+    public float currentWeight = 0;
 
     private DeliveryManager deliveryManager;
     private PlayerUI ui;
@@ -34,7 +37,10 @@ public class PlayerInventory : NetworkBehaviour
 
     void Update()
     {
-        if (deliveryManager == null || !IsOwner) return;
+        if (!IsOwner) return;
+        weightPercent = currentWeight / maxWeight;
+
+        if (deliveryManager == null) return;
 
         // Can only interact if the player has items
         if (capacity > 0)
@@ -68,14 +74,14 @@ public class PlayerInventory : NetworkBehaviour
             ui.AddItemUI(data.itemSprite);
         }
 
-        totalWeight += data.weight;
+        currentWeight += data.weight;
         capacity++;
     }
 
     public bool TryAddItem(ItemData data)
     {
         // Inventory is full
-        if (capacity + 1 > maxCapacity)
+        if (capacity >= maxCapacity || currentWeight >= maxWeight)
             return false;
         
         AddItem(data);
@@ -84,7 +90,7 @@ public class PlayerInventory : NetworkBehaviour
 
     public void RemoveItem(int dataIndex)
     {
-        totalWeight -= items[dataIndex].weight;
+        currentWeight -= items[dataIndex].weight;
         capacity--;
 
         if (IsOwner && ui != null)

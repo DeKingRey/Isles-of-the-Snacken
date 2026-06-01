@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.AI.Navigation;
+using System.Collections;
 
 public class IslandGenerator : NetworkBehaviour
 {
@@ -14,6 +16,8 @@ public class IslandGenerator : NetworkBehaviour
 
     private List<PlacedIsland> placedIslands = new List<PlacedIsland>();
     private List<int> prefabBag = new List<int>();
+
+    private NavMeshSurface surface; 
 
     private class PlacedIsland
     {
@@ -32,6 +36,23 @@ public class IslandGenerator : NetworkBehaviour
         if (!IsServer) return;
 
         GenerateIslands();
+    }
+
+    // Delayed slightly to ensure that all objects are initialized
+    private IEnumerator DelayBakeNavMesh()
+    {
+        yield return null;
+        yield return null;
+
+        surface = GetComponentInChildren<NavMeshSurface>();
+        surface.BuildNavMesh();
+
+        yield return null;
+
+        foreach (var spawner in FindObjectsOfType<NommianSpawner>())
+        {
+            spawner.SpawnNommians();
+        }
     }
 
     public void GenerateIslands()
@@ -55,6 +76,8 @@ public class IslandGenerator : NetworkBehaviour
                 SpawnIsland(island, spawnPos, islandRadius);
             }
         }
+
+        StartCoroutine(DelayBakeNavMesh());
     }
 
     bool TryGetValidPosition(float islandRadius, out Vector3 position)

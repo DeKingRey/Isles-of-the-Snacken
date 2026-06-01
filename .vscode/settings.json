@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Isles-of-the-Snacken.slnx",
+    "dotnet.defaultSolution": "Isles of the Snacken.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }

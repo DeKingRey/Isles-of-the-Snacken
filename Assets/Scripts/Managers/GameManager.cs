@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public ItemData[] itemDatabase;
+    public NommianDatabase nommianDatabase;
 
     void Awake()
     {

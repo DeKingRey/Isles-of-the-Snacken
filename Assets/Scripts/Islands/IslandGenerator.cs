@@ -49,7 +49,7 @@ public class IslandGenerator : NetworkBehaviour
 
         yield return null;
 
-        foreach (var spawner in FindObjectsOfType<NommianSpawner>())
+        foreach (var spawner in FindObjectsByType<NommianSpawner>())
         {
             spawner.SpawnNommians();
         }

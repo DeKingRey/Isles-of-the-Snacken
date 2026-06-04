@@ -27,7 +27,10 @@ public class NommianController : NetworkBehaviour
     [Tooltip("Radius distance to detect the player")]
     [SerializeField] private float detectionRadius;
 
-    private NavMeshAgent agent;
+    [SerializeField] private float activationRadius = 40f;
+
+    private float activationRadiusSqr;
+
     private State currentState;
 
     private Vector3 roamTarget;
@@ -37,9 +40,19 @@ public class NommianController : NetworkBehaviour
 
     [HideInInspector] public bool isCaptured = false;
 
+    private bool isActive = false;
+
+    private Animator animator;
+    private Rigidbody rb;
+    private NavMeshAgent agent;
+
     public override void OnNetworkSpawn()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+
+        activationRadiusSqr = activationRadius * activationRadius;
 
         if (!IsServer) return;
 
@@ -55,6 +68,16 @@ public class NommianController : NetworkBehaviour
         if (detectTimer <= 0f)
         {
             detectTimer = 0.2f;
+
+            bool shouldBeActive = IsPlayerNearby();
+
+            if (shouldBeActive != isActive)
+            {
+                ToggleNommian(shouldBeActive);
+            }
+
+            if (!isActive) return;
+
             HandleDetection();
         }
 
@@ -76,6 +99,24 @@ public class NommianController : NetworkBehaviour
                 Attacking();
                 break;
         }
+    }
+
+    /// Checks if any players are in activation range
+    private bool IsPlayerNearby()
+    {
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == null)
+                continue;
+            
+            Vector3 diff = client.PlayerObject.transform.position - transform.position;
+
+            // Using square magnitudes is more performant than Vector3.Distance
+            if (diff.sqrMagnitude <= activationRadiusSqr)
+                return true;
+        }
+
+        return false;
     }
 
     private void HandleDetection()
@@ -219,6 +260,15 @@ public class NommianController : NetworkBehaviour
             return false;
         
         return true;
+    }
+
+    /// Toggles the nommian on/off
+    public void ToggleNommian(bool active)
+    {
+        agent.isStopped = !active;
+        animator.enabled = active;
+        rb.isKinematic = !active;
+        isActive = active;
     }
 
     void OnDrawGizmosSelected()

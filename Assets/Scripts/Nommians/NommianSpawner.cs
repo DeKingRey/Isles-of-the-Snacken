@@ -9,6 +9,8 @@ public class NommianSpawner : NetworkBehaviour
     private List<Transform> spawnpoints = new List<Transform>();
     private int spawnpointIndex = 0;
 
+    private bool nommiansActive = false;
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
@@ -45,10 +47,11 @@ public class NommianSpawner : NetworkBehaviour
             Transform spawnpoint = spawnpoints[spawnpointIndex];
             spawnpointIndex++;
             GameObject spawnedNommian = Instantiate(nommianPrefab, spawnpoint.position, Quaternion.identity);
+            spawnedNommian.GetComponent<NetworkObject>().Spawn();
 
-
+            // Disables all nommians to begin with
             var controller = spawnedNommian.GetComponent<NommianController>();
-            controller.enabled = false;
+            controller.ToggleNommian(false);
             nommians.Add(controller);
         }
     }

@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 7159624226879178536}
   - component: {fileID: 1036253868693427519}
   m_Layer: 8
-  m_Name: Item_Cocorolla
+  m_Name: Cocorolla_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

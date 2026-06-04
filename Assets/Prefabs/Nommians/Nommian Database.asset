@@ -15,3 +15,5 @@ MonoBehaviour:
   nommians:
   - nommianPrefab: {fileID: 4806185602228787728, guid: 8aea57458e9400b4ba8cea6739cdd8bc, type: 3}
     difficulty: 1
+  - nommianPrefab: {fileID: 6280837299687008598, guid: b79881d0778e7ef4bb193af0c34a8c49, type: 3}
+    difficulty: 3

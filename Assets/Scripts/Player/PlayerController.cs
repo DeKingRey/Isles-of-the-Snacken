@@ -99,6 +99,8 @@ public class PlayerController : NetworkBehaviour
 
     private PlayerInventory inv;
 
+    private Animator animator;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
@@ -108,6 +110,7 @@ public class PlayerController : NetworkBehaviour
 
         cam = GetComponent<PlayerCam>();
         inv = GetComponent<PlayerInventory>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -226,10 +229,16 @@ public class PlayerController : NetworkBehaviour
             currentStamina -= staminaDrainRate * Time.deltaTime;
 
             sprintTime += Time.deltaTime;
+
+            if (isMoving) UpdateAnimator(false, false, true); // Sets anim to run
+            else UpdateAnimator(true, false, false); // Sets anim to idle
         } 
         else
         {
             sprintTime = 0f;
+
+            if (isMoving) UpdateAnimator(false, true, false); // Sets anim to walk
+            else UpdateAnimator(true, false, false); // Sets anim to idle
 
             // Regains stamina after a short delay, stops if stamina has reached max
             if (!staminaDelayActive && currentStamina < maxStamina)
@@ -376,6 +385,13 @@ public class PlayerController : NetworkBehaviour
 
         slideDirection = Vector3.zero;
         return false;
+    }
+
+    void UpdateAnimator(bool isIdle, bool isWalking, bool isRunning)
+    {
+        animator.SetBool("isIdle", isIdle);
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isRunning", isRunning);
     }
 
     public void StartSteering()

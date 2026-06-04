@@ -27,7 +27,7 @@ public class PlayerCam: NetworkBehaviour
 
     private bool inputEnabled = true;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
         if (!IsOwner)
         {
@@ -40,6 +40,12 @@ public class PlayerCam: NetworkBehaviour
 
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
         ui.BindCamera(this);
+
+        // Makes the player not visible to themselves
+        foreach (Renderer r in playerModel.GetComponentsInChildren<Renderer>())
+        {
+            r.enabled = false;
+        }
     }
 
     void Update()

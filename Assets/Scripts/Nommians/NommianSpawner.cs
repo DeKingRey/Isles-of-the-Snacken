@@ -9,8 +9,6 @@ public class NommianSpawner : NetworkBehaviour
     private List<Transform> spawnpoints = new List<Transform>();
     private int spawnpointIndex = 0;
 
-    private bool nommiansActive = false;
-
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;

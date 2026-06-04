@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a996ff687203ed440a781d18e8c4b8e8, type: 3}
-  m_Name: Test
+  m_Name: WorgData
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Test
-  weight: 1
-  value: 1
-  itemModel: {fileID: 4806185602228787728, guid: 97f4fc72aa8462c41b8ff0d275c7f34b, type: 3}
-  itemSprite: {fileID: 21300000, guid: 93c6a2715693c4cd9b79893146dbd2a2, type: 3}
+  itemName: Worg
+  weight: 20
+  value: 20
+  itemModel: {fileID: 6280837299687008598, guid: 7a215369565df404797e98dc2533bbb0, type: 3}
+  itemSprite: {fileID: 21300000, guid: c5c8156bf4de94e72b123d10b4206655, type: 3}

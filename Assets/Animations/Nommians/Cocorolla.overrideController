@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cocorolla
+  m_Controller: {fileID: 9100000, guid: f2926389738d4f44aa81eee6fd7d4153, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 7fae994dc3325a945a939a9344f8d58e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2f7681d771a7d8b4dbb34d116b96037d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 480597e0b4f38e34c9376e300076251f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2f7681d771a7d8b4dbb34d116b96037d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 185c9bfd5fa06cb419e8d812bd68a171, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2f7681d771a7d8b4dbb34d116b96037d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a20e4743e99352e44b7ff3e7ad852607, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2f7681d771a7d8b4dbb34d116b96037d, type: 2}

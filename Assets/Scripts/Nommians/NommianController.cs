@@ -46,6 +46,10 @@ public class NommianController : NetworkBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
 
+    private float idleState = 0f;
+    private float walkState = 1f;
+    private float runState = 2f;
+
     public override void OnNetworkSpawn()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -58,6 +62,8 @@ public class NommianController : NetworkBehaviour
 
         currentState = State.Roaming;
         roamTarget = GetRandomPoint();
+
+        animator.SetFloat("State", idleState);
     }
 
     void Update()
@@ -84,18 +90,22 @@ public class NommianController : NetworkBehaviour
         switch (currentState)
         {
             case State.Roaming:
+                animator.SetFloat("State", walkState);
                 Roaming();
                 break;
 
             case State.Fleeing:
+                animator.SetFloat("State", runState);
                 Fleeing();
                 break;
 
             case State.Chasing:
+                animator.SetFloat("State", runState);
                 Chasing();
                 break;
 
             case State.Attacking:
+                animator.SetTrigger("Attack");
                 Attacking();
                 break;
         }
@@ -189,10 +199,16 @@ public class NommianController : NetworkBehaviour
         agent.SetDestination(bestPoint);
     }
 
-    // Randomly moves around
+    // Chases the player
     private void Chasing()
     {
+        if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
+
+        if (NavMesh.SamplePosition(currentTarget.position, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
     }
 
     // Randomly moves around

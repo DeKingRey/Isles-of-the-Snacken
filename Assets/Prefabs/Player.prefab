@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVoice
   ShowTopMostFoldoutHeaderGroup: 1
-  head: {fileID: 0}
+  head: {fileID: 2782120425838540141}
 --- !u!114 &4978335669300418664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,6 +905,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3249135166728849803, guid: 3b32a9520cbd1034c9e9818d7c68674f, type: 3}
+      propertyPath: m_Name
+      value: Head
+      objectReference: {fileID: 0}
     - target: {fileID: 8431414558323364958, guid: 3b32a9520cbd1034c9e9818d7c68674f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -982,5 +986,10 @@ MonoBehaviour:
 --- !u!4 &1896064337169857443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1286622708031227717, guid: 3b32a9520cbd1034c9e9818d7c68674f, type: 3}
+  m_PrefabInstance: {fileID: 831807970993814758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2782120425838540141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3249135166728849803, guid: 3b32a9520cbd1034c9e9818d7c68674f, type: 3}
   m_PrefabInstance: {fileID: 831807970993814758}
   m_PrefabAsset: {fileID: 0}

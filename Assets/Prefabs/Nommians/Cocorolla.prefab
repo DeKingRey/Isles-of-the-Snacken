@@ -607,6 +607,7 @@ MonoBehaviour:
   speedMultiplier: 2
   roamRadius: 20
   detectionRadius: 10
+  activationRadius: 40
   isCaptured: 0
 --- !u!114 &8148142386723300621
 MonoBehaviour:
@@ -793,7 +794,7 @@ Animator:
   m_GameObject: {fileID: 4806185602228787728}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 33d3fbaaf1ce0c84394de9aa50f095d1, type: 2}
+  m_Controller: {fileID: 22100000, guid: 2f2a08327db330f4abd476658139bf39, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

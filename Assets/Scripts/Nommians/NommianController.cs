@@ -1,6 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class NommianController : NetworkBehaviour
 {
@@ -22,14 +24,24 @@ public class NommianController : NetworkBehaviour
     [SerializeField] private NommianType type;
     [SerializeField] private float speed;
     [SerializeField] private float speedMultiplier;
+
+    [Tooltip("How far the nommian will roam")]
     [SerializeField] private float roamRadius;
 
     [Tooltip("Radius distance to detect the player")]
     [SerializeField] private float detectionRadius;
 
+    [Tooltip("How far the player must be for the nommian to activate")]
     [SerializeField] private float activationRadius = 40f;
 
+    [Space(10)]
+
+    [Header("Attacking")]
+    [SerializeField] private float damage = 20f;
+    [SerializeField] private float attackCooldown = 2f;
+
     private float activationRadiusSqr;
+    private bool hasAttacked = false;
 
     private State currentState;
 
@@ -39,6 +51,7 @@ public class NommianController : NetworkBehaviour
     private float detectTimer = 0.2f;
 
     [HideInInspector] public bool isCaptured = false;
+    private bool canDamage = false;
 
     private bool isActive = false;
 
@@ -106,7 +119,7 @@ public class NommianController : NetworkBehaviour
 
             case State.Attacking:
                 animator.SetTrigger("Attack");
-                Attacking();
+                hasAttacked = true;
                 break;
         }
     }
@@ -139,7 +152,7 @@ public class NommianController : NetworkBehaviour
             return;
         }
 
-        if (type == NommianType.Hostile)
+        if (type == NommianType.Hostile && !hasAttacked)
         {
             currentState = State.Chasing;
         }
@@ -211,10 +224,22 @@ public class NommianController : NetworkBehaviour
         }
     }
 
-    // Randomly moves around
-    private void Attacking()
+    public void AllowAttack()
     {
-        agent.speed = speed;
+        canDamage = true;
+    }
+
+    public void DisableAttack()
+    {
+        StartCoroutine(AttackCooldown());
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        currentState = State.Fleeing;
+        canDamage = false;
+        yield return new WaitForSeconds(attackCooldown);
+        hasAttacked = false;
     }
 
     private Transform GetClosestPlayer()
@@ -285,6 +310,14 @@ public class NommianController : NetworkBehaviour
         animator.enabled = active;
         rb.isKinematic = !active;
         isActive = active;
+    }
+
+    private void OnTriggerEnter(Collider obj)
+    {
+        if (obj.CompareTag("Player") && canDamage)
+        {
+            GetComponent<HealthManager>().TakeDamage(damage);
+        }
     }
 
     void OnDrawGizmosSelected()

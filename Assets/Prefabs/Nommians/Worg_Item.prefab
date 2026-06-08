@@ -532,6 +532,7 @@ GameObject:
   - component: {fileID: 5054764213648243305}
   - component: {fileID: 6230328964416763013}
   - component: {fileID: 3887946802649676539}
+  - component: {fileID: 3836796455940659847}
   m_Layer: 8
   m_Name: Worg_Item
   m_TagString: Untagged
@@ -646,6 +647,26 @@ MonoBehaviour:
     m_Bits: 1024
   collectUI: {fileID: 3434958480602819638}
   progressRing: {fileID: 230375462081582553}
+--- !u!114 &3836796455940659847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280837299687008598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9199920ea36edf842ba919977e67ceae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactHoldTime: 1
+  rayRadius: 0.5
+  rayDistance: 5
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  canInteract: 0
 --- !u!1 &6579838702140999352
 GameObject:
   m_ObjectHideFlags: 0

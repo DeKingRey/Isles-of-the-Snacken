@@ -33,12 +33,14 @@ public class NommianController : NetworkBehaviour
 
     [Tooltip("How far the player must be for the nommian to activate")]
     [SerializeField] private float activationRadius = 40f;
+    [SerializeField] private float stateTransitionDuration = 1f;
 
     [Space(10)]
 
     [Header("Attacking")]
     [SerializeField] private float damage = 20f;
     [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float attackRange = 5f;
 
     private float activationRadiusSqr;
     private bool hasAttacked = false;
@@ -103,23 +105,22 @@ public class NommianController : NetworkBehaviour
         switch (currentState)
         {
             case State.Roaming:
-                animator.SetFloat("State", walkState);
+                StartCoroutine(StateAnimTransition(walkState));
                 Roaming();
                 break;
 
             case State.Fleeing:
-                animator.SetFloat("State", runState);
+                StartCoroutine(StateAnimTransition(walkState));
                 Fleeing();
                 break;
 
             case State.Chasing:
-                animator.SetFloat("State", runState);
+                StartCoroutine(StateAnimTransition(runState));
                 Chasing();
                 break;
 
             case State.Attacking:
                 animator.SetTrigger("Attack");
-                hasAttacked = true;
                 break;
         }
     }
@@ -154,12 +155,33 @@ public class NommianController : NetworkBehaviour
 
         if (type == NommianType.Hostile && !hasAttacked)
         {
-            currentState = State.Chasing;
+            if (Vector3.Distance(transform.position, currentTarget.position) > attackRange) currentState = State.Chasing;
+            else 
+            {
+                currentState = State.Attacking;
+                hasAttacked = true;
+            }
         }
         else if (type == NommianType.Runner)
         {
             currentState = State.Fleeing;
         }
+    }
+
+    private IEnumerator StateAnimTransition(float newState)
+    {
+        float elapsed = 0f;
+        float value = animator.GetFloat("State");
+
+        // Smoothly transitions between animator states
+        while (elapsed <= stateTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            value = Mathf.Lerp(value, newState, elapsed / stateTransitionDuration);
+            animator.SetFloat("State", value);
+            yield return null;
+        }
+        animator.SetFloat("State", newState);
     }
 
     // Randomly moves around

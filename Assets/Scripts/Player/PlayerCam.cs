@@ -35,11 +35,22 @@ public class PlayerCam: NetworkBehaviour
             return;
         }
 
+        SceneEventBus.SceneChanged += RebindScene;
+        
+        RebindScene();
+    }
+
+    private void RebindScene()
+    {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
-        ui.BindCamera(this);
+
+        if (ui != null)
+        {
+            ui.BindCamera(this);
+        }
 
         // Makes the player not visible to themselves
         foreach (Renderer r in playerModel.GetComponentsInChildren<Renderer>())

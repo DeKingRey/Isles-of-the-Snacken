@@ -104,17 +104,24 @@ public class PlayerController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+
+        SceneEventBus.SceneChanged += RebindScene;
         
+        RebindScene();
+    }
+
+    private void RebindScene()
+    {
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
-        ui.BindPlayer(this);
+        
+        if (ui != null)
+        {
+            ui.BindPlayer(this);
+        }
 
         cam = GetComponent<PlayerCam>();
         inv = GetComponent<PlayerInventory>();
         animator = GetComponentInChildren<Animator>();
-    }
-
-    void Start()
-    {
         controller = GetComponent<CharacterController>();
 
         currentStamina = maxStamina;

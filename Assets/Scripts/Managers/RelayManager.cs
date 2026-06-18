@@ -67,6 +67,7 @@ public class RelayManager : MonoBehaviour
     {
         if (isStartingHost || NetworkManager.Singleton.IsListening) return;
 
+        SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
         isStartingHost = true;
 
         joinCode = await StartHostWithRelay();
@@ -88,6 +89,7 @@ public class RelayManager : MonoBehaviour
     {
         if (isJoining || NetworkManager.Singleton.IsListening) return;
         
+        SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
         isJoining = true;
         
         // Sets code to the input if player manually inputted code
@@ -176,7 +178,7 @@ public class RelayManager : MonoBehaviour
         }
         
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, "dtls"));
-
+        
         return !string.IsNullOrEmpty(code) && NetworkManager.Singleton.StartClient();
     }
 
@@ -186,8 +188,20 @@ public class RelayManager : MonoBehaviour
 
         while (true)
         {
-            LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+            _ = SendHeartbeat();
             yield return delay;
+        }
+    }
+
+    private async Task SendHeartbeat()
+    {
+        try
+        {
+            await LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"Lobby heartbeat failed: {e}");
         }
     }
 }

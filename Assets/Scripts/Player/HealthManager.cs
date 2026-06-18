@@ -4,7 +4,7 @@ using Unity.AI;
 
 public class HealthManager : NetworkBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 100f;
+    public float maxHealth = 100f;
     [SerializeField] private EntityType entityType;
     [HideInInspector] public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 

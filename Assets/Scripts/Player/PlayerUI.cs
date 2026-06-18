@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 public class PlayerUI : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject menu;
     [SerializeField] private Slider staminaSlider;
+    [SerializeField] private Slider healthSlider;
 
     [Space(10)]
 
@@ -26,6 +28,7 @@ public class PlayerUI : MonoBehaviour
 
     private PlayerController player;
     private PlayerCam playerCam;
+    private HealthManager healthManager;
 
     private PlayerInventory playerInventory;
     private List<GameObject> itemsGame = new List<GameObject>();
@@ -50,11 +53,18 @@ public class PlayerUI : MonoBehaviour
         playerInventory = i;
     }
 
+    public void BindHealth(HealthManager h)
+    {
+        healthManager = h;
+        healthSlider.maxValue = healthManager.maxHealth;
+    }
+
     void Update()
     {
         if (player == null) return;
 
         staminaSlider.value = Mathf.Clamp(player.smoothedSprintValue, 0f, staminaSlider.maxValue);
+        staminaSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);
 
         if (Input.GetKeyDown(KeyCode.Escape)) ToggleMenu();
 

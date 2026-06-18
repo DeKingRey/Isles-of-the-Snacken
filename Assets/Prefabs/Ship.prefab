@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8448589199881578330}
   - component: {fileID: 7795891872765707499}
   - component: {fileID: 1866727223021308053}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: MidleSail
   m_TagString: SteeringWheel
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2692510353212145781}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 431849085773625669}
   - component: {fileID: 6762106931069452867}
   - component: {fileID: 1544513601808259384}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wheel
   m_TagString: SteeringWheel
   m_Icon: {fileID: 0}
@@ -1387,7 +1387,7 @@ GameObject:
   - component: {fileID: 4384471740806737128}
   - component: {fileID: 5548123553108030427}
   - component: {fileID: 3856205944367724894}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1426,7 +1426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 864872899
+  GlobalObjectIdHash: 2422573317
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1534,9 +1534,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 84
+  m_CollisionDetection: 1
 --- !u!114 &5548123553108030427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,7 +1585,7 @@ GameObject:
   - component: {fileID: 683294150435327794}
   - component: {fileID: 7803259168248759035}
   - component: {fileID: 7533046526080202395}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BackSail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1752,7 +1752,7 @@ GameObject:
   - component: {fileID: 6155198506182736054}
   - component: {fileID: 4844496860377650526}
   - component: {fileID: 2769397255078862994}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BigShip
   m_TagString: Ship
   m_Icon: {fileID: 0}
@@ -1846,7 +1846,7 @@ GameObject:
   - component: {fileID: 8804385662451644347}
   - component: {fileID: 7576367726423494529}
   - component: {fileID: 5488427441203166396}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Front Sail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

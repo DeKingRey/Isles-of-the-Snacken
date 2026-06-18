@@ -64,6 +64,7 @@ public class NommianController : NetworkBehaviour
     private float idleState = 0f;
     private float walkState = 1f;
     private float runState = 2f;
+    private bool attackTriggered;
 
     public override void OnNetworkSpawn()
     {
@@ -120,7 +121,11 @@ public class NommianController : NetworkBehaviour
                 break;
 
             case State.Attacking:
-                animator.SetTrigger("Attack");
+                if (!attackTriggered)
+                {
+                    animator.SetTrigger("Attack");
+                    attackTriggered = true;
+                }
                 break;
         }
     }
@@ -336,9 +341,11 @@ public class NommianController : NetworkBehaviour
 
     private void OnTriggerEnter(Collider obj)
     {
+        if (!IsServer) return;
+        
         if (obj.CompareTag("Player") && canDamage)
         {
-            GetComponent<HealthManager>().TakeDamage(damage);
+            obj.GetComponent<HealthManager>().TakeDamage(damage);
         }
     }
 

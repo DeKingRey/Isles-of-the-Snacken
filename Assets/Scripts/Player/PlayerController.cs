@@ -67,8 +67,6 @@ public class PlayerController : NetworkBehaviour
     private CharacterController controller;
 
     private Vector3 moveDirection;
-
-    private Slider staminaSlider; 
     private float currentStamina;
     [HideInInspector] public float smoothedSprintValue;
     
@@ -333,9 +331,14 @@ public class PlayerController : NetworkBehaviour
 
         // Allows player to move with ship
         Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
-        moveDirection += shipDelta / Time.deltaTime;
+        shipDelta.y = 0f;
 
         controller.Move(moveDirection * Time.deltaTime);
+
+        if (currentShip != null)
+        {
+            transform.position += shipDelta;
+        }
     }
 
     void HandleCrouch()
@@ -405,8 +408,6 @@ public class PlayerController : NetworkBehaviour
     {
         isSteering = true;
         inputEnabled = false;
-
-        Debug.Log("Steering");
 
         cam.EnableThirdPerson();
     }

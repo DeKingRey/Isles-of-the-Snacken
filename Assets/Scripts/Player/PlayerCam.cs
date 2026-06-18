@@ -1,6 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
+using UnityEngine.Rendering;
+using System.Collections;
 
 public class PlayerCam: NetworkBehaviour
 {
@@ -9,6 +11,7 @@ public class PlayerCam: NetworkBehaviour
     [SerializeField] private CinemachineCamera thirdPersonCam;
     [SerializeField] private Transform playerModel; // Rotates Y, left/right
     [SerializeField] private Transform cameraHolder; // Rotates X, up/down
+    [SerializeField] private Renderer bodyRenderer;
 
     [Space(10)]
 
@@ -52,11 +55,8 @@ public class PlayerCam: NetworkBehaviour
             ui.BindCamera(this);
         }
 
-        // Makes the player not visible to themselves
-        foreach (Renderer r in playerModel.GetComponentsInChildren<Renderer>())
-        {
-            r.enabled = false;
-        }
+        // Makes the player head not visible to themselves
+        bodyRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
     }
 
     void Update()
@@ -110,11 +110,19 @@ public class PlayerCam: NetworkBehaviour
     {
         firstPersonCam.Priority = 10;
         thirdPersonCam.Priority = 5;
+        StartCoroutine(HideBodyAfterBlend());
     }
 
     public void EnableThirdPerson()
     {
         thirdPersonCam.Priority = 10;
         firstPersonCam.Priority = 5;
+        bodyRenderer.shadowCastingMode = ShadowCastingMode.On;
+    }
+
+    private IEnumerator HideBodyAfterBlend()
+    {
+        yield return new WaitForSeconds(3f);
+        bodyRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
     }
 }

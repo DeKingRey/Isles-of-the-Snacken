@@ -14,6 +14,8 @@ public class Interactable : NetworkBehaviour
     [SerializeField] private float interactHoldTime = 1f;
     [SerializeField] private float rayRadius = 0.5f;
     [SerializeField] private float rayDistance = 5f;
+
+    [Tooltip("Layer of this object")]
     [SerializeField] private LayerMask interactLayer;
 
     public event Action OnInteractComplete;

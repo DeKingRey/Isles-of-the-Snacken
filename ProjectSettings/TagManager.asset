@@ -12,6 +12,7 @@ TagManager:
   - DeliveryProgress
   - Spawnpoint
   - Island
+  - NommianWeapon
   layers:
   - Default
   - TransparentFX

@@ -61,10 +61,10 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null || healthManager == null) return;
 
         staminaSlider.value = Mathf.Clamp(player.smoothedSprintValue, 0f, staminaSlider.maxValue);
-        staminaSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);
+        healthSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);
 
         if (Input.GetKeyDown(KeyCode.Escape)) ToggleMenu();
 

@@ -12,6 +12,8 @@ public abstract class Trap : NetworkBehaviour
 
     [Space(10)]
 
+    [SerializeField] private Transform trapCentre;
+
     [HideInInspector] public bool canCapture;
     [HideInInspector] public TrapGun gun;
     [HideInInspector] public bool canHarvest = false;
@@ -99,6 +101,8 @@ public abstract class Trap : NetworkBehaviour
     {
         contents.Add(content);
         if (canHarvest) return;
+
+        content.transform.position = trapCentre.position;
 
         // Makes the trap a solid obstacle
         GetComponentInChildren<UnityEngine.AI.NavMeshObstacle>().enabled = true;

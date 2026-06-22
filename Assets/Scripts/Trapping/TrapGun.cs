@@ -67,5 +67,6 @@ public class TrapGun : NetworkBehaviour
         TrapBullet trapBullet = bullet.GetComponent<TrapBullet>();
         trapBullet.trapToDeploy = selectedTrap;
         trapBullet.ownerClientId = OwnerClientId;
+        trapBullet.bulletCam = cam;
     }
 }

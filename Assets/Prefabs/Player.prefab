@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -371,6 +371,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   walkSpeed: 4
   defaultSprintSpeed: 7
+  climbSpeed: 4
   slideStrength: 8
   weightMultiplier: 0.75
   crouchSpeed: 2
@@ -387,11 +388,10 @@ MonoBehaviour:
   staminaDrainRate: 10
   staminaRegenRate: 10
   sliderSmoothSpeed: 10
-  jumpMultiplier: 40
-  maxJumpTime: 0.35
-  gravity: 9.81
-  fallMultiplier: 5
-  jumpStaminaLossMultiplier: 2
+  jumpPower: 12
+  gravity: 20
+  fallMultiplier: 2
+  jumpStaminaLossMultiplier: 3
   walkSourceSfx: {fileID: 1746314673208561798}
   walkSfxs:
   - {fileID: 8300000, guid: dacf45a75c0e6a1478a21fde8e8c661c, type: 3}
@@ -638,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  invulnerabilityDuration: 1
   entityType: 0
   currentHealth:
     UpdateTraits:
@@ -660,6 +661,7 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 2048

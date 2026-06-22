@@ -43,7 +43,6 @@ public class NommianController : NetworkBehaviour
     [SerializeField] private float attackRange = 5f;
 
     private float activationRadiusSqr;
-    private bool hasAttacked = false;
 
     private State currentState;
 
@@ -53,7 +52,7 @@ public class NommianController : NetworkBehaviour
     private float detectTimer = 0.2f;
 
     [HideInInspector] public bool isCaptured = false;
-    private bool canDamage = false;
+    [HideInInspector] public bool canDamage = false;
 
     private bool isActive = false;
 
@@ -158,13 +157,12 @@ public class NommianController : NetworkBehaviour
             return;
         }
 
-        if (type == NommianType.Hostile && !hasAttacked)
+        if (type == NommianType.Hostile && !attackTriggered)
         {
             if (Vector3.Distance(transform.position, currentTarget.position) > attackRange) currentState = State.Chasing;
             else 
             {
                 currentState = State.Attacking;
-                hasAttacked = true;
             }
         }
         else if (type == NommianType.Runner)
@@ -266,7 +264,7 @@ public class NommianController : NetworkBehaviour
         currentState = State.Fleeing;
         canDamage = false;
         yield return new WaitForSeconds(attackCooldown);
-        hasAttacked = false;
+        attackTriggered = false;
     }
 
     private Transform GetClosestPlayer()
@@ -339,14 +337,10 @@ public class NommianController : NetworkBehaviour
         isActive = active;
     }
 
-    private void OnTriggerEnter(Collider obj)
+    // Damage shouldn't be public as many other scripts use damage as a var
+    public float GetNommianDamage()
     {
-        if (!IsServer) return;
-        
-        if (obj.CompareTag("Player") && canDamage)
-        {
-            obj.GetComponent<HealthManager>().TakeDamage(damage);
-        }
+        return damage;
     }
 
     void OnDrawGizmosSelected()

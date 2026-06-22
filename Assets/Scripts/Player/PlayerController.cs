@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using UnityEngine.Rendering.UI;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -96,7 +97,7 @@ public class PlayerController : NetworkBehaviour
     private Animator animator;
     private Ladder currentLadder;
     private float climbProgress;
-    private bool ladderInRange = false;
+    private bool onLadder = false;
 
     public override void OnNetworkSpawn()
     {
@@ -128,7 +129,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        HandleMovement();
+        if (!onLadder) HandleMovement();
 
         HandleInput();
 
@@ -154,10 +155,9 @@ public class PlayerController : NetworkBehaviour
                 currentShip.GetComponentInParent<ShipController>().StopSteerRpc(OwnerClientId);
             } else if (currentLadder != null)
             {
-                ExitLadder();
-            } else if (ladderInRange)
-            {
-                EnterLadder();
+                if (onLadder)
+                    ExitLadder();
+                else EnterLadder();
             }
         }
     }
@@ -349,15 +349,14 @@ public class PlayerController : NetworkBehaviour
     
     void HandleClimbing()
     {
-        if (currentLadder == null) return;
+        if (currentLadder == null || !onLadder) return;
 
         float input = Input.GetAxis("Vertical");
 
         climbProgress += input * climbSpeed * Time.deltaTime;
         climbProgress = Mathf.Clamp01(climbProgress);
 
-        Vector3 pos = Vector3.Lerp(currentLadder.ladderBottom.position, currentLadder.ladderTop.position, climbProgress);
-        transform.position = pos;
+        transform.position = Vector3.Lerp(currentLadder.ladderBottom.position, currentLadder.ladderTop.position, climbProgress);
 
         if (climbProgress >= 1f || climbProgress <= 0f)
         {
@@ -430,9 +429,14 @@ public class PlayerController : NetworkBehaviour
     }
     private void EnterLadder()
     {
+        if (currentLadder == null) return;
+
         currentLadder.hasPlayer = true;
         climbProgress = 0.25f;
         inputEnabled = false;
+        onLadder = true;
+        controller.enabled = false;
+        cam.EnableThirdPerson();
     }
 
     private void ExitLadder()
@@ -440,6 +444,9 @@ public class PlayerController : NetworkBehaviour
         currentLadder.hasPlayer = false;
         currentLadder = null;
         inputEnabled = true;
+        controller.enabled = true;
+        onLadder = false;
+        cam.EnableFirstPerson();
     }
 
     Vector3 GetShipMovementDelta()
@@ -482,7 +489,6 @@ public class PlayerController : NetworkBehaviour
         if (obj.TryGetComponent<Ladder>(out var ladder))
         {
             currentLadder = ladder;
-            ladderInRange = true;
         }
     }
 
@@ -498,10 +504,9 @@ public class PlayerController : NetworkBehaviour
             currentShip = null;
         }
 
-        if (obj.TryGetComponent<Ladder>(out var ladder))
+        if (obj.TryGetComponent<Ladder>(out Ladder ladder))
         {
             currentLadder = null;
-            ladderInRange = false;
         }
     }
 }

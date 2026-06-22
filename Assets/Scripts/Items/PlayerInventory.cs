@@ -92,7 +92,7 @@ public class PlayerInventory : NetworkBehaviour
     public bool TryAddItem(ItemData data)
     {
         // Inventory is full
-        if (capacity >= maxCapacity || currentWeight >= maxWeight)
+        if (capacity + 1 > maxCapacity || currentWeight + data.weight > maxWeight)
             return false;
         
         AddItem(data);

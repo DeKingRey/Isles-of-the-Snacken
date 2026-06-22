@@ -2251,6 +2251,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   ladderTop: {fileID: 526213860428009494}
   ladderBottom: {fileID: 9016287040886976621}
+  hasPlayer: 0
 --- !u!65 &6208848726124264815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2735,6 +2736,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   ladderTop: {fileID: 7518405219116219613}
   ladderBottom: {fileID: 6370303398878934452}
+  hasPlayer: 0
 --- !u!65 &1777257036614231207
 BoxCollider:
   m_ObjectHideFlags: 0

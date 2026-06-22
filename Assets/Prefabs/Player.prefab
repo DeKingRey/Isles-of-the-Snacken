@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3407166162
+  GlobalObjectIdHash: 1359723878
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -371,7 +371,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   walkSpeed: 4
   defaultSprintSpeed: 7
-  climbSpeed: 4
+  climbSpeed: 1
   slideStrength: 8
   weightMultiplier: 0.75
   crouchSpeed: 2
@@ -665,6 +665,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 2048
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
 --- !u!1 &7762325149408409815
 GameObject:

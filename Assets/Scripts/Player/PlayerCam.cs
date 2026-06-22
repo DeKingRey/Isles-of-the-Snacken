@@ -120,9 +120,12 @@ public class PlayerCam: NetworkBehaviour
         bodyRenderer.shadowCastingMode = ShadowCastingMode.On;
     }
 
+    // Hides body after transition from 3rd to 1st person
     private IEnumerator HideBodyAfterBlend()
     {
-        yield return new WaitForSeconds(3f);
-        bodyRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+        yield return new WaitForSeconds(2.5f);
+        // Only hides if the player hasn't switched
+        if (thirdPersonCam.Priority < firstPersonCam.Priority)
+            bodyRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
     }
 }

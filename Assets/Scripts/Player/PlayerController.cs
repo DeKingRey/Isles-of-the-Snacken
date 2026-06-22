@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float defaultSprintSpeed;
+    [SerializeField] private float climbSpeed;
     [SerializeField] private float slideStrength = 8f;
 
     [Tooltip("Larger this is, the faster the player slows down from weight. Must be < 1")]
@@ -49,8 +50,7 @@ public class PlayerController : NetworkBehaviour
     [Space(10)]
 
     [Header("Jump Settings")]
-    [SerializeField] private float jumpMultiplier = 40f;
-    [SerializeField] private float maxJumpTime = 0.25f;
+    [SerializeField] private float jumpPower = 40f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float jumpStaminaLossMultiplier;
@@ -67,8 +67,6 @@ public class PlayerController : NetworkBehaviour
     private CharacterController controller;
 
     private Vector3 moveDirection;
-
-    private Slider staminaSlider; 
     private float currentStamina;
     [HideInInspector] public float smoothedSprintValue;
     
@@ -79,13 +77,9 @@ public class PlayerController : NetworkBehaviour
     private bool isSprinting;
     private bool isCrouching;
     private bool isMoving;
-    private bool isJumping;
     private bool isFalling;
-
-    private float jumpPower;
     private bool canPlayLandSfx;
     private float fallTime = 0f;
-    private float sprintTime = 0f;
     private float walkSfxTimer;
 
     public bool inputEnabled = true;
@@ -99,19 +93,32 @@ public class PlayerController : NetworkBehaviour
 
     private PlayerInventory inv;
 
+    private Animator animator;
+    private Ladder currentLadder;
+    private float climbProgress;
+    private bool ladderInRange = false;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+
+        SceneEventBus.SceneChanged += RebindScene;
         
+        RebindScene();
+    }
+
+    private void RebindScene()
+    {
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
-        ui.BindPlayer(this);
+        
+        if (ui != null)
+        {
+            ui.BindPlayer(this);
+        }
 
         cam = GetComponent<PlayerCam>();
         inv = GetComponent<PlayerInventory>();
-    }
-
-    void Start()
-    {
+        animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
 
         currentStamina = maxStamina;
@@ -124,6 +131,8 @@ public class PlayerController : NetworkBehaviour
         HandleMovement();
 
         HandleInput();
+
+        HandleClimbing();
     }
 
     public void ToggleInput(bool enabled)
@@ -143,6 +152,12 @@ public class PlayerController : NetworkBehaviour
             else if (isSteering && currentShip != null)
             {
                 currentShip.GetComponentInParent<ShipController>().StopSteerRpc(OwnerClientId);
+            } else if (currentLadder != null)
+            {
+                ExitLadder();
+            } else if (ladderInRange)
+            {
+                EnterLadder();
             }
         }
     }
@@ -225,11 +240,13 @@ public class PlayerController : NetworkBehaviour
         {
             currentStamina -= staminaDrainRate * Time.deltaTime;
 
-            sprintTime += Time.deltaTime;
+            if (isMoving) UpdateAnimator(false, false, true); // Sets anim to run
+            else UpdateAnimator(true, false, false); // Sets anim to idle
         } 
         else
         {
-            sprintTime = 0f;
+            if (isMoving) UpdateAnimator(false, true, false); // Sets anim to walk
+            else UpdateAnimator(true, false, false); // Sets anim to idle
 
             // Regains stamina after a short delay, stops if stamina has reached max
             if (!staminaDelayActive && currentStamina < maxStamina)
@@ -266,7 +283,9 @@ public class PlayerController : NetworkBehaviour
         #region Handles Jumping
         if (Input.GetButton("Jump") && canMove && controller.isGrounded && currentStamina >= 0.5f && inputEnabled)
         {
-            isJumping = true;
+            moveDirection.y = jumpPower;
+            currentStamina -= staminaDrainRate * jumpStaminaLossMultiplier;
+
             SoundManager.Instance.PlayAudio(jumpSfx, 1f, transform);
         }
         else
@@ -274,21 +293,7 @@ public class PlayerController : NetworkBehaviour
             moveDirection.y = movementDirectionY;
         }
 
-        // Lets player hold jump to jump higher
-        if (isJumping)
-        {
-            jumpPower += Time.deltaTime;
-            moveDirection.y = jumpPower * jumpMultiplier;
-
-            currentStamina -= staminaDrainRate * jumpStaminaLossMultiplier * Time.deltaTime;
-
-            if (jumpPower >= maxJumpTime || !Input.GetButton("Jump") || currentStamina <= 0.25f)
-            {
-                isFalling = true;
-                isJumping = false;
-                jumpPower = 0;
-            }
-        }
+        isFalling = !controller.isGrounded && moveDirection.y < 0; // if at the peak of the jump
         
         // Applies gravity when in air, increases speed if falling  
         if (!controller.isGrounded)
@@ -317,9 +322,14 @@ public class PlayerController : NetworkBehaviour
 
         // Allows player to move with ship
         Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
-        moveDirection += shipDelta / Time.deltaTime;
+        shipDelta.y = 0f;
 
         controller.Move(moveDirection * Time.deltaTime);
+
+        if (currentShip != null)
+        {
+            transform.position += shipDelta;
+        }
     }
 
     void HandleCrouch()
@@ -335,6 +345,24 @@ public class PlayerController : NetworkBehaviour
         Vector3 camLocal = camHolder.localPosition;
         camLocal.y = Mathf.Lerp(camLocal.y, targetCameraY, Time.deltaTime * 10f);
         camHolder.localPosition = camLocal;
+    }
+    
+    void HandleClimbing()
+    {
+        if (currentLadder == null) return;
+
+        float input = Input.GetAxis("Vertical");
+
+        climbProgress += input * climbSpeed * Time.deltaTime;
+        climbProgress = Mathf.Clamp01(climbProgress);
+
+        Vector3 pos = Vector3.Lerp(currentLadder.ladderBottom.position, currentLadder.ladderTop.position, climbProgress);
+        transform.position = pos;
+
+        if (climbProgress >= 1f || climbProgress <= 0f)
+        {
+            ExitLadder();
+        }
     }
 
     IEnumerator RegainStaminaDelay()
@@ -378,12 +406,17 @@ public class PlayerController : NetworkBehaviour
         return false;
     }
 
+    void UpdateAnimator(bool isIdle, bool isWalking, bool isRunning)
+    {
+        animator.SetBool("isIdle", isIdle);
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isRunning", isRunning);
+    }
+
     public void StartSteering()
     {
         isSteering = true;
         inputEnabled = false;
-
-        Debug.Log("Steering");
 
         cam.EnableThirdPerson();
     }
@@ -394,6 +427,19 @@ public class PlayerController : NetworkBehaviour
         inputEnabled = true;
 
         cam.EnableFirstPerson();
+    }
+    private void EnterLadder()
+    {
+        currentLadder.hasPlayer = true;
+        climbProgress = 0.25f;
+        inputEnabled = false;
+    }
+
+    private void ExitLadder()
+    {
+        currentLadder.hasPlayer = false;
+        currentLadder = null;
+        inputEnabled = true;
     }
 
     Vector3 GetShipMovementDelta()
@@ -419,6 +465,8 @@ public class PlayerController : NetworkBehaviour
 
     private void OnTriggerEnter(Collider obj)
     {
+        if (!IsOwner) return;
+
         if (obj.CompareTag("SteeringWheel"))
         {
             wheelInRange = obj.GetComponent<SteeringWheel>();
@@ -429,6 +477,12 @@ public class PlayerController : NetworkBehaviour
             currentShip = obj.gameObject;
             lastShipPos = currentShip.transform.position;
             lastShipRot = currentShip.transform.rotation;
+        }
+
+        if (obj.TryGetComponent<Ladder>(out var ladder))
+        {
+            currentLadder = ladder;
+            ladderInRange = true;
         }
     }
 
@@ -442,6 +496,12 @@ public class PlayerController : NetworkBehaviour
         if (obj.CompareTag("Ship"))
         {
             currentShip = null;
+        }
+
+        if (obj.TryGetComponent<Ladder>(out var ladder))
+        {
+            currentLadder = null;
+            ladderInRange = false;
         }
     }
 }

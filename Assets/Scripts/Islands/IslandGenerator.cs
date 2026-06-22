@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.AI.Navigation;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class IslandGenerator : NetworkBehaviour
 {
@@ -35,30 +36,32 @@ public class IslandGenerator : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        GenerateIslands();
+        _ = GenerateWorldAsync();
     }
 
     // Delayed slightly to ensure that all objects are initialized
-    private IEnumerator DelayBakeNavMesh()
+    private async Task BakeNavMeshAsync()
     {
-        yield return null;
-        yield return null;
+        await Task.Yield();
 
         surface = GetComponentInChildren<NavMeshSurface>();
         surface.BuildNavMesh();
 
-        yield return null;
+        await Task.Yield();
 
-        foreach (var spawner in FindObjectsOfType<NommianSpawner>())
+        foreach (var spawner in FindObjectsByType<NommianSpawner>())
         {
             spawner.SpawnNommians();
+            await Task.Yield();
         }
     }
 
-    public void GenerateIslands()
+    public async Task GenerateWorldAsync()
     {
-        if (islandPrefabs == null || islandPrefabs.Length == 0)
-            return;
+        SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
+
+        // Wait 1 frame for UI
+        await Task.Yield();
         
         // Resets island placements
         placedIslands.Clear();
@@ -75,9 +78,15 @@ public class IslandGenerator : NetworkBehaviour
             {
                 SpawnIsland(island, spawnPos, islandRadius);
             }
+
+            // Spreads workload across frames
+            if (i % 2 == 0)
+                await Task.Yield();
         }
 
-        StartCoroutine(DelayBakeNavMesh());
+        await BakeNavMeshAsync();
+
+        SceneEventBus.Instance.ToggleLoadingScreenRpc(false);
     }
 
     bool TryGetValidPosition(float islandRadius, out Vector3 position)

@@ -45,10 +45,11 @@ public class NommianSpawner : NetworkBehaviour
             Transform spawnpoint = spawnpoints[spawnpointIndex];
             spawnpointIndex++;
             GameObject spawnedNommian = Instantiate(nommianPrefab, spawnpoint.position, Quaternion.identity);
+            spawnedNommian.GetComponent<NetworkObject>().Spawn();
 
-
+            // Disables all nommians to begin with
             var controller = spawnedNommian.GetComponent<NommianController>();
-            controller.enabled = false;
+            controller.ToggleNommian(false);
             nommians.Add(controller);
         }
     }

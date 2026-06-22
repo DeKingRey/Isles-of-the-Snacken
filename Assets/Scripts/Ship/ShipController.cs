@@ -35,6 +35,8 @@ public class ShipController : NetworkBehaviour
 
     private float accelerationInput = 0f;
     private float steeringInput = 0f;
+    private float cachedAccelInput = 0f;
+    private float cachedSteerInput = 0f;
 
     void Start()
     {
@@ -48,10 +50,9 @@ public class ShipController : NetworkBehaviour
         
         if (currentPlayer != null)
             currentPlayer.ToggleInput(false);
-        float steer = Input.GetAxis("Horizontal");
-        float accel = Input.GetAxis("Vertical");
 
-        SubmitInputRpc(steer, accel);
+        cachedSteerInput = Input.GetAxis("Horizontal");
+        cachedAccelInput = Input.GetAxis("Vertical");
     }
 
     [Rpc(SendTo.Server)]
@@ -66,6 +67,15 @@ public class ShipController : NetworkBehaviour
 
     void FixedUpdate()
     {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
+            return;
+            
+        // Validates input if the input comes from the current driver
+        if (IsOwner && steeringClientId.Value == NetworkManager.Singleton.LocalClientId)
+        {
+            SubmitInputRpc(cachedSteerInput, cachedAccelInput);
+        }
+
         // Only server can run physics
         if (!IsServer)
             return;
@@ -96,7 +106,7 @@ public class ShipController : NetworkBehaviour
         if (rb.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
 
         // Slows down ship if no input
-        if (accelerationInput == 0) rb.linearDamping = Mathf.Lerp(rb.linearDamping, targetDrag, dragSpeed * Time.deltaTime);
+        if (accelerationInput == 0) rb.linearDamping = Mathf.Lerp(rb.linearDamping, targetDrag, dragSpeed * Time.fixedDeltaTime);
         else rb.linearDamping = 0;
 
         Vector3 sailForce = transform.forward * accelerationInput * acceleration;

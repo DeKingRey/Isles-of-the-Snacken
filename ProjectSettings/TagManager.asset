@@ -11,6 +11,8 @@ TagManager:
   - DeliveryUI
   - DeliveryProgress
   - Spawnpoint
+  - Island
+  - NommianWeapon
   layers:
   - Default
   - TransparentFX
@@ -25,8 +27,8 @@ TagManager:
   - Player
   - Delivery
   - Collectable
-  - 
-  - 
+  - ShipBlocker
+  - Ship
   - 
   - 
   - 

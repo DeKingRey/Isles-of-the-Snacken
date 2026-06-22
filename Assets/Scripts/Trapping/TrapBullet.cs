@@ -8,6 +8,7 @@ public class TrapBullet : NetworkBehaviour
 
     [HideInInspector] public GameObject trapToDeploy;
     [HideInInspector] public ulong ownerClientId;
+    [HideInInspector] public Camera bulletCam;
 
     private bool deployed = false;
 
@@ -27,7 +28,11 @@ public class TrapBullet : NetworkBehaviour
 
     void DeployTrap(RaycastHit hit)
     {
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        Vector3 up = hit.normal; // Will give correct vertical rotation
+        Vector3 forward = Vector3.ProjectOnPlane(bulletCam.transform.forward, up).normalized; // Ensures forward is on a flat surface
+        
+        // Trap will face away from the player and be correcly on the surface
+        Quaternion rotation = Quaternion.LookRotation(forward, up);
         GameObject trap = Instantiate(trapToDeploy, hit.point, rotation);
         trap.GetComponent<NetworkObject>().Spawn();
 

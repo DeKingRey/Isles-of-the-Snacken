@@ -62,6 +62,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1870555605257613004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3109335301556838019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7877581937075260758}
+  - component: {fileID: 510251968038385306}
+  m_Layer: 13
+  m_Name: ShipBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7877581937075260758
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3109335301556838019}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1870555605257613004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &510251968038385306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3109335301556838019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.006557172, y: 0.011720044, z: 0.010000002}
+  m_Center: {x: 0.000010947899, y: 0.0016809776, z: -0.0005176475}
 --- !u!1 &6125207018140924240
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +161,7 @@ GameObject:
   - component: {fileID: 8228013434290772780}
   - component: {fileID: -373141860526063726}
   - component: {fileID: 3596528121941464073}
+  - component: {fileID: 7309540873253379830}
   m_Layer: 6
   m_Name: island11
   m_TagString: Untagged
@@ -131,6 +185,7 @@ Transform:
   - {fileID: 386470012748271645}
   - {fileID: 5279163177324415165}
   - {fileID: 5957364777513930299}
+  - {fileID: 7877581937075260758}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &4177723071132584859
@@ -263,3 +318,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NommianSpawner
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!65 &7309540873253379830
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8221467634187870435}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.02, y: 0.020000001, z: 0.0185}
+  m_Center: {x: 0, y: 0, z: -0.0003779411}

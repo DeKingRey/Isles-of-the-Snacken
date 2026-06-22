@@ -14,17 +14,32 @@ public class Interactable : NetworkBehaviour
     [SerializeField] private float interactHoldTime = 1f;
     [SerializeField] private float rayRadius = 0.5f;
     [SerializeField] private float rayDistance = 5f;
+
+    [Tooltip("Whether you hold down E to interact or its just a popup")]
+    [SerializeField] private bool holdToInteract = true;
+
+    [Tooltip("Layer of this object")]
     [SerializeField] private LayerMask interactLayer;
+
+    [Space(10)]
+
+    [Header("References")]
+    [SerializeField] private GameObject interactUI;
+    [SerializeField] private Image progressRing;
 
     public event Action OnInteractComplete;
     [HideInInspector] public bool canInteract = false;
 
-    private GameObject interactUI;
-    private Image progressRing;
-
     private Camera cam;
 
     private float elapsedHoldTime = 0f;
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+
+        cam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Camera>();
+    }
 
     void Update()
     {
@@ -48,7 +63,7 @@ public class Interactable : NetworkBehaviour
         if (canInteract)
         {
             interactUI.SetActive(true);
-            progressRing.fillAmount = elapsedHoldTime / interactHoldTime;
+            if (holdToInteract) progressRing.fillAmount = elapsedHoldTime / interactHoldTime;
         }
         else
         {
@@ -65,6 +80,12 @@ public class Interactable : NetworkBehaviour
         // Hold down to collect
         if (Input.GetKey(KeyCode.E))
         {
+            if (!holdToInteract)
+            {
+                canInteract = false;
+                return;
+            }
+
             elapsedHoldTime += Time.deltaTime;
 
             // Collects

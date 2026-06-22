@@ -27,12 +27,23 @@ public class PlayerInventory : NetworkBehaviour
 
         cam = GetComponentInChildren<Camera>();
 
+        SceneEventBus.SceneChanged += RebindScene;
+        
+        RebindScene();
+    }
+
+    private void RebindScene()
+    {
         // Assigns interaction
         interaction = GetComponent<Interactable>();
         interaction.OnInteractComplete += DeliverItems;
         
-        ui = FindAnyObjectByType<PlayerUI>();
-        ui.BindInventory(this);
+        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
+        
+        if (ui != null)
+        {
+            ui.BindInventory(this);
+        }
     }
 
     void Update()

@@ -375,7 +375,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   harvestUI: {fileID: 6497919956922924726}
   progressRing: {fileID: 8553503438478165849}
+  damage: 100
   trapCentre: {fileID: 4992956747034977820}
+  isManual: 1
   canCapture: 0
   gun: {fileID: 0}
   canHarvest: 0
@@ -449,9 +451,12 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 128
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
 --- !u!1001 &4898525777807698478
 PrefabInstance:
@@ -467,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1861729338582209688, guid: 061c29afd7c747e4080f7ff596141d0b, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: CollectUI
       objectReference: {fileID: 0}
     - target: {fileID: 1861729338582209688, guid: 061c29afd7c747e4080f7ff596141d0b, type: 3}
       propertyPath: m_Layer

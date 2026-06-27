@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// The bait trap is a manually activated trap
+/// It insta kills content within (this may be changed if trap is moved or otherwise)
+/// Players can easily harvest content inside
+/// </summary>
 public class BaitTrap : Trap
 {
     [SerializeField] private float trapDuration;

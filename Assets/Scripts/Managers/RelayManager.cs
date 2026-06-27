@@ -59,6 +59,7 @@ public class RelayManager : MonoBehaviour
             return;
         }
 
+        if (connectingPanel == null || menuPanel == null) return;
         connectingPanel.SetActive(false);
         menuPanel.SetActive(true);
     }

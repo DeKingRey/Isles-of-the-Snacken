@@ -69,26 +69,42 @@ public class HealthManager : NetworkBehaviour, IDamageable
         switch (entityType)
         {
             case EntityType.Player:
-                PlayerDie();
+                TogglePlayer(false);  // Disables player
                 break;
             case EntityType.Nommian:
-                NommianDie();
+                ToggleNommian(false);  // Disables nommian
                 break;
         }
     }
 
-    private void PlayerDie()
+    public void Struggle(bool isStruggling)
     {
-        GetComponent<PlayerController>().ToggleInput(false);
+        if (currentHealth.Value <= 0) return; // No need for corpses to struggle
+
+        switch (entityType)
+        {
+            case EntityType.Player:
+                TogglePlayer(!isStruggling);
+                break;
+            case EntityType.Nommian:
+                ToggleNommian(!isStruggling);
+                break;
+        }
     }
 
-    private void NommianDie()
+    private void TogglePlayer(bool isActive)
     {
-        GetComponent<NommianController>().isCaptured = true;
-        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-        GetComponent<Animator>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<BoxCollider>().isTrigger = true;
+        GetComponent<PlayerController>().ToggleInput(isActive);
+        if (currentHealth.Value <= 0) GetComponent<PlayerCam>().ToggleInput(isActive);
+    }
+
+    private void ToggleNommian(bool isActive)
+    {
+        GetComponent<NommianController>().isCaptured = !isActive;
+        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = isActive;
+        GetComponent<Animator>().enabled = isActive;
+        GetComponent<Rigidbody>().isKinematic = !isActive;
+        GetComponent<BoxCollider>().isTrigger = !isActive;
     }
 
     void OnTriggerEnter(Collider obj)
@@ -113,8 +129,10 @@ public class HealthManager : NetworkBehaviour, IDamageable
             Trap trap = obj.GetComponentInParent<Trap>();
             if (trap.canCapture)
             {
-                TakeDamage(maxHealth);
+                TakeDamage(trap.GetTrapDamage());
                 trap.AddContent(gameObject);
+                if (!trap.isManual) trap.Activate(); // For auto traps
+                Struggle(true);
             }
         }
     }

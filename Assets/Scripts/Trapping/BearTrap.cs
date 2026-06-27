@@ -1,24 +1,37 @@
 using UnityEngine;
 using System.Collections;
 
+
+/// <summary>
+/// Bear trap is an automatic trap
+/// When an entity steps on it, it will activate
+/// While activated, the entity can struggle for a bit before escaping
+/// The bear trap does a fair bit of damage
+/// </summary>
 public class BearTrap : Trap
 {
-    [SerializeField] private float trapDuration = 2f;
+    [Tooltip("How long the content will struggle before escaping")]
+    [SerializeField] private float struggleDuration = 10f;
+
+    public override void Start()
+    {
+        base.Start();
+        canCapture = true;  // Bear trap doesn't need manual activationd
+    }
 
     public override void Activate()
     {
-        base.Activate();
-        StartCoroutine(TrapContents());
+        base.Activate(); // Anim
+        StartCoroutine(ContainContent());
     }
 
-
-    // Brief time in which trap will check for contents 
-    private IEnumerator TrapContents()
+    // Brief time in which trap will hold on to entities
+    private IEnumerator ContainContent()
     {
-        canCapture = true;
+        canCapture = false; // Bear trap can no longer capture after activating
 
-        yield return new WaitForSeconds(trapDuration);
+        yield return new WaitForSeconds(struggleDuration);
 
-        canCapture = false;
+        RemoveContent(); // Removes content so it can escape (if possible), if content has been harvested, this is arbitrary
     }
 }

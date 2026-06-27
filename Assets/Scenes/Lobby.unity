@@ -1335,6 +1335,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2404444636227557399, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3254625412255238937, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
       propertyPath: m_Name
       value: Player UI
@@ -1905,9 +1909,12 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
 --- !u!114 &1822646528
 MonoBehaviour:

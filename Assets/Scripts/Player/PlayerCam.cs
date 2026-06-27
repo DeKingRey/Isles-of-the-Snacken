@@ -123,7 +123,7 @@ public class PlayerCam: NetworkBehaviour
     // Ensures body isnt invisible during transition from 3rd to 1st person
     private IEnumerator HideBodyAfterBlend()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         // Doesnt change if player is in third person
         if (thirdPersonCam.Priority < firstPersonCam.Priority) 

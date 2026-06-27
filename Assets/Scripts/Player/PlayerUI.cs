@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -26,13 +27,21 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject itemPrefab;
     [SerializeField] private GameObject itemMenuPrefab;
 
+    [Space(10)]
+
+    [Header("Trap UI")]
+    [SerializeField] private Transform trapUITransform; 
+    [SerializeField] private GameObject trapUIPrefab;
+
     private PlayerController player;
     private PlayerCam playerCam;
     private HealthManager healthManager;
+    private TrapGun trapGun;
 
     private PlayerInventory playerInventory;
     private List<GameObject> itemsGame = new List<GameObject>();
     private List<GameObject> itemsMenu = new List<GameObject>();
+    private List<GameObject> trapsUI = new List<GameObject>();
 
     private bool menuOpen;
     private bool inventoryOpen;
@@ -59,6 +68,23 @@ public class PlayerUI : MonoBehaviour
         healthSlider.maxValue = healthManager.maxHealth;
     }
 
+    public void BindTrapGun(TrapGun tg, TrapSlot[] traps)
+    {
+        trapGun = tg;
+
+        foreach (GameObject trap in trapsUI)
+        {
+            Destroy(trap);
+        }
+
+        for (int i = 0; i < traps.Length; i++)
+        {
+            AddTrapUI(traps[i].trapSprite, i);
+        }
+
+        SelectTrapUI(0); // Highlights first trap
+    }
+
     void Update()
     {
         if (player == null || healthManager == null) return;
@@ -69,6 +95,24 @@ public class PlayerUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) ToggleMenu();
 
         if (Input.GetKeyDown(KeyCode.Tab)) ToggleInventoryMenu();
+    }
+
+    public void AddTrapUI(Sprite trapSprite, int trapIndex)
+    {
+        // In game trap UI slot
+        GameObject trapUI = Instantiate(trapUIPrefab, trapUITransform);
+        trapUI.GetComponent<TrapSlotUI>().trapUISprite.sprite = trapSprite;
+        trapUI.GetComponent<TrapSlotUI>().slotNumberText.text = $"{trapIndex + 1}"; // Keybind
+        trapsUI.Add(trapUI);
+    }
+
+    public void SelectTrapUI(int trapIndex)
+    {
+        // Highlights selected trap
+        for (int i = 0; i < trapsUI.Count; i++)
+        {
+            trapsUI[i].GetComponent<TrapSlotUI>().slotBorder.color = i == trapIndex ? Color.green : Color.black;
+        }
     }
 
     public void AddItemUI(Sprite itemSprite)

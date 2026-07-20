@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -419,8 +419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBag
   ShowTopMostFoldoutHeaderGroup: 1
   weightPercent: 0
-  maxCapacity: 1
-  maxWeight: 5
+  maxCapacity: 3
+  maxWeight: 20
   currentWeight: 0
 --- !u!114 &5611422173065917471
 MonoBehaviour:

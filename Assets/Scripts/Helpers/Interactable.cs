@@ -8,6 +8,7 @@ using Unity.Netcode;
 
 /// This is used for all sorts of collection/harvesting/delivering
 /// Delivering nommians, collecting nommians, picking up items
+/// This also works for tap to interact objects
 public class Interactable : NetworkBehaviour
 {
     [Header("Interact Settings")]
@@ -22,6 +23,14 @@ public class Interactable : NetworkBehaviour
     [SerializeField] private LayerMask interactLayer;
 
     [Space(10)]
+    
+    [Header("Range Check")]
+
+    [Tooltip("How far the player can be to see the interact UI")]
+    [SerializeField] private float interactRange = 10f;
+    [SerializeField] private float rangeCheckInterval = 0.2f;
+
+    [Space(10)]
 
     [Header("References")]
     [SerializeField] private GameObject interactUI;
@@ -33,17 +42,38 @@ public class Interactable : NetworkBehaviour
     private Camera cam;
 
     private float elapsedHoldTime = 0f;
+    private bool playerInRange = false;
+    private float rangeTimer = 0f;
+    private Transform player;
 
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
 
-        cam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Camera>();
+        player = NetworkManager.Singleton.LocalClient.PlayerObject.transform;
+        cam = player.GetComponentInChildren<Camera>();
     }
 
     void Update()
     {
         if (!IsOwner || interactUI == null || progressRing == null || cam == null) return;
+        
+        // Checks if the player is in range every few frames (for perfomance)
+        rangeTimer -= Time.deltaTime;
+        if (rangeTimer <= 0f)
+        {
+            rangeTimer = rangeCheckInterval;
+
+            // Checks if player is in range, the check is squared as it is more optimal
+            playerInRange = (player.position - transform.position).sqrMagnitude <= interactRange * interactRange;
+        }
+
+        // Hides UI if player isn't in range
+        if (!playerInRange)
+        {
+            interactUI.SetActive(false);
+            return;
+        }
 
         HandleInteraction();
     }
@@ -71,13 +101,14 @@ public class Interactable : NetworkBehaviour
             return;
         }
 
+        // Player has to be looking at the interactable to collect it
         if (!Physics.SphereCast(cam.transform.position, rayRadius, cam.transform.forward, out hit, rayDistance, interactLayer))
         {
             elapsedHoldTime = 0f;
             return;
         }
 
-        // Hold down to collect
+        // Hold down to collect (hold time is 0 for single click objects)
         if (Input.GetKey(KeyCode.E))
         {
             if (!holdToInteract)

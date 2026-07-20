@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 public class IslandGenerator : NetworkBehaviour
 {
-    [SerializeField] GameObject[] islandPrefabs;
+    [Header("References")]
+    [SerializeField] private GameObject[] islandPrefabs;
+    [SerializeField] private Transform ship;
+
+    [Space(10)]
 
     [Header("Spawn Settings")]
     [SerializeField] int islandCount = 10;
@@ -129,6 +133,13 @@ public class IslandGenerator : NetworkBehaviour
             if (Vector3.Distance(candidate, island.position) < minRequired)
                 return false;
         }
+
+        // Ensures islands won't overlap with ship
+        float minShipDistance = newRadius + spacingPadding;
+        minShipDistance *= Random.Range(0.9f, 1.15f);
+
+        if (Vector3.Distance(candidate, ship.position) < minShipDistance)
+            return false;
 
         return true;
     }

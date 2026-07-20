@@ -30,6 +30,11 @@ public class ShipController : NetworkBehaviour
     [SerializeField] private float dragSpeed;
     [SerializeField] private float targetDrag;
 
+    [Space(10)]
+
+    [Header("References")]
+    [SerializeField] private Transform steerPosition;
+
     private Rigidbody rb;
     private PlayerController currentPlayer;
 
@@ -168,6 +173,7 @@ public class ShipController : NetworkBehaviour
     public void ClientStartSteeringRpc(RpcParams rpcParams = default)
     {
         currentPlayer = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerController>();
+        currentPlayer.transform.position = steerPosition.position;
         currentPlayer.StartSteering();
     }
 

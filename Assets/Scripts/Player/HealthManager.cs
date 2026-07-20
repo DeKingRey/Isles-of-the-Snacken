@@ -104,7 +104,7 @@ public class HealthManager : NetworkBehaviour, IDamageable
         GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = isActive;
         GetComponent<Animator>().enabled = isActive;
         GetComponent<Rigidbody>().isKinematic = !isActive;
-        GetComponent<BoxCollider>().isTrigger = !isActive;
+        GetComponent<Collider>().isTrigger = !isActive;
     }
 
     void OnTriggerEnter(Collider obj)

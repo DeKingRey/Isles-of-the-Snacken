@@ -38,7 +38,7 @@ public class PlayerInventory : NetworkBehaviour
         interaction = GetComponent<Interactable>();
         interaction.OnInteractComplete += DeliverItems;
         
-        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
+        ui = FindAnyObjectByType<PlayerUI>();
         
         if (ui != null)
         {

@@ -175,6 +175,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5889321, y: 0.4370184, z: 0.097135186}
   m_Center: {x: -0.006451696, y: 0.96712804, z: 0.978815}
+--- !u!1 &1370711302663764920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1208697159680461774}
+  m_Layer: 14
+  m_Name: SteerPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1208697159680461774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370711302663764920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0045, z: 0.0998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8461484224697724170}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442556608791899178
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,6 +1001,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5765664687228072643}
+  - {fileID: 1208697159680461774}
   m_Father: {fileID: 2692510353212145781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5351447366692671845
@@ -1106,6 +1138,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 16384
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0
@@ -1377,6 +1411,7 @@ MonoBehaviour:
   deliverySpawnPoint: {fileID: 2733444327961230852}
   deliveryUI: {fileID: 5322698119326700409}
   progressRing: {fileID: 7297833022660192918}
+  deliveredNommiansText: {fileID: 0}
 --- !u!1 &5322698119326700409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,7 +1431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4371479560231897984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1549,14 +1584,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2422573317
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2627619925
+  InScenePlacedSourceGlobalObjectIdHash: 864872899
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -1587,6 +1622,7 @@ MonoBehaviour:
   minSpeedFactor: 6
   dragSpeed: 2.5
   targetDrag: 1.5
+  steerPosition: {fileID: 1208697159680461774}
 --- !u!114 &2011144944080685563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,7 +1694,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!114 &5548123553108030427
 MonoBehaviour:
@@ -2251,6 +2287,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   ladderTop: {fileID: 526213860428009494}
   ladderBottom: {fileID: 9016287040886976621}
+  hasPlayer: 0
 --- !u!65 &6208848726124264815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2313,6 +2350,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 16384
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 6138624036493383865}
   progressRing: {fileID: 8766784180278387030}
   canInteract: 0
@@ -2735,6 +2774,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   ladderTop: {fileID: 7518405219116219613}
   ladderBottom: {fileID: 6370303398878934452}
+  hasPlayer: 0
 --- !u!65 &1777257036614231207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2797,6 +2837,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 16384
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 6612610999691604957}
   progressRing: {fileID: 8601223697223141938}
   canInteract: 0

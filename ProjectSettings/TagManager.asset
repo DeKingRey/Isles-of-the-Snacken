@@ -13,6 +13,7 @@ TagManager:
   - Spawnpoint
   - Island
   - NommianWeapon
+  - PlayingUI
   layers:
   - Default
   - TransparentFX

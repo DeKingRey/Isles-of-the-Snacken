@@ -2242,7 +2242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 54306446
+  GlobalObjectIdHash: 1463774925
   InScenePlacedSourceGlobalObjectIdHash: 3047149796
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2269,13 +2269,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NommianController
   ShowTopMostFoldoutHeaderGroup: 1
   type: 1
-  speed: 5
+  speed: 3
   speedMultiplier: 2
   roamRadius: 20
   detectionRadius: 10
   activationRadius: 40
   stateTransitionDuration: 1
-  damage: 20
+  damage: 10
   attackCooldown: 2
   attackRange: 5
   isCaptured: 0

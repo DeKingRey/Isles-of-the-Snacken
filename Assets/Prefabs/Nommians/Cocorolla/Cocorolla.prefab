@@ -828,9 +828,12 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
 --- !u!1 &5524377800213535621
 GameObject:

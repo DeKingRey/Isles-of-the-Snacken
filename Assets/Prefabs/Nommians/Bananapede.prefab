@@ -677,7 +677,7 @@ Transform:
   m_GameObject: {fileID: 4420238868093468167}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.15}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1553,7 +1553,7 @@ Transform:
   m_GameObject: {fileID: 6848644367483520246}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: -0.579, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.15}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2252,13 +2252,14 @@ GameObject:
   - component: {fileID: 7267351426423465154}
   - component: {fileID: 8262747858248551556}
   - component: {fileID: 2117323820340009361}
-  - component: {fileID: 4809028359843651439}
   - component: {fileID: 6006225385977493377}
   - component: {fileID: 2794145243156747803}
   - component: {fileID: 7881236268125345716}
   - component: {fileID: 593741204276948776}
   - component: {fileID: 5947306124627663483}
   - component: {fileID: 7138892229000530445}
+  - component: {fileID: -2208946542033214731}
+  - component: {fileID: -5671444297979586617}
   m_Layer: 12
   m_Name: Bananapede
   m_TagString: Untagged
@@ -2275,7 +2276,7 @@ Transform:
   m_GameObject: {fileID: 8324262204815901723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.32, y: 4.26, z: -31.01071}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2296,7 +2297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1854352680
+  GlobalObjectIdHash: 3593410867
   InScenePlacedSourceGlobalObjectIdHash: 3047149796
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2347,7 +2348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   ShowTopMostFoldoutHeaderGroup: 1
-  itemData: {fileID: 11400000, guid: d6430b3c9d3856345bfc4e155b1e03ce, type: 2}
+  itemData: {fileID: 11400000, guid: ddfe0067f40baa54bae3dea8e09cee81, type: 2}
   type: 1
   canCollect: 1
   interactRadius: 10
@@ -2377,27 +2378,6 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
---- !u!135 &4809028359843651439
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8324262204815901723}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.27100825
-  m_Center: {x: 0, y: 0.27781808, z: 0}
 --- !u!195 &6006225385977493377
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2407,16 +2387,16 @@ NavMeshAgent:
   m_GameObject: {fileID: 8324262204815901723}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.5
+  m_Height: 0.35
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -2555,6 +2535,57 @@ MonoBehaviour:
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0
+--- !u!114 &-2208946542033214731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324262204815901723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
+  m_Animator: {fileID: 5947306124627663483}
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries:
+    - name: Attack
+      NameHash: 1080829965
+      Synchronize: 1
+      ParameterType: 9
+    - name: State
+      NameHash: 1649606143
+      Synchronize: 1
+      ParameterType: 1
+  AnimatorParametersExpanded: 0
+--- !u!136 &-5671444297979586617
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324262204815901723}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15612704
+  m_Height: 2.6511254
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.17701203, z: -0.06436968}
 --- !u!1 &8473924408738181755
 GameObject:
   m_ObjectHideFlags: 0

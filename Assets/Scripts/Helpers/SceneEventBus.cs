@@ -5,6 +5,9 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using Unity.VectorGraphics;
 
+/// <summary>
+///  Handles loading screens and syncronisation
+/// </summary>
 public class SceneEventBus : MonoBehaviour
 {
     [SerializeField] private GameObject loadingScreen;

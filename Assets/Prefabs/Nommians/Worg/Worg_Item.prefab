@@ -530,7 +530,6 @@ GameObject:
   - component: {fileID: 5891896535882079477}
   - component: {fileID: 5555175183529670152}
   - component: {fileID: 5054764213648243305}
-  - component: {fileID: 6230328964416763013}
   - component: {fileID: 3887946802649676539}
   - component: {fileID: 3836796455940659847}
   m_Layer: 8
@@ -605,26 +604,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6230328964416763013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6280837299687008598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194eefd0cdb890d428c21df77299ff97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NommianController
-  ShowTopMostFoldoutHeaderGroup: 1
-  type: 0
-  speed: 5
-  speedMultiplier: 1
-  roamRadius: 20
-  detectionRadius: 10
-  activationRadius: 40
-  isCaptured: 0
 --- !u!114 &3887946802649676539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,9 +642,12 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 256
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
 --- !u!1 &6579838702140999352
 GameObject:

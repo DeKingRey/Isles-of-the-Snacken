@@ -30,6 +30,7 @@ public class RelayManager : MonoBehaviour
 
     private bool isStartingHost;
     private bool isJoining;
+    private bool servicesReady;
 
     private void Awake()
     {
@@ -51,7 +52,13 @@ public class RelayManager : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            await VoiceManager.Instance.InitializeVoiceAsync();
+
+            servicesReady = true;
+
+            if (connectingPanel != null)
+                connectingPanel.SetActive(false);
+            if (menuPanel != null)
+                menuPanel.SetActive(true);
         }
         catch (Exception e)
         {
@@ -59,14 +66,19 @@ public class RelayManager : MonoBehaviour
             return;
         }
 
-        if (connectingPanel == null || menuPanel == null) return;
-        connectingPanel.SetActive(false);
-        menuPanel.SetActive(true);
+        try
+        {
+            await VoiceManager.Instance.InitializeVoiceAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"Vivox failed to initialise: {e.Message}");
+        }
     }
 
     public async void StartHost()
     {
-        if (isStartingHost || NetworkManager.Singleton.IsListening) return;
+        if (isStartingHost || NetworkManager.Singleton.IsListening || !servicesReady) return;
 
         SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
         isStartingHost = true;
@@ -146,7 +158,7 @@ public class RelayManager : MonoBehaviour
                 {
                     "JoinCode", new DataObject(
                         visibility: DataObject.VisibilityOptions.Member,
-                        value: joinCode
+                        value: code
                     )
                 }
             };

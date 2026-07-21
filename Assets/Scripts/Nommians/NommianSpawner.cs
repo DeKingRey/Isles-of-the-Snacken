@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class NommianSpawner : NetworkBehaviour
 {
     private List<NommianController> nommians = new List<NommianController>();
+    private List<NetworkObject> spawnedNommians = new List<NetworkObject>();
     private List<Transform> spawnpoints = new List<Transform>();
     private int spawnpointIndex = 0;
 
@@ -51,6 +52,21 @@ public class NommianSpawner : NetworkBehaviour
             var controller = spawnedNommian.GetComponent<NommianController>();
             controller.ToggleNommian(false);
             nommians.Add(controller);
+            spawnedNommians.Add(spawnedNommian.GetComponent<NetworkObject>());
         }
+    }
+
+    public void DespawnNommians()
+    {
+        foreach (var nommian in spawnedNommians)
+        {
+            if (nommian != null && nommian.IsSpawned)
+            {
+                nommian.Despawn(true);
+            }
+        }
+
+        nommians.Clear();
+        spawnedNommians.Clear();
     }
 }

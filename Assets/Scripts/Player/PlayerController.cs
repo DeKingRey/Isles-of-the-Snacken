@@ -86,7 +86,7 @@ public class PlayerController : NetworkBehaviour
     public bool inputEnabled = true;
 
     private PlayerCam cam;
-    private bool isSteering;
+    [HideInInspector] public bool isSteering;
     private SteeringWheel wheelInRange;
     private GameObject currentShip;
     private Vector3 lastShipPos;

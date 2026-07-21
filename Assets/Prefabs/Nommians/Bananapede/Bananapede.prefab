@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 3754497843684071135}
   - component: {fileID: 3550437403162631526}
   - component: {fileID: 3855201764213825877}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: ProgressRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 9059616436154655568}
   - component: {fileID: 8881909427042948132}
   - component: {fileID: 7658923987476667315}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 3900950756014754821}
   - component: {fileID: 5380865637329722558}
   - component: {fileID: 6924275903366184220}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: CollectUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1336,7 +1336,7 @@ GameObject:
   - component: {fileID: 1552803124438730505}
   - component: {fileID: 3760441389739255383}
   - component: {fileID: 4771677301335900600}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: RingBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1665,7 +1665,7 @@ GameObject:
   - component: {fileID: 648147354142995066}
   - component: {fileID: 8461599989935740650}
   - component: {fileID: 208860530708248847}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2260,7 +2260,7 @@ GameObject:
   - component: {fileID: 7138892229000530445}
   - component: {fileID: -2208946542033214731}
   - component: {fileID: -5671444297979586617}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Bananapede
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2323,7 +2323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NommianController
   ShowTopMostFoldoutHeaderGroup: 1
-  type: 1
+  type: 0
   speed: 5
   speedMultiplier: 2
   roamRadius: 20
@@ -2350,7 +2350,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   itemData: {fileID: 11400000, guid: ddfe0067f40baa54bae3dea8e09cee81, type: 2}
   type: 1
-  canCollect: 1
+  canCollect: 0
   interactRadius: 10
   playerLayer:
     serializedVersion: 2
@@ -2370,7 +2370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
+  maxHealth: 80
   invulnerabilityDuration: 1
   entityType: 1
   currentHealth:
@@ -2532,6 +2532,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0

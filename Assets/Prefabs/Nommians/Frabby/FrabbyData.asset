@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a996ff687203ed440a781d18e8c4b8e8, type: 3}
   m_Name: FrabbyData
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Cocorolla
-  weight: 1
-  value: 1
-  itemModel: {fileID: 4806185602228787728, guid: a2af7e7e9d0706345a1a908a026a9b5e, type: 3}
+  itemName: Frabby
+  weight: 2
+  value: 2
+  itemModel: {fileID: 1411717274793396489, guid: 8852beac38620f84faa182d76ca2aaa8, type: 3}
   itemSprite: {fileID: 21300000, guid: 705dcb7ed679654499307a2a8af2ece1, type: 3}

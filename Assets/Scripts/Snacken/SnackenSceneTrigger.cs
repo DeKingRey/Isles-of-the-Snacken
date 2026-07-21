@@ -13,6 +13,14 @@ public class SnackenSceneTrigger : NetworkBehaviour
         if (obj.CompareTag("Ship") && !isLoading)
         {
             isLoading = true; // Safety check so doesn't load twice
+            IslandGenerator.Instance.ClearIslands(); // Despawns islands
+
+            // Despawns nommians
+            foreach (var spawner in FindObjectsByType<NommianSpawner>())
+            {
+                spawner.DespawnNommians();
+            }
+
             SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
             NetworkManager.Singleton.SceneManager.LoadScene("Snacken", LoadSceneMode.Single);
         }

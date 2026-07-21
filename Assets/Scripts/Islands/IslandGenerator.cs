@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 public class IslandGenerator : NetworkBehaviour
 {
+    public static IslandGenerator Instance;
+
     [Header("References")]
     [SerializeField] private GameObject[] islandPrefabs;
     [SerializeField] private Transform ship;
@@ -20,6 +22,7 @@ public class IslandGenerator : NetworkBehaviour
     [SerializeField] float spacingPadding = 10f;
 
     private List<PlacedIsland> placedIslands = new List<PlacedIsland>();
+    private List<NetworkObject> spawnedIslands = new List<NetworkObject>();
     private List<int> prefabBag = new List<int>();
 
     private NavMeshSurface surface; 
@@ -33,6 +36,19 @@ public class IslandGenerator : NetworkBehaviour
         {
             position = pos;
             radius = r;
+        }
+    }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 
@@ -151,6 +167,7 @@ public class IslandGenerator : NetworkBehaviour
 
         island.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f); // Random rotation
         placedIslands.Add(new PlacedIsland(position, radius));
+        spawnedIslands.Add(island.GetComponent<NetworkObject>());
     }
 
     void RefillBag()
@@ -173,12 +190,20 @@ public class IslandGenerator : NetworkBehaviour
         return islandPrefabs[prefabIndex];
     }
 
+    // Despawns each island
     public void ClearIslands()
     {
-        while (transform.childCount > 0)
-            DestroyImmediate(transform.GetChild(0).gameObject);
+        foreach (var island in spawnedIslands)
+        {
+            if (island != null && island.IsSpawned)
+            {
+                island.Despawn(true);
+            }
+        }
+            
 
         placedIslands.Clear();
+        spawnedIslands.Clear();
     }
 
     void OnDrawGizmosSelected()

@@ -79,6 +79,8 @@ public class SceneEventBus : MonoBehaviour
 
     private void AllPlayersLoaded()
     {
+        SpawnPlayers(); // Puts the players in the correct position
+
         // Returns if there is an island generator in scene
         if (FindAnyObjectByType<IslandGenerator>()) return; // Allows island generator to control loading
         
@@ -89,5 +91,28 @@ public class SceneEventBus : MonoBehaviour
     public void ToggleLoadingScreenRpc(bool isActive)
     {
         loadingScreen.SetActive(isActive);
+    }
+    
+    // Spawns players at placed spawnpoints
+    private void SpawnPlayers()
+    {
+        PlayerSpawnpoint[] spawnpoints = FindObjectsByType<PlayerSpawnpoint>();
+
+        for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+        {
+            // Will spawn randomly if there are no available spawnpoints (though there should be)
+            if (spawnpoints[i] == null || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null)
+                break;
+
+            var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;
+
+            player.transform.position = spawnpoints[i].transform.position;
+
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (controller != null && controller.isSteering)
+            {
+                FindAnyObjectByType<SteeringWheel>().TrySteerShip(controller);
+            }
+        }
     }
 }

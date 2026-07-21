@@ -2205,6 +2205,7 @@ GameObject:
   - component: {fileID: 4280546058434559219}
   - component: {fileID: 2946230672328058046}
   - component: {fileID: 5617765688691993160}
+  - component: {fileID: 650539336221743482}
   m_Layer: 12
   m_Name: Frabby
   m_TagString: Untagged
@@ -2221,7 +2222,7 @@ Transform:
   m_GameObject: {fileID: 8024955820553932691}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.82, y: 3.746, z: -31.65}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2269,7 +2270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NommianController
   ShowTopMostFoldoutHeaderGroup: 1
   type: 1
-  speed: 3
+  speed: 4
   speedMultiplier: 2
   roamRadius: 20
   detectionRadius: 10
@@ -2315,7 +2316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
+  maxHealth: 40
   invulnerabilityDuration: 1
   entityType: 1
   currentHealth:
@@ -2491,16 +2492,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   ShowTopMostFoldoutHeaderGroup: 1
-  interactHoldTime: 1
+  interactHoldTime: 3
   rayRadius: 0.5
   rayDistance: 5
   holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0
+--- !u!114 &650539336221743482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8024955820553932691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
+  m_Animator: {fileID: 2946230672328058046}
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries:
+    - name: Attack
+      NameHash: 1080829965
+      Synchronize: 1
+      ParameterType: 9
+    - name: State
+      NameHash: 1649606143
+      Synchronize: 1
+      ParameterType: 1
+  AnimatorParametersExpanded: 0
 --- !u!1 &8043380025418230183
 GameObject:
   m_ObjectHideFlags: 0

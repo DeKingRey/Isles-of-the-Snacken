@@ -592,6 +592,7 @@ GameObject:
   - component: {fileID: 7448340440870035868}
   - component: {fileID: 6978516464208960994}
   - component: {fileID: 544913177013998143}
+  - component: {fileID: -386588136739391294}
   m_Layer: 0
   m_Name: Worg
   m_TagString: Untagged
@@ -726,6 +727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  invulnerabilityDuration: 1
   entityType: 1
   currentHealth:
     UpdateTraits:
@@ -881,10 +883,43 @@ MonoBehaviour:
   interactHoldTime: 1
   rayRadius: 0.5
   rayDistance: 5
+  holdToInteract: 1
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  interactRange: 10
+  rangeCheckInterval: 0.2
+  interactUI: {fileID: 0}
+  progressRing: {fileID: 0}
   canInteract: 0
+--- !u!114 &-386588136739391294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280837299687008598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
+  m_Animator: {fileID: 5555175183529670152}
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries:
+    - name: Attack
+      NameHash: 1080829965
+      Synchronize: 1
+      ParameterType: 9
+    - name: State
+      NameHash: 1649606143
+      Synchronize: 1
+      ParameterType: 1
+  AnimatorParametersExpanded: 0
 --- !u!1 &6579838702140999352
 GameObject:
   m_ObjectHideFlags: 0

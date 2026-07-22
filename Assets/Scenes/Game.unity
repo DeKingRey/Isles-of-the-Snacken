@@ -2668,6 +2668,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7368981937882659789, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368981937882659789, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8540064026862945863, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2801,6 +2809,10 @@ PrefabInstance:
     - target: {fileID: 2118663270086410843, guid: 90e522b2a243b3f47990ae48157bbad6, type: 3}
       propertyPath: m_Name
       value: Inventory UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118663270086410843, guid: 90e522b2a243b3f47990ae48157bbad6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2641378182904924540, guid: 90e522b2a243b3f47990ae48157bbad6, type: 3}
       propertyPath: m_Pivot.x

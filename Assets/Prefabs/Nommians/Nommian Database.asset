@@ -23,3 +23,9 @@ MonoBehaviour:
     difficulty: 1
   - nommianPrefab: {fileID: 3766343836423184998, guid: 00a7c495b349dc842b1fde2ec7fd9e92, type: 3}
     difficulty: 1
+  - nommianPrefab: {fileID: 8394277500704858425, guid: 9754918c725c9434185d880f067f930a, type: 3}
+    difficulty: 1
+  - nommianPrefab: {fileID: 6428613816783308776, guid: fb2945ae77b563c4ea63534ec88af47b, type: 3}
+    difficulty: 2
+  - nommianPrefab: {fileID: 4853144754642206356, guid: ae710fd73e03db441802021019a8234a, type: 3}
+    difficulty: 3

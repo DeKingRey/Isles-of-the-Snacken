@@ -97,6 +97,29 @@ public class PlayerUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab)) ToggleInventoryMenu();
     }
 
+    public void TrapUICooldown(float cooldown)
+    {
+        foreach (var trap in trapsUI)
+        {
+            StartCoroutine(CooldownWindDown(cooldown, trap.GetComponent<TrapSlotUI>().cooldownOverlay));
+        }
+    }
+
+    private IEnumerator CooldownWindDown(float cooldown, Image cooldownOverlay)
+    {
+        float elapsedTime = 0f;
+        cooldownOverlay.fillAmount = 1;
+
+        while (elapsedTime <= cooldown)
+        {
+            elapsedTime += Time.deltaTime;
+            cooldownOverlay.fillAmount = 1 - (elapsedTime / cooldown);
+            yield return null;
+        }
+
+        cooldownOverlay.fillAmount = 0;
+    }
+
     public void AddTrapUI(Sprite trapSprite, int trapIndex)
     {
         // In game trap UI slot

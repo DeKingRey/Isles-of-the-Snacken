@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,11 +15,13 @@ public class GameManager : NetworkBehaviour
     public NommianDatabase nommianDatabase;
 
     [HideInInspector] public int currentLevel = 0;
+    private List<ItemData> deliveredNommians = new List<ItemData>();
 
     public enum GameState
     {
         Playing,
-        DayComplete
+        DayComplete,
+        Snacken
     }
 
     void Awake()
@@ -56,7 +59,25 @@ public class GameManager : NetworkBehaviour
         return -1; // Not found
     }
 
-    public void ChangeState(GameState newState, float delay)
+    // Keeps track of delivered nommians to spawn them upon scene change 
+    [Rpc(SendTo.Server)]
+    public void AddDeliveredNommianRpc(int itemId)
+    {
+        deliveredNommians.Add(itemDatabase[itemId]);
+    }
+
+    // Spawns delivered nommians upon entering the Snacken
+    [Rpc(SendTo.Server)]
+    private void SpawnDeliveredNommiansRpc()
+    {
+        DeliveryManager dm = FindAnyObjectByType<DeliveryManager>();
+        foreach (ItemData nommian in deliveredNommians)
+        {
+            dm.DeliverItemRpc(GetItemId(nommian));
+        }
+    }
+
+    public void ChangeState(GameState newState, float delay = 0)
     {
         if (!IsServer || State.Value == newState) return;
 
@@ -79,6 +100,10 @@ public class GameManager : NetworkBehaviour
                 break;
             case GameState.DayComplete:
                 Debug.Log("Game Over");
+                break;
+            case GameState.Snacken:
+                Debug.Log("Inside snacken stomach");
+                SpawnDeliveredNommiansRpc();
                 break;
         }
     }

@@ -30,7 +30,7 @@ public class DeliveryManager : NetworkBehaviour
     }  
 
     [Rpc(SendTo.Server)]
-    public void DeliverItemRpc(int itemId)
+    public void DeliverItemRpc(int itemId, bool fromGameManager = false)
     {
         ItemData item = GameManager.Instance.itemDatabase[itemId];
         totalProfit.Value += item.value;
@@ -41,6 +41,15 @@ public class DeliveryManager : NetworkBehaviour
 
         // COULD CHANGE THIS TO CAN COLLECT LATER SO THAT PLAYERS CAN REMOVE DELIVERED ITEMS
         newItem.GetComponent<Item>().canCollect = false;
+
+        if (!fromGameManager)
+            GameManager.Instance.AddDeliveredNommianRpc(itemId);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void FeedSnackenRpc()
+    {
+        
     }
 
     private void OnNommiansChanged(int previous, int current)

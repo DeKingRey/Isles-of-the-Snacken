@@ -18,6 +18,7 @@ public class DeliveryManager : NetworkBehaviour
     
     private NetworkVariable<int> totalNommians = new(0);
     private NetworkVariable<float> totalProfit = new NetworkVariable<float>();
+    private List<NetworkObject> spawnedItems = new List<NetworkObject>();
 
     public override void OnNetworkSpawn()
     {
@@ -38,6 +39,7 @@ public class DeliveryManager : NetworkBehaviour
 
         GameObject newItem = Instantiate(item.itemModel, deliverySpawnPoint.position, Quaternion.identity);
         newItem.GetComponent<NetworkObject>().Spawn();
+        spawnedItems.Add(newItem.GetComponent<NetworkObject>());
 
         // COULD CHANGE THIS TO CAN COLLECT LATER SO THAT PLAYERS CAN REMOVE DELIVERED ITEMS
         newItem.GetComponent<Item>().canCollect = false;
@@ -49,7 +51,17 @@ public class DeliveryManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void FeedSnackenRpc()
     {
-        
+        if (spawnedItems.Count <= 0) return;
+
+        for (int i = spawnedItems.Count - 1; i >= 0; i++)
+        {
+            NetworkObject item = spawnedItems[i];
+            item.Despawn();
+            spawnedItems.Remove(item);
+        }
+
+        spawnedItems.Clear();
+        Debug.Log($"Total profit: {totalProfit.Value}");
     }
 
     private void OnNommiansChanged(int previous, int current)

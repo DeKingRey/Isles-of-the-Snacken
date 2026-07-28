@@ -116,11 +116,6 @@ public class RelayManager : MonoBehaviour
         isJoining = false;
     }
 
-    public void CopyToClipboard()
-    {
-        GUIUtility.systemCopyBuffer = joinCodeText.text;
-    }
-
     private async Task<string> StartHostWithRelay(int maxConnections = 4)
     {
         // Creates relay allocation

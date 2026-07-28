@@ -50,13 +50,35 @@ public class Interactable : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        player = NetworkManager.Singleton.LocalClient.PlayerObject.transform;
-        cam = player.GetComponentInChildren<Camera>();
+        try
+        {
+            player = NetworkManager.Singleton.LocalClient.PlayerObject.transform;
+            cam = player.GetComponentInChildren<Camera>();
+        }
+        catch
+        {
+            Debug.LogWarning("Player not found");
+        }
+        
     }
 
     void Update()
     {
         if (!IsOwner || interactUI == null || progressRing == null || cam == null) return;
+
+        if (player == null)
+        {
+            try
+            {
+                player = NetworkManager.Singleton.LocalClient.PlayerObject.transform;
+                cam = player.GetComponentInChildren<Camera>();
+            }
+            catch
+            {
+                Debug.LogWarning("Player not found");
+                return;
+            }
+        }
         
         // Checks if the player is in range every few frames (for perfomance)
         rangeTimer -= Time.deltaTime;

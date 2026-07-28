@@ -53,16 +53,20 @@ public class SceneEventBus : MonoBehaviour
 
     void OnSceneEvent(SceneEvent sceneEvent)
     {
-        if (sceneEvent.SceneEventType == SceneEventType.LoadComplete)
-        {
-            ClientFinishedLoading?.Invoke(sceneEvent.ClientId);
+        if (sceneEvent.SceneEventType != SceneEventType.LoadComplete)
+            return;
 
-            if (sceneEvent.ClientId == NetworkManager.Singleton.LocalClientId)
-            {
-                SceneChanged?.Invoke();
-                OnClientFinishedLoading(sceneEvent.ClientId);
-            }
+        if (sceneEvent.ClientId == NetworkManager.Singleton.LocalClientId)
+        {
+            loadingScreen.SetActive(false);
+            SceneChanged?.Invoke();
         }
+
+        ClientFinishedLoading?.Invoke(sceneEvent.ClientId);
+
+        // Only the server counts up loaded clients
+        if (NetworkManager.Singleton.IsServer)
+            OnClientFinishedLoading(sceneEvent.ClientId);
     }
 
     private void OnClientFinishedLoading(ulong clientId)
@@ -105,7 +109,7 @@ public class SceneEventBus : MonoBehaviour
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
         {
             // Will spawn randomly if there are no available spawnpoints (though there should be)
-            if (spawnpoints[i] == null || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null)
+            if (spawnpoints[i] == null || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || i >= spawnpoints.Length)
                 break;
 
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;

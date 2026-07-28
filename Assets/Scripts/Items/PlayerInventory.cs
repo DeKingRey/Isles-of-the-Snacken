@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class PlayerInventory : NetworkBehaviour
 {
@@ -67,6 +69,12 @@ public class PlayerInventory : NetworkBehaviour
 
     private void DeliverItems()
     {
+        // Feeds the snacken upon interaction if within the Snacken
+        if (SceneManager.GetActiveScene().name == "Snacken")
+        {
+            deliveryManager.FeedSnackenRpc();
+            return;
+        }
         // Loop backwards to safely delete entries
         for (int i = items.Count - 1; i >= 0; i--)
         {

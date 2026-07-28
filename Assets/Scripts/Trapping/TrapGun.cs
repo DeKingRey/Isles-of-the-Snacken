@@ -21,7 +21,7 @@ public class TrapGun : NetworkBehaviour
 
     [Header("Settings")]
     [SerializeField] private float shootForce;
-    [SerializeField] private float fireRate = 0.25f;
+    [SerializeField] private float cooldown = 10f;
     private int currentTrapIndex = 0;
     [HideInInspector] public NetworkVariable<NetworkObjectReference> currentTrap = new NetworkVariable<NetworkObjectReference>();
 
@@ -71,7 +71,7 @@ public class TrapGun : NetworkBehaviour
             }
                 
             ShootRpc(currentTrapIndex);
-            shootTimer = fireRate;
+            shootTimer = cooldown;
         }
 
         if (Input.GetMouseButtonDown(1) && currentTrap != null)

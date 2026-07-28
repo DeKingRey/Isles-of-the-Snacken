@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.Netcode;
 using System.Collections.Generic;
 using Unity.VectorGraphics;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 ///  Handles loading screens and syncronisation
@@ -80,6 +81,9 @@ public class SceneEventBus : MonoBehaviour
     private void AllPlayersLoaded()
     {
         SpawnPlayers(); // Puts the players in the correct position
+
+        if (SceneManager.GetActiveScene().name == "Snacken")
+            GameManager.Instance.ChangeState(GameManager.GameState.Snacken);
 
         // Returns if there is an island generator in scene
         if (FindAnyObjectByType<IslandGenerator>()) return; // Allows island generator to control loading

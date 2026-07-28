@@ -7,4 +7,5 @@ public class TrapSlotUI : MonoBehaviour
     public Image trapUISprite;
     public Image slotBorder;
     public TextMeshProUGUI slotNumberText;
+    public Image cooldownOverlay;
 }

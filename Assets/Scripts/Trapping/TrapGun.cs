@@ -72,6 +72,7 @@ public class TrapGun : NetworkBehaviour
                 
             ShootRpc(currentTrapIndex);
             shootTimer = cooldown;
+            ui.TrapUICooldown(cooldown);
         }
 
         if (Input.GetMouseButtonDown(1) && currentTrap != null)

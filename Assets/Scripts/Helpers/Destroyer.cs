@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Destroyer : MonoBehaviour
@@ -6,6 +8,19 @@ public class Destroyer : MonoBehaviour
 
     void Start()
     {
-        Destroy(this, lifetime);
+        StartCoroutine(DestroySelf());
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        yield return new WaitForSeconds(lifetime);
+
+        if (GetComponent<NetworkObject>())
+        {
+            GetComponent<NetworkObject>().Despawn();
+        } else
+        {
+            Destroy(this);
+        }
     }
 }

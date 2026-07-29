@@ -43,9 +43,6 @@ public class PlayerUI : MonoBehaviour
     private List<GameObject> itemsMenu = new List<GameObject>();
     private List<GameObject> trapsUI = new List<GameObject>();
 
-    private bool menuOpen;
-    private bool inventoryOpen;
-
     public void BindPlayer(PlayerController p)
     {
         player = p;
@@ -92,20 +89,30 @@ public class PlayerUI : MonoBehaviour
         staminaSlider.value = Mathf.Clamp(player.smoothedSprintValue, 0f, staminaSlider.maxValue);
         healthSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);
 
-        if (Input.GetKeyDown(KeyCode.Escape)) ToggleMenu();
+        // Toggles menu and closes inventory menu
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleMenu(!menu.activeInHierarchy);
+            ToggleInventoryMenu(false);
+        }
 
-        if (Input.GetKeyDown(KeyCode.Tab)) ToggleInventoryMenu();
+        // Toggles inventory menu and closes menu
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleInventoryMenu(!inventoryMenu.activeInHierarchy);
+            ToggleMenu(false);
+        }
     }
 
     public void TrapUICooldown(float cooldown)
     {
         foreach (var trap in trapsUI)
         {
-            StartCoroutine(CooldownWindDown(cooldown, trap.GetComponent<TrapSlotUI>().cooldownOverlay));
+            StartCoroutine(CooldownUITransition(cooldown, trap.GetComponent<TrapSlotUI>().cooldownOverlay));
         }
     }
 
-    private IEnumerator CooldownWindDown(float cooldown, Image cooldownOverlay)
+    private IEnumerator CooldownUITransition(float cooldown, Image cooldownOverlay)
     {
         float elapsedTime = 0f;
         cooldownOverlay.fillAmount = 1;
@@ -179,31 +186,29 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    void ToggleMenu()
+    void ToggleMenu(bool isActive)
     {
-        menuOpen = !menuOpen;
-        menu.SetActive(menuOpen);
+        menu.SetActive(isActive);
 
         // Toggles input
-        player.ToggleInput(!menuOpen);
-        playerCam.ToggleInput(!menuOpen);
+        player.ToggleInput(!isActive);
+        playerCam.ToggleInput(!isActive);
 
         // Toggles cursor usability
-        Cursor.visible = menuOpen;
-        Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isActive;
+        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
-    void ToggleInventoryMenu()
+    void ToggleInventoryMenu(bool isActive)
     {
-        inventoryOpen = !inventoryOpen;
-        inventoryMenu.SetActive(inventoryOpen);
+        inventoryMenu.SetActive(isActive);
 
         // Toggles input
-        player.ToggleInput(!inventoryOpen);
-        playerCam.ToggleInput(!inventoryOpen);
+        player.ToggleInput(!isActive);
+        playerCam.ToggleInput(!isActive);
 
         // Toggles cursor usability
-        Cursor.visible = inventoryOpen;
-        Cursor.lockState = inventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isActive;
+        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }

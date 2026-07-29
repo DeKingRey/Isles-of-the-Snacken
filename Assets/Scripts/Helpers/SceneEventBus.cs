@@ -58,8 +58,11 @@ public class SceneEventBus : MonoBehaviour
 
         if (sceneEvent.ClientId == NetworkManager.Singleton.LocalClientId)
         {
-            loadingScreen.SetActive(false);
             SceneChanged?.Invoke();
+
+            // Returns if there is an island generator in scene
+            if (FindAnyObjectByType<IslandGenerator>()) return; // Allows island generator to control loading
+            loadingScreen.SetActive(false);
         }
 
         ClientFinishedLoading?.Invoke(sceneEvent.ClientId);

@@ -13,12 +13,14 @@ using System;
 using UnityEngine.SceneManagement;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using UnityEngine.UI;
 
 public class RelayManager : MonoBehaviour
 {
     public static RelayManager Instance;
 
     [Header("References")]
+    [SerializeField] private GameObject joinButton;
     [SerializeField] private TextMeshProUGUI joinCodeText;
     [SerializeField] private TMP_InputField joinCodeInput;
 
@@ -55,6 +57,8 @@ public class RelayManager : MonoBehaviour
 
             servicesReady = true;
 
+            joinCodeInput.onValueChanged.AddListener(OnJoinInputChanged);
+
             if (connectingPanel != null)
                 connectingPanel.SetActive(false);
             if (menuPanel != null)
@@ -74,6 +78,15 @@ public class RelayManager : MonoBehaviour
         {
             Debug.LogWarning($"Vivox failed to initialise: {e.Message}");
         }
+    }
+
+    // Awaits input from the join code
+    // If the code is valid (6 chars) then the join button will enable
+    private void OnJoinInputChanged(string text)
+    {
+        bool isValid = text.Length == 6;
+        joinButton.GetComponent<Button>().interactable = isValid;
+        joinButton.GetComponent<CanvasGroup>().alpha = isValid ? 1f : 0.5f;
     }
 
     public async void StartHost()
@@ -127,6 +140,7 @@ public class RelayManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"Relay create allocation request failed: {e.Message}");
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(false);
             throw;
         }
 
@@ -139,6 +153,7 @@ public class RelayManager : MonoBehaviour
         catch
         {
             Debug.LogError("Relay get join code request failed");
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(false);
             throw;
         }
 
@@ -165,6 +180,7 @@ public class RelayManager : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(false);
             throw;
         }
 
@@ -182,6 +198,7 @@ public class RelayManager : MonoBehaviour
         catch
         {
             Debug.LogError("Relay get join code request failed");
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(false); 
             throw;
         }
         

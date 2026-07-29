@@ -19,8 +19,9 @@ public class ShipController : NetworkBehaviour
 
     [Space(10)]
 
-    [Header("Drift Settings")]
+    [Header("Turning Settings")]
     [SerializeField] private float driftMutliplier;
+    [Tooltip("The min speed at which the ship will have the max turning potential")]
     [SerializeField] private float minSpeedFactor;
 
     [Space(10)]
@@ -35,18 +36,13 @@ public class ShipController : NetworkBehaviour
     [Header("References")]
     [SerializeField] private Transform steerPosition;
 
-    private Rigidbody rb;
     private PlayerController currentPlayer;
 
+    private float currentSpeed = 0f;
     private float accelerationInput = 0f;
     private float steeringInput = 0f;
     private float cachedAccelInput = 0f;
     private float cachedSteerInput = 0f;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
 
     void Update()
     {
@@ -83,62 +79,42 @@ public class ShipController : NetworkBehaviour
             SubmitInputRpc(cachedSteerInput, cachedAccelInput);
         }
 
-        // Only server can run physics
-        if (!IsServer)
-            return;
-
-        if (!HasDriver)
+        // Only server can run movement
+        if (!IsServer || !HasDriver)
             return;
 
         HandleSailing();
         HandleSteering();
-        ReduceDrift();
+        //ReduceDrift();
     }
 
     void HandleSailing()
     {
-        // How much we are going forward
-        float forwardVelocity = Vector3.Dot(transform.forward, rb.linearVelocity);
+        if (accelerationInput != 0)
+        {
+            // Increases speed
+            currentSpeed += accelerationInput * acceleration * Time.fixedDeltaTime;
+        } else
+        {
+            // Decreases speed when no accel
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, targetDrag * Time.fixedDeltaTime);
+        }
 
-        float speedThreshold = 0.1f;
-        bool isMoving = rb.linearVelocity.sqrMagnitude > speedThreshold * speedThreshold;
+        // The ship can only go half as fast backwards as it goes forward
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed * 0.5f, maxSpeed);
 
-        // Limits max speed in forward direction
-        if (forwardVelocity > maxSpeed && accelerationInput > 0) return;
-
-        // Limits max speed in backwards direction
-        if (forwardVelocity < -maxSpeed * 0.5f && accelerationInput < 0) return;
-
-        // Limits max speed in any direction
-        if (rb.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
-
-        // Slows down ship if no input
-        if (accelerationInput == 0) rb.linearDamping = Mathf.Lerp(rb.linearDamping, targetDrag, dragSpeed * Time.fixedDeltaTime);
-        else rb.linearDamping = 0;
-
-        Vector3 sailForce = transform.forward * accelerationInput * acceleration;
-
-        // Applies force, pushing ship forward
-        rb.AddForce(sailForce, ForceMode.Force);
+        // Moves the ship
+        transform.position += transform.forward * currentSpeed * Time.fixedDeltaTime;
     }
 
     void HandleSteering()
     {
-        // Limits turning ability when going slow
-        float minTurnSpeed = rb.linearVelocity.magnitude / minSpeedFactor;
-        minTurnSpeed = Mathf.Clamp01(minTurnSpeed);
+        // How fast the ship turns is based on speed 
+        float speedFactor = Mathf.Clamp01(Mathf.Abs(currentSpeed) / minSpeedFactor);
 
-        float turn = steeringInput * turnSpeed * minTurnSpeed * Time.fixedDeltaTime;
+        float turn = steeringInput * turnSpeed * speedFactor * Time.fixedDeltaTime;
 
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, turn, 0f));
-    }
-
-    void ReduceDrift()
-    {
-        Vector3 forwardVelocity = transform.forward * Vector3.Dot(rb.linearVelocity, transform.forward);
-        Vector3 rightVelocity = transform.right * Vector3.Dot(rb.linearVelocity, transform.right); 
-
-        rb.linearVelocity = forwardVelocity + rightVelocity * driftMutliplier;
+        transform.Rotate(0f, turn, 0f);
     }
 
     #region Enable Steering

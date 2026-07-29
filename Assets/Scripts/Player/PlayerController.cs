@@ -324,12 +324,12 @@ public class PlayerController : NetworkBehaviour
         Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
         shipDelta.y = 0f;
 
-        controller.Move(moveDirection * Time.deltaTime);
+        controller.Move(moveDirection * Time.deltaTime + shipDelta);
 
-        if (currentShip != null)
+        /*if (currentShip != null)
         {
             transform.position += shipDelta;
-        }
+        }*/
     }
 
     void HandleCrouch()

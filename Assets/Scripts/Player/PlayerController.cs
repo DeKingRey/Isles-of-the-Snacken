@@ -320,16 +320,7 @@ public class PlayerController : NetworkBehaviour
 
         #endregion
 
-        // Allows player to move with ship
-        Vector3 shipDelta = currentShip != null ? GetShipMovementDelta() : Vector3.zero;
-        shipDelta.y = 0f;
-
         controller.Move(moveDirection * Time.deltaTime);
-
-        if (currentShip != null)
-        {
-            transform.position += shipDelta;
-        }
     }
 
     void HandleCrouch()
@@ -449,27 +440,6 @@ public class PlayerController : NetworkBehaviour
         cam.EnableFirstPerson();
     }
 
-    Vector3 GetShipMovementDelta()
-    {
-        if (currentShip == null) return Vector3.zero;
-        
-        // Gets change in pos and rot
-        Vector3 positionDelta = currentShip.transform.position - lastShipPos;
-        Quaternion rotationDelta = currentShip.transform.rotation * Quaternion.Inverse(lastShipRot);
-
-        // Updates last pos and rot
-        lastShipPos = currentShip.transform.position;
-        lastShipRot = currentShip.transform.rotation;
-
-        // Apply rotation around ship center
-        Vector3 offset = transform.position - currentShip.transform.position;
-        offset = rotationDelta * offset;
-
-        Vector3 rotatedPosition = currentShip.transform.position + offset;
-
-        return (rotatedPosition - transform.position) + positionDelta; 
-    }
-
     private void OnTriggerEnter(Collider obj)
     {
         if (!IsOwner) return;
@@ -482,8 +452,7 @@ public class PlayerController : NetworkBehaviour
         if (obj.CompareTag("Ship"))
         {
             currentShip = obj.gameObject;
-            lastShipPos = currentShip.transform.position;
-            lastShipRot = currentShip.transform.rotation;
+            transform.SetParent(currentShip.transform.parent, true);
         }
 
         if (obj.TryGetComponent<Ladder>(out var ladder))
@@ -502,6 +471,7 @@ public class PlayerController : NetworkBehaviour
         if (obj.CompareTag("Ship"))
         {
             currentShip = null;
+            transform.SetParent(currentShip.transform.parent, false);
         }
 
         if (obj.TryGetComponent<Ladder>(out Ladder ladder))

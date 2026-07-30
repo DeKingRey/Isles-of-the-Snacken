@@ -92,6 +92,7 @@ public class ShipController : NetworkBehaviour
     {
         if (accelerationInput != 0)
         {
+<<<<<<< Updated upstream
             // Increases speed
             currentSpeed += accelerationInput * acceleration * Time.fixedDeltaTime;
         } else
@@ -99,6 +100,16 @@ public class ShipController : NetworkBehaviour
             // Decreases speed when no accel
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, targetDrag * Time.fixedDeltaTime);
         }
+=======
+            currentSpeed += accelerationInput * acceleration * Time.fixedDeltaTime;
+        } else
+        {
+            
+        }
+
+        // How much we are going forward
+        float forwardVelocity = Vector3.Dot(transform.forward, rb.linearVelocity);
+>>>>>>> Stashed changes
 
         // The ship can only go half as fast backwards as it goes forward
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed * 0.5f, maxSpeed);

@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 8448589199881578330}
   - component: {fileID: 7795891872765707499}
   - component: {fileID: 1866727223021308053}
+  - component: {fileID: 4975017219577995815}
   m_Layer: 14
   m_Name: MidleSail
   m_TagString: SteeringWheel
@@ -172,6 +173,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4975017219577995815
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311039905661884137}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8697901782615949322, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!1 &558746714186932035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1062,7 @@ GameObject:
   - component: {fileID: 6762106931069452867}
   - component: {fileID: 1544513601808259384}
   - component: {fileID: 6011277102527505300}
+  - component: {fileID: 5837126138740877045}
   m_Layer: 14
   m_Name: Wheel
   m_TagString: SteeringWheel
@@ -1202,6 +1226,28 @@ MonoBehaviour:
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0
+--- !u!64 &5837126138740877045
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3816364293301502003}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2309305249758762421, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!1 &3882555054327519903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,7 +1720,7 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 18446744073709551615
   acceleration: 25
-  turnSpeed: 80
+  turnSpeed: 20
   maxSpeed: 12
   driftMutliplier: 0.85
   minSpeedFactor: 6
@@ -1758,6 +1804,7 @@ GameObject:
   - component: {fileID: 683294150435327794}
   - component: {fileID: 7803259168248759035}
   - component: {fileID: 7533046526080202395}
+  - component: {fileID: 2340479631611241835}
   m_Layer: 14
   m_Name: BackSail
   m_TagString: Untagged
@@ -1838,6 +1885,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2340479631611241835
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548216541121013057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6928537537184469644, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!1 &6211699500012090957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,6 +1994,7 @@ GameObject:
   - component: {fileID: 6155198506182736054}
   - component: {fileID: 4844496860377650526}
   - component: {fileID: 2769397255078862994}
+  - component: {fileID: 7011811816600449976}
   m_Layer: 14
   m_Name: BigShip
   m_TagString: Ship
@@ -2008,6 +2078,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7011811816600449976
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7927970300435679514}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4248634596075881249, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!1 &8479147498312688823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,6 +2111,7 @@ GameObject:
   - component: {fileID: 8804385662451644347}
   - component: {fileID: 7576367726423494529}
   - component: {fileID: 5488427441203166396}
+  - component: {fileID: 627898059430249333}
   m_Layer: 14
   m_Name: Front Sail
   m_TagString: Untagged
@@ -2099,6 +2192,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &627898059430249333
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8479147498312688823}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -601109535844323132, guid: 8bc8835622125404bbfa3e7fb2c7d90c, type: 3}
 --- !u!1 &9063803164402847530
 GameObject:
   m_ObjectHideFlags: 0

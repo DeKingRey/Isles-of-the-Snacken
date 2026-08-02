@@ -61,7 +61,6 @@ public class DeliveryManager : NetworkBehaviour
         }
 
         spawnedItems.Clear();
-        Debug.Log($"Total profit: {totalProfit.Value}");
     }
 
     private void OnNommiansChanged(int previous, int current)

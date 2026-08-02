@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4455694868464250232, guid: fb2945ae77b563c4ea63534ec88af47b, type: 3}
+      propertyPath: interactLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 4485569752291287395, guid: fb2945ae77b563c4ea63534ec88af47b, type: 3}
       propertyPath: m_Layer
       value: 8

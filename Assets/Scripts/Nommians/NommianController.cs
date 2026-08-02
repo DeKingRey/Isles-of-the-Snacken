@@ -110,7 +110,7 @@ public class NommianController : NetworkBehaviour
                 break;
 
             case State.Fleeing:
-                StartCoroutine(StateAnimTransition(walkState));
+                StartCoroutine(StateAnimTransition(runState));
                 Fleeing();
                 break;
 

@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109a0da48bc220f4180bb3182ee0e984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandSize
-  islandRadius: 30
+  islandRadius: 40
 --- !u!114 &429416948603493586
 MonoBehaviour:
   m_ObjectHideFlags: 0

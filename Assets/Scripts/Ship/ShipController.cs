@@ -36,6 +36,11 @@ public class ShipController : NetworkBehaviour
     [Header("References")]
     [SerializeField] private Transform steerPosition;
 
+    [Space(10)]
+    [Header("Island Collision")]
+    [SerializeField] private float collisionRadius = 20f;
+    [SerializeField] private LayerMask islandLayer;
+
     private PlayerController currentPlayer;
 
     private float currentSpeed = 0f;
@@ -85,7 +90,6 @@ public class ShipController : NetworkBehaviour
 
         HandleSailing();
         HandleSteering();
-        //ReduceDrift();
     }
 
     void HandleSailing()
@@ -103,8 +107,13 @@ public class ShipController : NetworkBehaviour
         // The ship can only go half as fast backwards as it goes forward
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed * 0.5f, maxSpeed);
 
+        Vector3 movement = transform.forward * currentSpeed * Time.fixedDeltaTime;
+
         // Moves the ship
-        transform.position += transform.forward * currentSpeed * Time.fixedDeltaTime;
+        if (CanMove(movement))
+        {
+            transform.position += transform.forward * currentSpeed * Time.fixedDeltaTime;
+        }
     }
 
     void HandleSteering()
@@ -115,6 +124,17 @@ public class ShipController : NetworkBehaviour
         float turn = steeringInput * turnSpeed * speedFactor * Time.fixedDeltaTime;
 
         transform.Rotate(0f, turn, 0f);
+    }
+
+    // Determines whether the ship is about to hit an island
+    private bool CanMove(Vector3 movement)
+    {
+        if (movement.sqrMagnitude < 0.0001f)
+            return true;
+        
+        float distance = movement.magnitude;
+
+        return !Physics.SphereCast(transform.position, collisionRadius, movement.normalized, out RaycastHit hit, distance, islandLayer, QueryTriggerInteraction.Ignore);
     }
 
     #region Enable Steering

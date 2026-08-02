@@ -93,14 +93,14 @@ public class PlayerUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleMenu(!menu.activeInHierarchy);
-            ToggleInventoryMenu(false);
+            ToggleInventoryMenu(false, true);
         }
 
         // Toggles inventory menu and closes menu
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleInventoryMenu(!inventoryMenu.activeInHierarchy);
-            ToggleMenu(false);
+            ToggleMenu(false, true);
         }
     }
 
@@ -186,29 +186,35 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    void ToggleMenu(bool isActive)
+    void ToggleMenu(bool isActive, bool inventoryActive = false)
     {
         menu.SetActive(isActive);
 
-        // Toggles input
-        player.ToggleInput(!isActive);
-        playerCam.ToggleInput(!isActive);
+        // Toggles input if menu wasn't disabled via inventory opening
+        if (!inventoryActive)
+        {
+            player.ToggleInput(!isActive);
+            playerCam.ToggleInput(!isActive);  
 
-        // Toggles cursor usability
-        Cursor.visible = isActive;
-        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+            // Toggles cursor usability
+            Cursor.visible = isActive;
+            Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked; 
+        }
     }
 
-    void ToggleInventoryMenu(bool isActive)
+    void ToggleInventoryMenu(bool isActive, bool menuActive = false)
     {
         inventoryMenu.SetActive(isActive);
 
-        // Toggles input
-        player.ToggleInput(!isActive);
-        playerCam.ToggleInput(!isActive);
+        // Toggles input if inventory wasn't disabled via menu opening
+        if (!menuActive)
+        {
+            player.ToggleInput(!isActive);
+            playerCam.ToggleInput(!isActive);   
 
-        // Toggles cursor usability
-        Cursor.visible = isActive;
-        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+            // Toggles cursor usability
+            Cursor.visible = isActive;
+            Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+        }
     }
 }

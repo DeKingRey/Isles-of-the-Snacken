@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 7309540873253379830}
   m_Layer: 6
   m_Name: island11
-  m_TagString: Untagged
+  m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109a0da48bc220f4180bb3182ee0e984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandSize
-  islandRadius: 30
+  islandRadius: 40
 --- !u!114 &8228013434290772780
 MonoBehaviour:
   m_ObjectHideFlags: 0

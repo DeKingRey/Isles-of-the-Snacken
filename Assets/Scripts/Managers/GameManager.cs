@@ -103,7 +103,7 @@ public class GameManager : NetworkBehaviour
                 break;
             case GameState.Snacken:
                 Debug.Log("Inside snacken stomach");
-                SpawnDeliveredNommiansRpc();
+                if (IsServer) SpawnDeliveredNommiansRpc();
                 break;
         }
     }

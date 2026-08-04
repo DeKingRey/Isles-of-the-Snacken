@@ -201,7 +201,6 @@ public class IslandGenerator : NetworkBehaviour
             }
         }
             
-
         placedIslands.Clear();
         spawnedIslands.Clear();
     }

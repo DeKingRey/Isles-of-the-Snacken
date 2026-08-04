@@ -112,7 +112,7 @@ public class SceneEventBus : MonoBehaviour
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
         {
             // Will spawn randomly if there are no available spawnpoints (though there should be)
-            if (spawnpoints[i] == null || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || i >= spawnpoints.Length)
+            if (i >= spawnpoints.Length || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || spawnpoints[i] == null)
                 break;
             
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;

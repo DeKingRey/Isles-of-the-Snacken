@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3407166162
+  GlobalObjectIdHash: 1359723878
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -405,6 +405,7 @@ MonoBehaviour:
   landSfx: {fileID: 8300000, guid: ba468f41cb73aa044b007673e6d89146, type: 3}
   smoothedSprintValue: 0
   inputEnabled: 1
+  isSteering: 0
 --- !u!114 &7397773817524744129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +626,7 @@ MonoBehaviour:
     trapObj: {fileID: 5842761140267331660, guid: a90d5db266a4be7498ad5fae7bd9c47a, type: 3}
     trapSprite: {fileID: 21300000, guid: bf69d63e3b857bc4487a6a165a1595bf, type: 3}
   shootForce: 0.0000015
-  fireRate: 0.25
+  cooldown: 10
   currentTrap:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -671,6 +672,8 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 2048
+  interactRange: 10
+  rangeCheckInterval: 0.2
   interactUI: {fileID: 0}
   progressRing: {fileID: 0}
   canInteract: 0

@@ -31,6 +31,7 @@ public class PlayerUI : MonoBehaviour
 
     [Header("Trap UI")]
     [SerializeField] private Transform trapUITransform; 
+    [SerializeField] private Image trapUICooldown;
     [SerializeField] private GameObject trapUIPrefab;
 
     private PlayerController player;
@@ -41,7 +42,7 @@ public class PlayerUI : MonoBehaviour
     private PlayerInventory playerInventory;
     private List<GameObject> itemsGame = new List<GameObject>();
     private List<GameObject> itemsMenu = new List<GameObject>();
-    private List<GameObject> trapsUI = new List<GameObject>();
+    [SerializeField] private List<GameObject> trapsUI = new List<GameObject>(); // Will be auto added later if trap upgrades are added
 
     public void BindPlayer(PlayerController p)
     {
@@ -69,15 +70,15 @@ public class PlayerUI : MonoBehaviour
     {
         trapGun = tg;
 
-        foreach (GameObject trap in trapsUI)
+        /*foreach (GameObject trap in trapsUI)
         {
             Destroy(trap);
-        }
+        }*/
 
-        for (int i = 0; i < traps.Length; i++)
+        /*for (int i = 0; i < traps.Length; i++)
         {
             AddTrapUI(traps[i].trapSprite, i);
-        }
+        }*/
 
         SelectTrapUI(0); // Highlights first trap
     }
@@ -93,23 +94,24 @@ public class PlayerUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleMenu(!menu.activeInHierarchy);
-            ToggleInventoryMenu(false);
+            ToggleInventoryMenu(false, true);
         }
 
         // Toggles inventory menu and closes menu
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleInventoryMenu(!inventoryMenu.activeInHierarchy);
-            ToggleMenu(false);
+            ToggleMenu(false, true);
         }
     }
 
     public void TrapUICooldown(float cooldown)
     {
-        foreach (var trap in trapsUI)
+        StartCoroutine(CooldownUITransition(cooldown, trapUICooldown));
+        /*foreach (var trap in trapsUI)
         {
             StartCoroutine(CooldownUITransition(cooldown, trap.GetComponent<TrapSlotUI>().cooldownOverlay));
-        }
+        }*/
     }
 
     private IEnumerator CooldownUITransition(float cooldown, Image cooldownOverlay)
@@ -127,6 +129,7 @@ public class PlayerUI : MonoBehaviour
         cooldownOverlay.fillAmount = 0;
     }
 
+    // Unused for now - will be used if feature to collect traps is added
     public void AddTrapUI(Sprite trapSprite, int trapIndex)
     {
         // In game trap UI slot
@@ -141,7 +144,10 @@ public class PlayerUI : MonoBehaviour
         // Highlights selected trap
         for (int i = 0; i < trapsUI.Count; i++)
         {
-            trapsUI[i].GetComponent<TrapSlotUI>().slotBorder.color = i == trapIndex ? Color.green : Color.black;
+            var border = trapsUI[i].GetComponent<TrapSlotUI>().slotBorder;
+            Color c = border.color;
+            c.a = i == trapIndex ? 1f : 0f;
+            border.color = c;
         }
     }
 
@@ -186,29 +192,35 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    void ToggleMenu(bool isActive)
+    void ToggleMenu(bool isActive, bool inventoryActive = false)
     {
         menu.SetActive(isActive);
 
-        // Toggles input
-        player.ToggleInput(!isActive);
-        playerCam.ToggleInput(!isActive);
+        // Toggles input if menu wasn't disabled via inventory opening
+        if (!inventoryActive)
+        {
+            player.ToggleInput(!isActive);
+            playerCam.ToggleInput(!isActive);  
 
-        // Toggles cursor usability
-        Cursor.visible = isActive;
-        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+            // Toggles cursor usability
+            Cursor.visible = isActive;
+            Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked; 
+        }
     }
 
-    void ToggleInventoryMenu(bool isActive)
+    void ToggleInventoryMenu(bool isActive, bool menuActive = false)
     {
         inventoryMenu.SetActive(isActive);
 
-        // Toggles input
-        player.ToggleInput(!isActive);
-        playerCam.ToggleInput(!isActive);
+        // Toggles input if inventory wasn't disabled via menu opening
+        if (!menuActive)
+        {
+            player.ToggleInput(!isActive);
+            playerCam.ToggleInput(!isActive);   
 
-        // Toggles cursor usability
-        Cursor.visible = isActive;
-        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+            // Toggles cursor usability
+            Cursor.visible = isActive;
+            Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+        }
     }
 }

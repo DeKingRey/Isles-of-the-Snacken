@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -14,13 +15,21 @@ public class GameManager : NetworkBehaviour
     public ItemData[] itemDatabase;
     public NommianDatabase nommianDatabase;
 
+    [Space(10)]
+
+    [Header("GameOver")]
+    [SerializeField] private GameObject playAgainButton;
+    [SerializeField] private GameObject waitingForHostUI;
+    [SerializeField] private GameObject gameOverUI;
+    
+
     [HideInInspector] public int currentLevel = 0;
     private List<ItemData> deliveredNommians = new List<ItemData>();
 
     public enum GameState
     {
         Playing,
-        DayComplete,
+        GameOver,
         Snacken
     }
 
@@ -81,12 +90,16 @@ public class GameManager : NetworkBehaviour
     {
         if (!IsServer || State.Value == newState) return;
 
+        Debug.Log("State change");
+
         StartCoroutine(TransitionToState(newState, delay));
     }
 
     private IEnumerator TransitionToState(GameState newState, float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        Debug.Log("Delay over");
         
         State.Value = newState;
     }
@@ -98,13 +111,42 @@ public class GameManager : NetworkBehaviour
         {
             case GameState.Playing:
                 break;
-            case GameState.DayComplete:
-                Debug.Log("Game Over");
+            case GameState.GameOver:
+                Debug.Log("Game over");
+                GameOverRpc();
                 break;
             case GameState.Snacken:
                 Debug.Log("Inside snacken stomach");
-                SpawnDeliveredNommiansRpc();
+                if (IsServer) SpawnDeliveredNommiansRpc();
                 break;
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void GameOverRpc()
+    {
+        if (IsServer)
+        {
+            // Disables input for all players
+            for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+            {
+                NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerController>().ToggleInput(false);
+                NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerCam>().ToggleInput(false);
+            }
+        }
+
+        Debug.Log("rpc");
+
+        gameOverUI.SetActive(true);
+        if (IsHost) playAgainButton.SetActive(true);
+        if (IsClient) waitingForHostUI.SetActive(true);
+    }
+
+    public void PlayAgain()
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
     }
 }

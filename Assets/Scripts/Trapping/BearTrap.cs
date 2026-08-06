@@ -19,18 +19,19 @@ public class BearTrap : Trap
         canCapture = true;  // Bear trap doesn't need manual activationd
     }
 
-    public override void Activate()
+    public override void Activate(float contentWeight)
     {
         base.Activate(); // Anim
-        StartCoroutine(ContainContent());
+        StartCoroutine(HoldContent(contentWeight));
     }
 
     // Brief time in which trap will hold on to entities
-    private IEnumerator ContainContent()
+    private IEnumerator HoldContent(float weight)
     {
         canCapture = false; // Bear trap can no longer capture after activating
 
-        yield return new WaitForSeconds(struggleDuration);
+        // Heavier enemies struggle for less time
+        yield return new WaitForSeconds(struggleDuration / weight);
 
         RemoveContent(); // Removes content so it can escape (if possible), if content has been harvested, this is arbitrary
     }

@@ -131,7 +131,17 @@ public class HealthManager : NetworkBehaviour, IDamageable
             {
                 TakeDamage(trap.GetTrapDamage());
                 trap.AddContent(gameObject);
-                if (!trap.isManual) trap.Activate(); // For auto traps
+
+                float weight = 1f;
+
+                // Disables fleeing enemies interact UI
+                if (TryGetComponent<Item>(out Item item))
+                {
+                    item.canCollect = false;
+                    weight = item.itemData.weight;
+                }
+                
+                if (!trap.isManual) trap.Activate(weight); // For auto traps
                 Struggle(true);
             }
         }

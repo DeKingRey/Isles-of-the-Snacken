@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109a0da48bc220f4180bb3182ee0e984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandSize
-  islandRadius: 30
+  islandRadius: 40
 --- !u!114 &-5128456744330984875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3413176914
+  GlobalObjectIdHash: 2804527378
   InScenePlacedSourceGlobalObjectIdHash: 2804527378
   DeferredDespawnTick: 0
   Ownership: 1

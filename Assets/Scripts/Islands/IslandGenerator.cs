@@ -116,7 +116,7 @@ public class IslandGenerator : NetworkBehaviour
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
             Vector2 circle = Random.insideUnitCircle * spawnRadius;
-            Vector3 candidate = transform.position + new Vector3(circle.x, 0f, circle.y);
+            Vector3 candidate = transform.position + new Vector3(circle.x, 5f, circle.y);
 
             // Will only place islands on water
             if (waterLayer != 0)
@@ -201,7 +201,6 @@ public class IslandGenerator : NetworkBehaviour
             }
         }
             
-
         placedIslands.Clear();
         spawnedIslands.Clear();
     }

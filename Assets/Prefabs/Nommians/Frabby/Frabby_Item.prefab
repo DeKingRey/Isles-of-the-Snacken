@@ -172,6 +172,10 @@ PrefabInstance:
       propertyPath: interactHoldTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5617765688691993160, guid: e2ed2db849c6a2a409859b54388f4a78, type: 3}
+      propertyPath: interactLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 5633213060962904529, guid: e2ed2db849c6a2a409859b54388f4a78, type: 3}
       propertyPath: m_Layer
       value: 8

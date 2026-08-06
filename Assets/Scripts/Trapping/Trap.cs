@@ -111,7 +111,7 @@ public abstract class Trap : NetworkBehaviour
         if (!contentEscaped) GetComponent<NetworkObject>().Despawn(true);
     }
 
-    public virtual void Activate()
+    public virtual void Activate(float contentWeight = 1f)
     {
         anim.SetTrigger("Activate");
     }

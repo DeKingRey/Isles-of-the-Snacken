@@ -172,6 +172,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8713079098475918198, guid: 9754918c725c9434185d880f067f930a, type: 3}
+      propertyPath: interactLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4909968414915624247, guid: 9754918c725c9434185d880f067f930a, type: 3}
     - {fileID: 118367452563850452, guid: 9754918c725c9434185d880f067f930a, type: 3}

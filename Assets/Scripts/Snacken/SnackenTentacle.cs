@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class SnackenTentacle : NetworkBehaviour
 
     [SerializeField] private float minAnimSpeed;
     [SerializeField] private float maxAnimSpeed;
+
+    [Space(5)]
+
+    [SerializeField] private float minSlamDelay = 0f;
+    [SerializeField] private float maxSlamDelay = 7f;
     
     private Animator anim;
 
@@ -35,5 +41,15 @@ public class SnackenTentacle : NetworkBehaviour
 
         transform.localScale = randomScale.Value;
         anim.speed = randomAnimSpeed.Value;
+    }
+
+    public IEnumerator SlamDown()
+    {
+        // Slams will occcur at slightly random intervals for randomness
+        float randomDelay = Random.Range(minSlamDelay, maxSlamDelay);
+        
+        yield return new WaitForSeconds(randomDelay);
+
+        anim.SetTrigger("Slam");
     }
 }

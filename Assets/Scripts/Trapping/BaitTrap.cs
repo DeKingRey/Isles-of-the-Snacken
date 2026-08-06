@@ -10,7 +10,7 @@ public class BaitTrap : Trap
 {
     [SerializeField] private float trapDuration;
 
-    public override void Activate()
+    public override void Activate(float contentWeight)
     {
         base.Activate();
         StartCoroutine(TrapContents());

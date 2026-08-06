@@ -108,6 +108,13 @@ public class PlayerController : NetworkBehaviour
         RebindScene();
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if (!IsOwner) return;
+
+        SceneEventBus.SceneChanged -= RebindScene;
+    }
+
     private void RebindScene()
     {
         PlayerUI ui = FindAnyObjectByType<PlayerUI>();
@@ -470,8 +477,8 @@ public class PlayerController : NetworkBehaviour
 
         if (obj.CompareTag("Ship"))
         {
-            currentShip = null;
             transform.SetParent(currentShip.transform.parent, false);
+            currentShip = null;
         }
 
         if (obj.TryGetComponent<Ladder>(out Ladder ladder))

@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 public class TimeManager : NetworkBehaviour
 {
     [Header("Game States")]
-    [SerializeField] private GameManager.GameState dayCompleteState;
+    [SerializeField] private GameManager.GameState gameOverState;
     [SerializeField] private GameManager.GameState playingState;
 
     [Header("UI Objects")]
@@ -45,7 +45,7 @@ public class TimeManager : NetworkBehaviour
 
     private float secondsPerHour;
     private float hourTimer;
-    private bool dayEnded = false;
+    private bool gameOver = false;
     
     public override void OnNetworkSpawn()
     {
@@ -67,7 +67,7 @@ public class TimeManager : NetworkBehaviour
     void Update()
     {   
         float t = Mathf.Clamp01(elapsedTime.Value / dayDurationSeconds); // Percentage of time passed
-        if (IsServer && GameManager.Instance.State.Value == playingState && !dayEnded)
+        if (IsServer && GameManager.Instance.State.Value == playingState && !gameOver)
         {
             elapsedTime.Value += Time.deltaTime;
 
@@ -84,8 +84,13 @@ public class TimeManager : NetworkBehaviour
 
             if (currentHour.Value >= endHour)
             {
-                dayEnded = true;
-                GameManager.Instance.ChangeState(dayCompleteState, 0);
+                GameManager.Instance.ChangeState(gameOverState, 10f);
+                gameOver = true;
+
+                foreach (SnackenTentacle tentacle in FindObjectsByType<SnackenTentacle>())
+                {
+                    StartCoroutine(tentacle.SlamDown());
+                }
             }
         }
         

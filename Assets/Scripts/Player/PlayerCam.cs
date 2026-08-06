@@ -74,6 +74,7 @@ public class PlayerCam: NetworkBehaviour
     void HandleLookInput()
     {
         if (!inputEnabled) return;
+        if (GameManager.Instance != null && GameManager.Instance.State.Value == GameManager.GameState.GameOver) return;
 
         float mouseX = Input.GetAxisRaw("Mouse X") * sensX * sensitivityMultiplier * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * sensY * sensitivityMultiplier * Time.deltaTime;

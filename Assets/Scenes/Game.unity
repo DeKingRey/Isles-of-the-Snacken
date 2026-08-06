@@ -1338,8 +1338,8 @@ RectTransform:
   m_Children:
   - {fileID: 1499899115}
   - {fileID: 369135717}
-  - {fileID: 987447083}
   - {fileID: 515011005}
+  - {fileID: 987447083}
   m_Father: {fileID: 1428352641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2240,7 +2240,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 987447085}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 787986134}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &987447085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2533,6 +2545,7 @@ GameObject:
   - component: {fileID: 1428352641}
   - component: {fileID: 1428352643}
   - component: {fileID: 1428352642}
+  - component: {fileID: 1428352644}
   m_Layer: 0
   m_Name: GameOver
   m_TagString: Untagged
@@ -2599,6 +2612,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1428352640}
   m_CullTransparentMesh: 1
+--- !u!114 &1428352644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428352640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39987fa3f099591419abffe9601c5bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
+  playAgainButton: {fileID: 987447082}
+  waitingForHostUI: {fileID: 515011004}
 --- !u!1 &1499899114
 GameObject:
   m_ObjectHideFlags: 0

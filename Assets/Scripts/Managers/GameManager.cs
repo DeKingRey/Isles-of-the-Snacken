@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
@@ -38,7 +39,6 @@ public class GameManager : NetworkBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -50,11 +50,26 @@ public class GameManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         State.OnValueChanged += OnStateChanged; // Triggers when state changes on all clients
+        SceneEventBus.SceneChanged += RebindScene;
     }
 
     public override void OnNetworkDespawn()
     {
         State.OnValueChanged -= OnStateChanged;
+        SceneEventBus.SceneChanged -= RebindScene;
+    }
+
+    void RebindScene()
+    {
+        GameOverUI ui = FindAnyObjectByType<GameOverUI>();
+
+        if (ui == null) return;
+
+        playAgainButton = ui.playAgainButton;
+        waitingForHostUI = ui.waitingForHostUI;
+        gameOverUI = ui.gameObject;
+
+        playAgainButton.GetComponent<Button>().onClick.AddListener(PlayAgain);
     }
 
     public int GetItemId(ItemData data)
@@ -90,16 +105,12 @@ public class GameManager : NetworkBehaviour
     {
         if (!IsServer || State.Value == newState) return;
 
-        Debug.Log("State change");
-
         StartCoroutine(TransitionToState(newState, delay));
     }
 
     private IEnumerator TransitionToState(GameState newState, float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        Debug.Log("Delay over");
         
         State.Value = newState;
     }
@@ -110,36 +121,28 @@ public class GameManager : NetworkBehaviour
         switch (current)
         {
             case GameState.Playing:
+                if (gameOverUI) gameOverUI.SetActive(false);
                 break;
             case GameState.GameOver:
-                Debug.Log("Game over");
-                GameOverRpc();
+                if (IsServer)
+                {
+                    // Disables input for all players
+                    for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+                    {
+                        NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerController>().ToggleInput(false);
+                        NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerCam>().ToggleInput(false);
+                    }
+                }
+
+                gameOverUI.SetActive(true);
+                if (IsHost) playAgainButton.SetActive(true);
+                else waitingForHostUI.SetActive(true);
+
                 break;
             case GameState.Snacken:
-                Debug.Log("Inside snacken stomach");
                 if (IsServer) SpawnDeliveredNommiansRpc();
                 break;
         }
-    }
-
-    [Rpc(SendTo.Everyone)]
-    void GameOverRpc()
-    {
-        if (IsServer)
-        {
-            // Disables input for all players
-            for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
-            {
-                NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerController>().ToggleInput(false);
-                NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<PlayerCam>().ToggleInput(false);
-            }
-        }
-
-        Debug.Log("rpc");
-
-        gameOverUI.SetActive(true);
-        if (IsHost) playAgainButton.SetActive(true);
-        if (IsClient) waitingForHostUI.SetActive(true);
     }
 
     public void PlayAgain()

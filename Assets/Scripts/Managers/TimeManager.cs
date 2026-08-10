@@ -18,7 +18,6 @@ public class TimeManager : NetworkBehaviour
 
     [SerializeField] private float startArrowRotation;
     [SerializeField] private float endArrowRotation;
-    private Quaternion targetArrowRotation;
 
     [Header("Time Settings")]
     public float dayDurationSeconds = 600;
@@ -112,9 +111,12 @@ public class TimeManager : NetworkBehaviour
         timeText.text = $"{hour:00}:00 {meridiem}";
         
         // Smoothly rotates arrow in accordance to day time
-        timeArrow.localRotation = Quaternion.Lerp(
-            Quaternion.Euler(0, 0, startArrowRotation),
-            Quaternion.Euler(0, 0, endArrowRotation),
-            t);
+        float currentRotation = Mathf.Lerp(
+            startArrowRotation,
+            endArrowRotation,
+            t
+        );
+
+        timeArrow.localRotation = Quaternion.Euler(0, 0, currentRotation);
     }
 }

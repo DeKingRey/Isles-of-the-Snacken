@@ -86,6 +86,8 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         if (player == null || healthManager == null) return;
+        if (GameManager.Instance != null && GameManager.Instance.State.Value == GameManager.GameState.GameOver) return;
+
 
         staminaSlider.value = Mathf.Clamp(player.smoothedSprintValue, 0f, staminaSlider.maxValue);
         healthSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);

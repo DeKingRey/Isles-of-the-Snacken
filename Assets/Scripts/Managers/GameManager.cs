@@ -134,6 +134,9 @@ public class GameManager : NetworkBehaviour
                     }
                 }
 
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
                 gameOverUI.SetActive(true);
                 if (IsHost) playAgainButton.SetActive(true);
                 else waitingForHostUI.SetActive(true);

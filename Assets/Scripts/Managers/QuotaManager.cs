@@ -37,6 +37,6 @@ public class QuotaManager : NetworkBehaviour
 
     private void OnQuotaChanged(int previous, int current)
     {
-        quotaText.text = $"{deliveredNommians.Value}/{requiredNommians.Value}";
+        quotaText.text = $"{requiredNommians.Value}";
     }
 }

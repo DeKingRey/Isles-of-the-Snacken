@@ -373,7 +373,7 @@ MonoBehaviour:
   defaultSprintSpeed: 7
   climbSpeed: 1
   slideStrength: 8
-  weightMultiplier: 0.75
+  weightMultiplier: 0.5
   crouchSpeed: 2
   crouchHeights:
   - 2

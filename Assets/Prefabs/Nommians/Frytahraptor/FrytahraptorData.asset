@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Frytahraptor
   weight: 2
-  value: 6
+  value: 3
   itemModel: {fileID: 8906301905177578273, guid: 0444edfe900aa2345be8b3ee417837d5, type: 3}
   itemSprite: {fileID: 21300000, guid: 9be7089330ab5794c81cc4eca42c6c38, type: 3}

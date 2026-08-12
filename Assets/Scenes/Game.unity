@@ -354,6 +354,7 @@ RectTransform:
   - {fileID: 723179974}
   - {fileID: 738477986}
   - {fileID: 1428352641}
+  - {fileID: 1502765214}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2105,6 +2106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738477986}
+  - component: {fileID: 738477987}
   m_Layer: 0
   m_Name: QuotaDisplay
   m_TagString: Untagged
@@ -2134,6 +2136,18 @@ RectTransform:
   m_AnchoredPosition: {x: -33.479, y: -200}
   m_SizeDelta: {x: 260.917, y: 116.211}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &738477987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738477985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba12765b1cc0c241b576061b35242d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &754881776
 GameObject:
   m_ObjectHideFlags: 0
@@ -2930,11 +2944,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   ShowTopMostFoldoutHeaderGroup: 1
-  checkDuration: 10
   quotaText: {fileID: 1614783490}
   minNommians: 4
   maxNommians: 6
   quotaMultiplier: 2
+  checkDuration: 10
+  coinPrefab: {fileID: 0}
+  coinMinigameDuration: 10
+  coinAmount: 0
 --- !u!1 &1428352640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3326,14 +3343,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502765213}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 544516926}
   - {fileID: 1477538918}
-  m_Father: {fileID: 5415677354757850052}
+  m_Father: {fileID: 58938143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -4576,17 +4593,9 @@ PrefabInstance:
       objectReference: {fileID: 1163031522}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2270243782130919577, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1502765214}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
---- !u!224 &5415677354757850052 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2270243782130919577, guid: 2b3a23e1a3946cb45b44e32f1e11fe1d, type: 3}
-  m_PrefabInstance: {fileID: 5415677354757850051}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5844594680736432322
 PrefabInstance:
   m_ObjectHideFlags: 0

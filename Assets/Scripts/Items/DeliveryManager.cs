@@ -2,7 +2,6 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System.Security.Cryptography;
 using TMPro;
 
 public class DeliveryManager : NetworkBehaviour
@@ -17,7 +16,7 @@ public class DeliveryManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI deliveredNommiansText;
     
     private NetworkVariable<int> totalNommians = new(0);
-    private NetworkVariable<float> totalProfit = new NetworkVariable<float>();
+    private NetworkVariable<float> totalProfit = new NetworkVariable<float>(); // Make this int later
     private List<NetworkObject> spawnedItems = new List<NetworkObject>();
 
     public override void OnNetworkSpawn()
@@ -52,6 +51,8 @@ public class DeliveryManager : NetworkBehaviour
     public void FeedSnackenRpc()
     {
         if (spawnedItems.Count <= 0) return;
+
+        QuotaManager.Instance.StartCoroutine(QuotaManager.Instance.CheckQuotaReached(spawnedItems.Count, totalProfit.Value));
 
         for (int i = spawnedItems.Count - 1; i >= 0; i++)
         {

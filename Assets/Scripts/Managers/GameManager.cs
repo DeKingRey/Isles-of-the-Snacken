@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,10 +23,11 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GameObject playAgainButton;
     [SerializeField] private GameObject waitingForHostUI;
     [SerializeField] private GameObject gameOverUI;
-    
 
     [HideInInspector] public int currentLevel = 0;
     private List<ItemData> deliveredNommians = new List<ItemData>();
+    private int coinAmount;
+    private TextMeshProUGUI coinText;
 
     public enum GameState
     {
@@ -51,6 +53,8 @@ public class GameManager : NetworkBehaviour
     {
         State.OnValueChanged += OnStateChanged; // Triggers when state changes on all clients
         SceneEventBus.SceneChanged += RebindScene;
+
+        RebindScene();
     }
 
     public override void OnNetworkDespawn()
@@ -61,13 +65,15 @@ public class GameManager : NetworkBehaviour
 
     void RebindScene()
     {
-        GameOverUI ui = FindAnyObjectByType<GameOverUI>();
+        GameUI ui = FindAnyObjectByType<GameUI>();
 
         if (ui == null) return;
 
         playAgainButton = ui.playAgainButton;
         waitingForHostUI = ui.waitingForHostUI;
-        gameOverUI = ui.gameObject;
+        gameOverUI = ui.gameOverUI;
+
+        coinText = ui.coinText;
 
         playAgainButton.GetComponent<Button>().onClick.AddListener(PlayAgain);
     }
@@ -81,6 +87,11 @@ public class GameManager : NetworkBehaviour
         }
 
         return -1; // Not found
+    }
+
+    public void AddCoin()
+    {
+        
     }
 
     // Keeps track of delivered nommians to spawn them upon scene change 

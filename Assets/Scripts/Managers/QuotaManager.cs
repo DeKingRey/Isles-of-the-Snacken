@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 public class QuotaManager : NetworkBehaviour
 {
     public static QuotaManager Instance;
-    [Tooltip("The wait time between feeding the Snacken and finding out the result")]
-    [SerializeField] private float checkDuration = 10f;
 
     [Header("Quota")]
     [SerializeField] private TextMeshProUGUI quotaText;
@@ -19,6 +17,18 @@ public class QuotaManager : NetworkBehaviour
 
     [Tooltip("How much the required nommians will increment per level")]
     [SerializeField] private int quotaMultiplier = 2;
+
+    [Space(10)]
+
+    [Header("Feeding Snacken")]
+
+    [Tooltip("The wait time between feeding the Snacken and finding out the result")]
+    [SerializeField] private float checkDuration = 10f;
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private float coinMinigameDuration = 10f;
+
+    [HideInInspector] public int coinAmount = 0;
+    private bool minigameActive = false;
     private NetworkVariable<int> deliveredNommians = new(0);
     private NetworkVariable<int> requiredNommians = new();
 
@@ -32,6 +42,19 @@ public class QuotaManager : NetworkBehaviour
         {
             Destroy(gameObject);
             return;
+        }
+    }
+
+    void Update()
+    {
+        // Sends players to next level if all coins are collected
+        if (minigameActive)
+        {
+            if (coinAmount <= 0)
+            {
+                SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
+                NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            }
         }
     }
 
@@ -49,7 +72,7 @@ public class QuotaManager : NetworkBehaviour
     }
 
     // This is called when the players feed the Snacken
-    public IEnumerator CheckQuotaReached(int amount)
+    public IEnumerator CheckQuotaReached(int amount, float totalProfit)
     {
         yield return new WaitForSeconds(checkDuration);
 
@@ -58,12 +81,39 @@ public class QuotaManager : NetworkBehaviour
             // Lose :(
             GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
         } else
+        {   
+            CoinSpawnpoint[] coinSpawnpoints = FindObjectsByType<CoinSpawnpoint>();
+
+            // Spawns Coins
+            for (int i = 0; i < totalProfit; i++)
+            {
+                Transform randomSpawnpoint = coinSpawnpoints[Random.Range(0, coinSpawnpoints.Length)].spawnTransform;
+                GameObject coin = Instantiate(coinPrefab, randomSpawnpoint.position, randomSpawnpoint.rotation);
+                coin.GetComponent<NetworkObject>().Spawn();
+            }
+
+            coinAmount = (int) totalProfit;
+
+            StartCoroutine(CoinMinigameCountdown());
+        }
+    }
+
+    // Sends players to next level after the coin collection minigame
+    private IEnumerator CoinMinigameCountdown()
+    {
+        minigameActive = true;
+
+        yield return new WaitForSeconds(coinMinigameDuration);
+
+        minigameActive = false;
+
+        if (coinAmount > 0)
         {
-            // Win!
-            // Spawn coins
             SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
             NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
+
+        coinAmount = 0;
     }
 
     public override void OnNetworkDespawn()

@@ -53,6 +53,7 @@ public class ShipController : NetworkBehaviour
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
             return;
+
         if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
             return;
         

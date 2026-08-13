@@ -2949,7 +2949,7 @@ MonoBehaviour:
   maxNommians: 6
   quotaMultiplier: 2
   checkDuration: 10
-  coinPrefab: {fileID: 0}
+  coinPrefab: {fileID: 5565728949365056656, guid: 36d06730352a3a44f89108ac91ea2192, type: 3}
   coinMinigameDuration: 10
   coinAmount: 0
 --- !u!1 &1428352640

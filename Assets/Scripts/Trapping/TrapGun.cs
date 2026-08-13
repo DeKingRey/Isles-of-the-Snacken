@@ -14,6 +14,7 @@ public class TrapGun : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private AudioClip shootSFX;
     [SerializeField] private Transform shootPoint;
     [SerializeField] TrapSlot[] traps;
 
@@ -69,7 +70,8 @@ public class TrapGun : NetworkBehaviour
                 if (!trapObj.GetComponent<Trap>().canHarvest)
                     trapObj.Despawn(true);
             }
-                
+            
+            SoundManager.Instance.PlayAudio(shootSFX, 0.5f, transform);
             ShootRpc(currentTrapIndex);
             shootTimer = cooldown;
             ui.TrapUICooldown(cooldown);

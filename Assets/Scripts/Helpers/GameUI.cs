@@ -16,5 +16,5 @@ public class GameUI : MonoBehaviour
     [Space(10)]
 
     [Header("Quota UI")]
-    public GameObject quota;
+    public TextMeshProUGUI quotaText;
 }

@@ -617,6 +617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrapGun
   ShowTopMostFoldoutHeaderGroup: 1
   bulletPrefab: {fileID: 8207442291574369161, guid: 746fad9394a402345b475ad5bcc32563, type: 3}
+  shootSFX: {fileID: 8300000, guid: f8de4a96cb676764c84bf2330962ffaf, type: 3}
   shootPoint: {fileID: 8711056734157390974}
   traps:
   - keyCode: 49

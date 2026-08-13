@@ -26,7 +26,7 @@ public class GameManager : NetworkBehaviour
 
     [HideInInspector] public int currentLevel = 0;
     private List<ItemData> deliveredNommians = new List<ItemData>();
-    private int coinAmount;
+    private NetworkVariable<int> coinAmount = new NetworkVariable<int>(0);
     private TextMeshProUGUI coinText;
 
     public enum GameState
@@ -53,6 +53,7 @@ public class GameManager : NetworkBehaviour
     {
         State.OnValueChanged += OnStateChanged; // Triggers when state changes on all clients
         SceneEventBus.SceneChanged += RebindScene;
+        coinAmount.OnValueChanged += OnCoinAmountChanged;
 
         RebindScene();
     }
@@ -74,6 +75,7 @@ public class GameManager : NetworkBehaviour
         gameOverUI = ui.gameOverUI;
 
         coinText = ui.coinText;
+        coinText.text = coinAmount.Value.ToString();
 
         playAgainButton.GetComponent<Button>().onClick.AddListener(PlayAgain);
     }
@@ -91,7 +93,12 @@ public class GameManager : NetworkBehaviour
 
     public void AddCoin()
     {
-        
+        coinAmount.Value++;
+    }
+
+    private void OnCoinAmountChanged(int prev, int current)
+    {
+        coinText.text = current.ToString();
     }
 
     // Keeps track of delivered nommians to spawn them upon scene change 

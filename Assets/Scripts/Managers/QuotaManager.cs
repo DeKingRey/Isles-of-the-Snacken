@@ -45,6 +45,37 @@ public class QuotaManager : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        // Assign on quota changed so that text isn't constantly updating
+        deliveredNommians.OnValueChanged += OnQuotaChanged;
+        requiredNommians.OnValueChanged += OnQuotaChanged;
+        SceneEventBus.SceneChanged += RebindScene;
+        RebindScene();
+
+        if (!IsServer) return;
+
+        // Required nommians (for the quota) increments each level
+        requiredNommians.Value = Random.Range(minNommians, maxNommians + 1) 
+                                + (GameManager.Instance.currentLevel * quotaMultiplier);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        deliveredNommians.OnValueChanged -= OnQuotaChanged;
+        requiredNommians.OnValueChanged -= OnQuotaChanged;
+        SceneEventBus.SceneChanged -= RebindScene;
+    }
+
+    void RebindScene()
+    {
+        GameUI ui = FindAnyObjectByType<GameUI>();
+
+        if (ui == null) return;
+
+        quotaText = ui.quotaText;
+    }
+
     void Update()
     {
         // Sends players to next level if all coins are collected
@@ -56,19 +87,6 @@ public class QuotaManager : NetworkBehaviour
                 NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }
         }
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        // Assign on quota changed so that text isn't constantly updating
-        deliveredNommians.OnValueChanged += OnQuotaChanged;
-        requiredNommians.OnValueChanged += OnQuotaChanged;
-
-        if (!IsServer) return;
-
-        // Required nommians (for the quota) increments each level
-        requiredNommians.Value = Random.Range(minNommians, maxNommians + 1) 
-                                + (GameManager.Instance.currentLevel * quotaMultiplier);
     }
 
     // This is called when the players feed the Snacken
@@ -114,12 +132,6 @@ public class QuotaManager : NetworkBehaviour
         }
 
         coinAmount = 0;
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        deliveredNommians.OnValueChanged -= OnQuotaChanged;
-        requiredNommians.OnValueChanged -= OnQuotaChanged;
     }
 
     private void OnQuotaChanged(int previous, int current)

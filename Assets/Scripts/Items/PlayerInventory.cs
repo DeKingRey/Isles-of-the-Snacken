@@ -79,8 +79,9 @@ public class PlayerInventory : NetworkBehaviour
         for (int i = items.Count - 1; i >= 0; i--)
         {
             int id = GameManager.Instance.GetItemId(items[i]);
+            Debug.Log($"Delivering index {i}: {items[i].name}, ID: {id}");
             deliveryManager.DeliverItemRpc(id);
-            RemoveItem(i);
+            //RemoveItem(i);
         }
     }
 

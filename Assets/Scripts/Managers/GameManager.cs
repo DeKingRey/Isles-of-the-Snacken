@@ -77,6 +77,7 @@ public class GameManager : NetworkBehaviour
         coinText = ui.coinText;
         coinText.text = coinAmount.Value.ToString();
 
+        playAgainButton.GetComponent<Button>().onClick.RemoveListener(PlayAgain);
         playAgainButton.GetComponent<Button>().onClick.AddListener(PlayAgain);
     }
 
@@ -93,24 +94,25 @@ public class GameManager : NetworkBehaviour
 
     public void AddCoin()
     {
+        if (!IsServer) return;
+
         coinAmount.Value++;
     }
 
     private void OnCoinAmountChanged(int prev, int current)
     {
-        coinText.text = current.ToString();
+        if (coinText != null)
+            coinText.text = current.ToString();
     }
 
     // Keeps track of delivered nommians to spawn them upon scene change 
-    [Rpc(SendTo.Server)]
-    public void AddDeliveredNommianRpc(int itemId)
+    public void AddDeliveredNommian(int itemId)
     {
         deliveredNommians.Add(itemDatabase[itemId]);
     }
 
     // Spawns delivered nommians upon entering the Snacken
-    [Rpc(SendTo.Server)]
-    private void SpawnDeliveredNommiansRpc()
+    private void SpawnDeliveredNommians()
     {
         DeliveryManager dm = FindAnyObjectByType<DeliveryManager>();
         foreach (ItemData nommian in deliveredNommians)
@@ -161,7 +163,7 @@ public class GameManager : NetworkBehaviour
 
                 break;
             case GameState.Snacken:
-                if (IsServer) SpawnDeliveredNommiansRpc();
+                if (IsServer) SpawnDeliveredNommians();
                 break;
         }
     }

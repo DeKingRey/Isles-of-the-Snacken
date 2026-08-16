@@ -32,6 +32,11 @@ public class DeliveryManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void DeliverItemRpc(int itemId, bool fromGameManager = false)
     {
+        DeliverItem(itemId, fromGameManager);
+    }
+
+    private void DeliverItem(int itemId, bool fromGameManager)
+    {
         ItemData item = GameManager.Instance.itemDatabase[itemId];
         totalProfit.Value += item.value;
         totalNommians.Value ++;
@@ -44,7 +49,7 @@ public class DeliveryManager : NetworkBehaviour
         newItem.GetComponent<Item>().canCollect = false;
 
         if (!fromGameManager)
-            GameManager.Instance.AddDeliveredNommianRpc(itemId);
+            GameManager.Instance.AddDeliveredNommian(itemId);
     }
 
     [Rpc(SendTo.Server)]

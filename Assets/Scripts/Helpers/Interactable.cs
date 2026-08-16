@@ -141,9 +141,10 @@ public class Interactable : NetworkBehaviour
 
             elapsedHoldTime += Time.deltaTime;
 
-            // Collects
+            // Invokes interact action
             if (elapsedHoldTime >= interactHoldTime && canInteract)
             {
+                Debug.Log("interact");
                 OnInteractComplete?.Invoke();
             }
         } else

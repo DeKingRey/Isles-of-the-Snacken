@@ -189,7 +189,9 @@ public class NommianController : NetworkBehaviour
 
     // Randomly moves around
     private void Roaming()
-    {
+    {   
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         agent.speed = speed;
 
         if (Vector3.Distance(transform.position, roamTarget) < 1f)
@@ -203,6 +205,8 @@ public class NommianController : NetworkBehaviour
     // Runs away from the player
     private void Fleeing()
     {
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
 
@@ -240,6 +244,8 @@ public class NommianController : NetworkBehaviour
     // Chases the player
     private void Chasing()
     {
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
 

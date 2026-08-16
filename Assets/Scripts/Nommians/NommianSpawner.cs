@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class NommianSpawner : NetworkBehaviour
 {
@@ -46,6 +46,16 @@ public class NommianSpawner : NetworkBehaviour
             Transform spawnpoint = spawnpoints[spawnpointIndex];
             spawnpointIndex++;
             GameObject spawnedNommian = Instantiate(nommianPrefab, spawnpoint.position, Quaternion.identity);
+
+            if (NavMesh.SamplePosition(spawnpoint.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                spawnedNommian.transform.position = hit.position;
+            } else
+            {
+                Destroy(spawnedNommian);
+                continue;
+            }
+
             spawnedNommian.GetComponent<NetworkObject>().Spawn();
 
             // Disables all nommians to begin with

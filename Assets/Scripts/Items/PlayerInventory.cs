@@ -75,13 +75,15 @@ public class PlayerInventory : NetworkBehaviour
             deliveryManager.FeedSnackenRpc();
             return;
         }
+
+        int itemCount = items.Count;
         // Loop backwards to safely delete entries
-        for (int i = items.Count - 1; i >= 0; i--)
+        for (int i = itemCount - 1; i >= 0; i--)
         {
             int id = GameManager.Instance.GetItemId(items[i]);
             Debug.Log($"Delivering index {i}: {items[i].name}, ID: {id}");
             deliveryManager.DeliverItemRpc(id);
-            //RemoveItem(i);
+            RemoveItem(i);
         }
     }
 

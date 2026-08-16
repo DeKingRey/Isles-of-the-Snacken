@@ -1189,6 +1189,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7856660865220047637}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6986367477408958761}
   m_SourcePrefab: {fileID: 100100000, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
 --- !u!4 &299858853360592650 stripped
 Transform:
@@ -1269,6 +1272,29 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 4
   AnimatorParametersExpanded: 0
+--- !u!114 &6986367477408958761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491746642882201529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0421cd68e7adc604fa736fd2d30d6be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAppearance
+  ShowTopMostFoldoutHeaderGroup: 1
+  textures:
+  - {fileID: 2800000, guid: c26d1f391a087cf4a9d21f785f37347a, type: 3}
+  - {fileID: 2800000, guid: 97b01ba4b2165c8488e214fda9cfdeac, type: 3}
+  - {fileID: 2800000, guid: ba07cc50707d9c349b1a5c5740b4dc6c, type: 3}
+  - {fileID: 2800000, guid: d6fd7809228598f4b8de590a528dc629, type: 3}
+  TextureIndex:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: -1
 --- !u!1001 &4127644275788035189
 PrefabInstance:
   m_ObjectHideFlags: 0

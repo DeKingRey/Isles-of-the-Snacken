@@ -20,6 +20,7 @@ public class IslandGenerator : NetworkBehaviour
     [SerializeField] float spawnRadius = 200f;
     [SerializeField] LayerMask waterLayer;
     [SerializeField] float spacingPadding = 10f;
+    [SerializeField] private float shipExclusionRadius = 20f;
 
     private List<PlacedIsland> placedIslands = new List<PlacedIsland>();
     private List<NetworkObject> spawnedIslands = new List<NetworkObject>();
@@ -92,9 +93,10 @@ public class IslandGenerator : NetworkBehaviour
         {
             GameObject island = GetNextPrefab();
             float islandRadius = island.GetComponent<IslandSize>().islandRadius;
+            float islandHeight = island.GetComponent<IslandSize>().islandHeight;
 
             // Only spawns if far enough away from other islands
-            if (TryGetValidPosition(islandRadius, out Vector3 spawnPos))
+            if (TryGetValidPosition(islandRadius, out Vector3 spawnPos, islandHeight))
             {
                 SpawnIsland(island, spawnPos, islandRadius);
             }
@@ -109,14 +111,14 @@ public class IslandGenerator : NetworkBehaviour
         SceneEventBus.Instance.ToggleLoadingScreenRpc(false);
     }
 
-    bool TryGetValidPosition(float islandRadius, out Vector3 position)
+    bool TryGetValidPosition(float islandRadius, out Vector3 position, float islandHeight)
     {
         int maxAttempts = 50;
 
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
             Vector2 circle = Random.insideUnitCircle * spawnRadius;
-            Vector3 candidate = transform.position + new Vector3(circle.x, 4f, circle.y);
+            Vector3 candidate = transform.position + new Vector3(circle.x, islandHeight, circle.y);
 
             // Will only place islands on water
             if (waterLayer != 0)
@@ -142,17 +144,15 @@ public class IslandGenerator : NetworkBehaviour
     {
         foreach (PlacedIsland island in placedIslands)
         {
-            // Calculates min distance between islands and adds some randomness
+            // Calculates min distance between islands
             float minRequired = island.radius + newRadius + spacingPadding;
-            minRequired *= Random.Range(0.9f, 1.15f);
 
             if (Vector3.Distance(candidate, island.position) < minRequired)
                 return false;
         }
 
         // Ensures islands won't overlap with ship
-        float minShipDistance = newRadius + spacingPadding;
-        minShipDistance *= Random.Range(0.9f, 1.15f);
+        float minShipDistance = newRadius + spacingPadding + shipExclusionRadius;
 
         if (Vector3.Distance(candidate, ship.position) < minShipDistance)
             return false;

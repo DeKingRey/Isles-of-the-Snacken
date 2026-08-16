@@ -45,6 +45,7 @@ public class Interactable : NetworkBehaviour
     private bool playerInRange = false;
     private float rangeTimer = 0f;
     private Transform player;
+    private bool requiresRelease = false;
 
     public override void OnNetworkSpawn()
     {
@@ -139,16 +140,23 @@ public class Interactable : NetworkBehaviour
                 return;
             }
 
-            elapsedHoldTime += Time.deltaTime;
-
-            // Invokes interact action
-            if (elapsedHoldTime >= interactHoldTime && canInteract)
+            if (canInteract && !requiresRelease)
             {
-                Debug.Log("interact");
-                OnInteractComplete?.Invoke();
+                elapsedHoldTime += Time.deltaTime;  
+
+                // Invokes interact action
+                if (elapsedHoldTime >= interactHoldTime && canInteract)
+                {
+                    Debug.Log(requiresRelease + gameObject.name);
+                    requiresRelease = true; // Player needs to release E to interact again
+                    elapsedHoldTime = 0f;
+                    OnInteractComplete?.Invoke();
+                }
             }
+            
         } else
         {
+            requiresRelease = false;
             elapsedHoldTime -= Time.deltaTime;
             if (elapsedHoldTime < 0) elapsedHoldTime = 0f;
         }

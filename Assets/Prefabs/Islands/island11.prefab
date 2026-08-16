@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandSize
   islandRadius: 40
+  islandHeight: 2
 --- !u!114 &8228013434290772780
 MonoBehaviour:
   m_ObjectHideFlags: 0

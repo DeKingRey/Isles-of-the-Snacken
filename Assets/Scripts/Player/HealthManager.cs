@@ -33,6 +33,10 @@ public class HealthManager : NetworkBehaviour, IDamageable
         {
             ui.BindHealth(this);
         }
+
+        // Revives player if they died
+        currentHealth.Value = maxHealth;
+        TogglePlayer(true);
     }
 
     void Update()
@@ -70,6 +74,7 @@ public class HealthManager : NetworkBehaviour, IDamageable
         {
             case EntityType.Player:
                 TogglePlayer(false);  // Disables player
+                // Enable some death UI
                 break;
             case EntityType.Nommian:
                 ToggleNommian(false);  // Disables nommian

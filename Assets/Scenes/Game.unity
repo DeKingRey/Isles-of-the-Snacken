@@ -3480,11 +3480,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: 944707a01454e02429cb76b7cdc5d7df, type: 3}
 --- !u!4 &1523094876 stripped
@@ -3505,8 +3505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
   m_SerializedVersion: 0
-  m_Size: {x: 8, y: 0, z: 0.05}
-  m_Center: {x: 0, y: 4, z: 0}
+  m_Size: {x: 8, y: 8, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
 --- !u!1 &1527666741
@@ -4294,6 +4294,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16
   spacingPadding: 32
+  shipExclusionRadius: 20
 --- !u!114 &2132818722
 MonoBehaviour:
   m_ObjectHideFlags: 0

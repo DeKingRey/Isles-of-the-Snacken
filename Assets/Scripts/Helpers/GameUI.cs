@@ -17,4 +17,8 @@ public class GameUI : MonoBehaviour
 
     [Header("Quota UI")]
     public TextMeshProUGUI quotaText;
+
+    [Space(10)]
+    [Header("Dead UI")]
+    public GameObject deadUI;
 }

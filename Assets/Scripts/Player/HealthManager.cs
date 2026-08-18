@@ -1,7 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
-using Unity.AI;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class HealthManager : NetworkBehaviour, IDamageable
 {
@@ -9,9 +10,29 @@ public class HealthManager : NetworkBehaviour, IDamageable
     public float maxHealth = 100f;
     [SerializeField] private float invulnerabilityDuration = 1f;
     [SerializeField] private EntityType entityType;
+
+    [Space(10)]
+
+    [Header("Damage Effects")]
+    [SerializeField] private float vignetteFadeDuration = 0.5f;
+    [SerializeField] private float maxVignetteIntensity = 0.4f;
+
+    [Space(10)]
+
+    [Header("Drowning")]
+    [Tooltip("Time until player starts drowning")]
+    [SerializeField] private float drownTime = 5f;
+
+    [Tooltip("Interval between taking damage when drowning")]
+    [SerializeField] private float drownInterval = 1f;
+    [SerializeField] private float drownDamage = 20f;
     [HideInInspector] public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
     private bool isInvulnerable;
+    private Coroutine currentDrownCoroutine;
+    private bool isDrowning = false;
+    private float elapsedDrownTime = 0f;
+    private Vignette damageVignette;
 
     public override void OnNetworkSpawn()
     {
@@ -20,8 +41,20 @@ public class HealthManager : NetworkBehaviour, IDamageable
         
         if (IsOwner && entityType == EntityType.Player)
         {
+            GetComponentInChildren<Volume>().profile.TryGet(out damageVignette);
+            currentHealth.OnValueChanged += OnHealthChanged;
+
             SceneEventBus.SceneChanged += RebindScene;
             RebindScene();   
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner && entityType == EntityType.Player)
+        {
+            currentHealth.OnValueChanged -= OnHealthChanged;
+            SceneEventBus.SceneChanged -= RebindScene;
         }
     }
 
@@ -41,9 +74,22 @@ public class HealthManager : NetworkBehaviour, IDamageable
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (currentHealth.Value <= 0 && entityType == EntityType.Player)
         {
             GetComponent<PlayerController>().ToggleInput(false);
+        }
+
+        if (isDrowning)
+        {
+            elapsedDrownTime += Time.deltaTime;
+
+            if (elapsedDrownTime >= drownInterval)
+            {
+                TakeDamage(drownDamage);
+                elapsedDrownTime = 0f;
+            }
         }
     }
 
@@ -68,13 +114,54 @@ public class HealthManager : NetworkBehaviour, IDamageable
         isInvulnerable = false;
     }
 
+    // Begins damage effects for client
+    private void OnHealthChanged(float prev, float current)
+    {
+        if (!IsOwner || entityType != EntityType.Player)
+            return;
+        
+        if (current < prev && current > 0)
+            StartCoroutine(FadeDamageVignette());
+    }
+
+    private IEnumerator FadeDamageVignette()
+    {
+        float elapsedTime = 0f;
+        float startingIntensity = damageVignette.intensity.value;
+
+        Debug.Log("fading");
+
+        while (elapsedTime <= vignetteFadeDuration / 2f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / (vignetteFadeDuration / 2f));
+
+            damageVignette.intensity.value = Mathf.Lerp(startingIntensity, maxVignetteIntensity, t);
+
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+        while (elapsedTime <= vignetteFadeDuration / 2f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / (vignetteFadeDuration / 2f));
+
+            damageVignette.intensity.value = Mathf.Lerp(maxVignetteIntensity, 0f, t);
+
+            yield return null;
+        }
+
+        damageVignette.intensity.value = 0f;
+    }
+
     private void Die()
     {
         switch (entityType)
         {
             case EntityType.Player:
-                TogglePlayer(false);  // Disables player
-                // Enable some death UI
+                TogglePlayer(false);
+                FindAnyObjectByType<GameUI>().deadUI.SetActive(true);
                 break;
             case EntityType.Nommian:
                 ToggleNommian(false);  // Disables nommian
@@ -110,6 +197,25 @@ public class HealthManager : NetworkBehaviour, IDamageable
         GetComponent<Animator>().enabled = isActive;
         GetComponent<Rigidbody>().isKinematic = !isActive;
         GetComponent<Collider>().isTrigger = !isActive;
+    }
+
+    public void IsUnderwater(bool isUnderwater)
+    {
+        if (isUnderwater)
+        {
+            currentDrownCoroutine = StartCoroutine(DrownCountdown());
+        } else
+        {
+            if (currentDrownCoroutine != null) StopCoroutine(DrownCountdown());
+            isDrowning = false;
+        }
+    }
+
+    private IEnumerator DrownCountdown()
+    {
+        yield return new WaitForSeconds(drownTime);
+
+        isDrowning = true;
     }
 
     void OnTriggerEnter(Collider obj)

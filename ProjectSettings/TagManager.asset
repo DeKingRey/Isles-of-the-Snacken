@@ -14,6 +14,8 @@ TagManager:
   - Island
   - NommianWeapon
   - PlayingUI
+  - SnackenEntrance
+  - Ocean
   layers:
   - Default
   - TransparentFX
@@ -30,7 +32,7 @@ TagManager:
   - Collectable
   - ShipBlocker
   - Ship
-  - 
+  - PostProccessing
   - 
   - 
   - 

@@ -92,6 +92,9 @@ public class PlayerUI : MonoBehaviour
         staminaSlider.value = Mathf.Clamp(player.smoothedSprintValue, 0f, staminaSlider.maxValue);
         healthSlider.value = Mathf.Clamp(healthManager.currentHealth.Value, 0f, healthSlider.maxValue);
 
+        if (healthManager.currentHealth.Value <= 0)
+            return;
+
         // Toggles menu and closes inventory menu
         if (Input.GetKeyDown(KeyCode.Escape))
         {

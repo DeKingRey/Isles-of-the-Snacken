@@ -147,7 +147,6 @@ public class Interactable : NetworkBehaviour
                 // Invokes interact action
                 if (elapsedHoldTime >= interactHoldTime && canInteract)
                 {
-                    Debug.Log(requiresRelease + gameObject.name);
                     requiresRelease = true; // Player needs to release E to interact again
                     elapsedHoldTime = 0f;
                     OnInteractComplete?.Invoke();

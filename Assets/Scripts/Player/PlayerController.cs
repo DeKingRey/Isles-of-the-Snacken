@@ -130,6 +130,9 @@ public class PlayerController : NetworkBehaviour
         controller = GetComponent<CharacterController>();
 
         currentStamina = maxStamina;
+
+        PlayerSpawnpoint[] playerSpawnpoints = FindObjectsByType<PlayerSpawnpoint>();
+        transform.position = playerSpawnpoints[Random.Range(0, playerSpawnpoints.Length - 1)].transform.position;
     }
 
     void Update()

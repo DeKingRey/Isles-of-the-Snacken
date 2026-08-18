@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2386410196
+  GlobalObjectIdHash: 2818387440
   InScenePlacedSourceGlobalObjectIdHash: 3047149796
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1143,7 +1143,7 @@ MonoBehaviour:
   speed: 5
   speedMultiplier: 2.5
   roamRadius: 20
-  detectionRadius: 7.5
+  detectionRadius: 15
   activationRadius: 40
   stateTransitionDuration: 1
   damage: 20

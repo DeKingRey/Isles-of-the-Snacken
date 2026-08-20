@@ -78,6 +78,9 @@ public class ShipController : NetworkBehaviour
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
             return;
+
+        if (GameManager.Instance.State.Value == GameManager.GameState.SnackenEating)
+            return;
             
         // Validates input if the input comes from the current driver
         if (IsOwner && steeringClientId.Value == NetworkManager.Singleton.LocalClientId)

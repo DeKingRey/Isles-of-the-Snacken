@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5046094934886079827}
   - component: {fileID: 8359052134440429157}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Global PostProcessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,4 +48,4 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 979e4e67ee129b44499cfbaadeb5cce7, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 48615b85c80844f47be3bd7dd40f4615, type: 2}

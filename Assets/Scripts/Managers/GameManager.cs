@@ -33,7 +33,8 @@ public class GameManager : NetworkBehaviour
     {
         Playing,
         GameOver,
-        Snacken
+        Snacken,
+        SnackenEating
     }
 
     void Awake()
@@ -164,6 +165,8 @@ public class GameManager : NetworkBehaviour
                 break;
             case GameState.Snacken:
                 if (IsServer) SpawnDeliveredNommians();
+                break;
+            case GameState.SnackenEating:
                 break;
         }
     }

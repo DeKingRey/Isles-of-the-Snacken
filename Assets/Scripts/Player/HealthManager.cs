@@ -15,17 +15,21 @@ public class HealthManager : NetworkBehaviour, IDamageable
 
     [Header("Damage Effects")]
     [SerializeField] private float vignetteFadeDuration = 0.5f;
-    [SerializeField] private float maxVignetteIntensity = 0.4f;
+    [SerializeField] private float maxDamageVignetteIntensity = 0.4f;
+    [SerializeField] private Volume damageVolume;
 
     [Space(10)]
 
     [Header("Drowning")]
     [Tooltip("Time until player starts drowning")]
-    [SerializeField] private float drownTime = 5f;
+    [SerializeField] private float drownTime = 1f;
 
     [Tooltip("Interval between taking damage when drowning")]
     [SerializeField] private float drownInterval = 1f;
     [SerializeField] private float drownDamage = 20f;
+    [SerializeField] private Volume drowningVolume;
+    [SerializeField] private float maxDrownVignetteIntensity = 1f;
+    [SerializeField] private float drownFadeOutDuration = 1f;
     [HideInInspector] public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
     private bool isInvulnerable;
@@ -33,6 +37,7 @@ public class HealthManager : NetworkBehaviour, IDamageable
     private bool isDrowning = false;
     private float elapsedDrownTime = 0f;
     private Vignette damageVignette;
+    private Vignette drowningVignette;
 
     public override void OnNetworkSpawn()
     {
@@ -41,7 +46,8 @@ public class HealthManager : NetworkBehaviour, IDamageable
         
         if (IsOwner && entityType == EntityType.Player)
         {
-            GetComponentInChildren<Volume>().profile.TryGet(out damageVignette);
+            damageVolume.profile.TryGet(out damageVignette);
+            drowningVolume.profile.TryGet(out drowningVignette);
             currentHealth.OnValueChanged += OnHealthChanged;
 
             SceneEventBus.SceneChanged += RebindScene;
@@ -84,6 +90,9 @@ public class HealthManager : NetworkBehaviour, IDamageable
         if (isDrowning)
         {
             elapsedDrownTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, 1 - (currentHealth.Value / maxHealth));
+
+            drowningVignette.intensity.value = Mathf.Lerp(0f, maxDrownVignetteIntensity, t);
 
             if (elapsedDrownTime >= drownInterval)
             {
@@ -129,14 +138,12 @@ public class HealthManager : NetworkBehaviour, IDamageable
         float elapsedTime = 0f;
         float startingIntensity = damageVignette.intensity.value;
 
-        Debug.Log("fading");
-
         while (elapsedTime <= vignetteFadeDuration / 2f)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, elapsedTime / (vignetteFadeDuration / 2f));
 
-            damageVignette.intensity.value = Mathf.Lerp(startingIntensity, maxVignetteIntensity, t);
+            damageVignette.intensity.value = Mathf.Lerp(startingIntensity, maxDamageVignetteIntensity, t);
 
             yield return null;
         }
@@ -147,7 +154,7 @@ public class HealthManager : NetworkBehaviour, IDamageable
             elapsedTime += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, elapsedTime / (vignetteFadeDuration / 2f));
 
-            damageVignette.intensity.value = Mathf.Lerp(maxVignetteIntensity, 0f, t);
+            damageVignette.intensity.value = Mathf.Lerp(maxDamageVignetteIntensity, 0f, t);
 
             yield return null;
         }
@@ -160,6 +167,22 @@ public class HealthManager : NetworkBehaviour, IDamageable
         switch (entityType)
         {
             case EntityType.Player:
+                // If all players are dead, end the game
+                int deadPlayerCount = 0;
+                for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+                {
+                    if (NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject.GetComponent<HealthManager>().currentHealth.Value <= 0)
+                    {
+                        deadPlayerCount += 1;
+                    }
+                }
+
+                if (deadPlayerCount == NetworkManager.Singleton.ConnectedClientsList.Count)
+                {
+                    GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
+                    break;
+                }
+                
                 TogglePlayer(false);
                 FindAnyObjectByType<GameUI>().deadUI.SetActive(true);
                 break;
@@ -199,15 +222,52 @@ public class HealthManager : NetworkBehaviour, IDamageable
         GetComponent<Collider>().isTrigger = !isActive;
     }
 
+    public void ResetHealth()
+    {
+        // Stop drowning
+        if (currentDrownCoroutine != null)
+        {
+            StopCoroutine(currentDrownCoroutine);
+            currentDrownCoroutine = null;
+        }
+
+        isDrowning = false;
+        elapsedDrownTime = 0f;
+
+        // Stop damage/invulnerability state
+        isInvulnerable = false;
+
+        // Reset health on the server
+        if (IsServer)
+            currentHealth.Value = maxHealth;
+
+        // Reset visual effects
+        if (damageVignette != null)
+            damageVignette.intensity.value = 0f;
+
+        if (drowningVignette != null)
+            drowningVignette.intensity.value = 0f;
+    }
+
     public void IsUnderwater(bool isUnderwater)
     {
         if (isUnderwater)
         {
+            if (currentDrownCoroutine != null) 
+            {
+                StopCoroutine(currentDrownCoroutine);
+                currentDrownCoroutine = null;
+            }
             currentDrownCoroutine = StartCoroutine(DrownCountdown());
         } else
         {
-            if (currentDrownCoroutine != null) StopCoroutine(DrownCountdown());
+            if (currentDrownCoroutine != null) 
+            {
+                StopCoroutine(currentDrownCoroutine);
+                currentDrownCoroutine = null;
+            }
             isDrowning = false;
+            StartCoroutine(FadeOutDrownVignette());
         }
     }
 
@@ -216,6 +276,22 @@ public class HealthManager : NetworkBehaviour, IDamageable
         yield return new WaitForSeconds(drownTime);
 
         isDrowning = true;
+    }
+
+    private IEnumerator FadeOutDrownVignette()
+    {
+        float elapsedTime = 0f;
+        float startingIntensity = drowningVignette.intensity.value;
+
+        while (elapsedTime <= drownFadeOutDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / drownFadeOutDuration);
+
+            drowningVignette.intensity.value = Mathf.Lerp(startingIntensity, 0f, t);
+
+            yield return null;
+        }
     }
 
     void OnTriggerEnter(Collider obj)

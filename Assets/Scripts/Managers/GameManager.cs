@@ -173,8 +173,17 @@ public class GameManager : NetworkBehaviour
 
     public void PlayAgain()
     {
-        if (NetworkManager.Singleton.IsHost)
+        if (NetworkManager.Singleton.IsServer)
         {
+            IslandGenerator.Instance.ClearIslands(); // Despawns islands
+
+            // Despawns nommians
+            foreach (var spawner in FindObjectsByType<NommianSpawner>())
+            {
+                spawner.DespawnNommians();
+            }
+
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
     }

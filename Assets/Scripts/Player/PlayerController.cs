@@ -98,6 +98,7 @@ public class PlayerController : NetworkBehaviour
     private Ladder currentLadder;
     private float climbProgress;
     private bool onLadder = false;
+    private PlayerUI ui;
 
     public override void OnNetworkSpawn()
     {
@@ -117,7 +118,7 @@ public class PlayerController : NetworkBehaviour
 
     private void RebindScene()
     {
-        PlayerUI ui = FindAnyObjectByType<PlayerUI>();
+        ui = FindAnyObjectByType<PlayerUI>();
         
         if (ui != null)
         {
@@ -130,11 +131,6 @@ public class PlayerController : NetworkBehaviour
         controller = GetComponent<CharacterController>();
 
         currentStamina = maxStamina;
-
-        PlayerSpawnpoint[] playerSpawnpoints = FindObjectsByType<PlayerSpawnpoint>();
-        Vector3 spawnPoint = playerSpawnpoints[Random.Range(0, playerSpawnpoints.Length - 1)].transform.position;
-        transform.position =  spawnPoint;
-        Debug.Log($"Player transform: {transform.position}\n Spawnpoint transform: {spawnPoint}");
     }
 
     void Update()
@@ -473,6 +469,43 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    public void ResetPlayer()
+    {
+        // Remove ship relationship
+        transform.SetParent(null, true);
+
+        currentShip = null;
+        isSteering = false;
+        wheelInRange = null;
+
+        // Reset movement
+        moveDirection = Vector3.zero;
+        isSprinting = false;
+        isCrouching = false;
+        isMoving = false;
+        isFalling = false;
+        canMove = true;
+        inputEnabled = true;
+
+        // Reset climbing
+        currentLadder = null;
+        onLadder = false;
+        climbProgress = 0f;
+
+        // Reset stamina
+        currentStamina = maxStamina;
+        staminaDelayActive = false;
+        canRegainStamina = false;
+
+        // Reset CharacterController
+        if (controller != null)
+            controller.enabled = true;
+        
+        ui.ResetUI();
+        inv.ResetInventory();
+        GetComponent<HealthManager>().ResetHealth();
+    }
+
     private void OnTriggerExit(Collider obj)
     {
         if (obj.CompareTag("SteeringWheel"))
@@ -482,7 +515,7 @@ public class PlayerController : NetworkBehaviour
 
         if (obj.CompareTag("Ship"))
         {
-            transform.SetParent(currentShip.transform.parent, false);
+            transform.SetParent(null, true);
             currentShip = null;
         }
 

@@ -287,6 +287,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &257302158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257302159}
+  - component: {fileID: 257302161}
+  - component: {fileID: 257302160}
+  m_Layer: 15
+  m_Name: UnderseaPP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &257302159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257302158}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: -10, z: 0}
+  m_LocalScale: {x: 100, y: 99.999985, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1527666742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &257302160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257302158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 0
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 979e4e67ee129b44499cfbaadeb5cce7, type: 2}
+--- !u!65 &257302161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257302158}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 7.999999, z: 9.059647}
+  m_Center: {x: 0, y: -0.00000061035166, z: -0.47017768}
 --- !u!1 &301744489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,6 +1487,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 4770c96617ae6931abc00b39e8255059, type: 2}
     - target: {fileID: 919132149155446097, guid: 944707a01454e02429cb76b7cdc5d7df, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 919132149155446097, guid: 944707a01454e02429cb76b7cdc5d7df, type: 3}
       propertyPath: m_Name
       value: Ocean
       objectReference: {fileID: 0}
@@ -1516,6 +1591,7 @@ Transform:
   - {fileID: 1630977781}
   - {fileID: 1747479123}
   - {fileID: 543450652080083344}
+  - {fileID: 257302159}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1614783490 stripped
@@ -1625,7 +1701,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 8, y: 7.999999, z: 11.18431}
-  m_Center: {x: 0, y: 1.0623646e-17, z: 0.59215546}
+  m_Center: {x: 0, y: -0.00000045776378, z: 0.59215546}
 --- !u!1001 &1630977780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1901,6 +1977,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: f26d5a84d905da049950797f958d9d21, type: 2}
     - target: {fileID: 919132149155446097, guid: 944707a01454e02429cb76b7cdc5d7df, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 919132149155446097, guid: 944707a01454e02429cb76b7cdc5d7df, type: 3}
       propertyPath: m_Name
       value: OceanBottom
       objectReference: {fileID: 0}
@@ -2136,7 +2216,6 @@ GameObject:
   - component: {fileID: 543450652080083344}
   - component: {fileID: 1619883646}
   - component: {fileID: 919132147552373547}
-  - component: {fileID: 919132147552373548}
   m_Layer: 0
   m_Name: Undersea
   m_TagString: Ocean
@@ -2171,23 +2250,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &919132147552373548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147552373546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
-  m_IsGlobal: 0
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 979e4e67ee129b44499cfbaadeb5cce7, type: 2}
 --- !u!1001 &1066572222332418224
 PrefabInstance:
   m_ObjectHideFlags: 0

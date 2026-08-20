@@ -48,6 +48,22 @@ public class PlayerInventory : NetworkBehaviour
         }
     }
 
+    public void ResetInventory()
+    {
+        // Remove all stored items
+        items.Clear();
+
+        capacity = 0;
+        currentWeight = 0f;
+        weightPercent = 0f;
+
+        // Reset scene-specific references
+        deliveryManager = null;
+
+        if (interaction != null)
+            interaction.canInteract = false;
+    }
+
     void Update()
     {
         if (!IsOwner) return;

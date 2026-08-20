@@ -5,13 +5,12 @@ public class PlayerAppearance : NetworkBehaviour
 {
     [SerializeField] private Texture[] textures;
 
-    private Renderer[] renderers;
+    [SerializeField] private Renderer[] renderers;
 
     public NetworkVariable<int> TextureIndex = new(-1);
 
     public override void OnNetworkSpawn()
     {
-        renderers = GetComponentsInChildren<Renderer>();
         TextureIndex.OnValueChanged += OnTextureChanged;
 
         // Assigns texture based on player ID

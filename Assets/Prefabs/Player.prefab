@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
   m_IsGlobal: 1
-  priority: 99999
+  priority: 1
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: ad519983fc1360e44a4a6b3a54b04d07, type: 2}
@@ -155,6 +155,55 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!1 &6682461971560312098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 818841176241629315}
+  - component: {fileID: 2855535214189596238}
+  m_Layer: 15
+  m_Name: DrowningVignette
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &818841176241629315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682461971560312098}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 180290841042001025}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2855535214189596238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682461971560312098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 2
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 0331e6f71bcba4947b9d0e0e1624d26e, type: 2}
 --- !u!1 &7114670293778620262
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +403,7 @@ Transform:
   - {fileID: 1850893656218380089}
   - {fileID: 8711056734157390974}
   - {fileID: 534175482002885671}
+  - {fileID: 818841176241629315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3716513214595896317
@@ -699,10 +749,14 @@ MonoBehaviour:
   invulnerabilityDuration: 1
   entityType: 0
   vignetteFadeDuration: 0.5
-  maxVignetteIntensity: 0.4
+  maxDamageVignetteIntensity: 0.4
+  damageVolume: {fileID: 9013652392062253515}
   drownTime: 5
   drownInterval: 1
   drownDamage: 20
+  drowningVolume: {fileID: 2855535214189596238}
+  maxDrownVignetteIntensity: 1
+  drownFadeOutDuration: 1
   currentHealth:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -1393,11 +1447,19 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 97b01ba4b2165c8488e214fda9cfdeac, type: 3}
   - {fileID: 2800000, guid: ba07cc50707d9c349b1a5c5740b4dc6c, type: 3}
   - {fileID: 2800000, guid: d6fd7809228598f4b8de590a528dc629, type: 3}
+  renderers:
+  - {fileID: 2609050345237112762}
+  - {fileID: 5378219824856000404}
   TextureIndex:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: -1
+--- !u!137 &5378219824856000404 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8662617239381368188, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+  m_PrefabInstance: {fileID: 3644689817389841128}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4127644275788035189
 PrefabInstance:
   m_ObjectHideFlags: 0

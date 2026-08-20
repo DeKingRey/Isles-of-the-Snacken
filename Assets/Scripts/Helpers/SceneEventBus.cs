@@ -5,6 +5,7 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using Unity.VectorGraphics;
 using UnityEngine.SceneManagement;
+using Unity.Netcode.Components;
 
 /// <summary>
 ///  Handles loading screens and syncronisation
@@ -102,16 +103,24 @@ public class SceneEventBus : MonoBehaviour
 
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
         {
+            Debug.Log(i);
             // Will spawn randomly if there are no available spawnpoints (though there should be)
             if (i >= spawnpoints.Length || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || spawnpoints[i] == null)
                 break;
-            
+            Debug.Log(i);
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;
+
             PlayerController controller = player.GetComponent<PlayerController>();
+            NetworkTransform networkTransform = player.GetComponent<NetworkTransform>();
 
             controller.enabled = false;
+            networkTransform.enabled = false;
+
             player.transform.position = spawnpoints[i].transform.position;
+            Debug.Log($"Player transform: {player.transform.position}\n Spawnpoint transform: {spawnpoints[i].transform.position}");
+
             controller.enabled = true;
+            networkTransform.enabled = true;
 
             if (controller != null && controller.isSteering)
             {

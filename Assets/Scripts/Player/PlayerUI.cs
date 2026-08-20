@@ -83,6 +83,44 @@ public class PlayerUI : MonoBehaviour
         SelectTrapUI(0); // Highlights first trap
     }
 
+    public void ResetUI()
+    {
+        // Close menus
+        menu.SetActive(false);
+        inventoryMenu.SetActive(false);
+
+        // Clear inventory UI
+        foreach (GameObject item in itemsGame)
+        {
+            if (item != null)
+                Destroy(item);
+        }
+
+        foreach (GameObject item in itemsMenu)
+        {
+            if (item != null)
+                Destroy(item);
+        }
+
+        itemsGame.Clear();
+        itemsMenu.Clear();
+
+        // Reset references
+        player = null;
+        playerCam = null;
+        healthManager = null;
+        trapGun = null;
+        playerInventory = null;
+
+        // Reset UI values
+        staminaSlider.value = 0f;
+        healthSlider.value = 0f;
+
+        // Reset cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
         if (player == null || healthManager == null) return;

@@ -183,6 +183,11 @@ public class GameManager : NetworkBehaviour
                 spawner.DespawnNommians();
             }
 
+            foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+            {
+                client.PlayerObject.GetComponent<PlayerController>().ResetPlayer();
+            }
+
             SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }

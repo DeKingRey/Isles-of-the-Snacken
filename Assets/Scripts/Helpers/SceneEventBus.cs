@@ -111,21 +111,9 @@ public class SceneEventBus : MonoBehaviour
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;
 
             PlayerController controller = player.GetComponent<PlayerController>();
-            NetworkTransform networkTransform = player.GetComponent<NetworkTransform>();
 
-            controller.enabled = false;
-            networkTransform.enabled = false;
-
-            player.transform.position = spawnpoints[i].transform.position;
-            Debug.Log($"Player transform: {player.transform.position}\n Spawnpoint transform: {spawnpoints[i].transform.position}");
-
-            controller.enabled = true;
-            networkTransform.enabled = true;
-
-            if (controller != null && controller.isSteering)
-            {
-                FindAnyObjectByType<SteeringWheel>().TrySteerShip(controller);
-            }
+            // Spawns player at a spawnpoint (must be client side)
+            controller.SpawnPlayerRpc(spawnpoints[i].transform.position, spawnpoints[i].transform.rotation);
         }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.Rendering.UI;
+using Unity.Netcode.Components;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -131,6 +133,13 @@ public class PlayerController : NetworkBehaviour
         controller = GetComponent<CharacterController>();
 
         currentStamina = maxStamina;
+    }
+
+    // Spawns player at a spawnpoint
+    [Rpc(SendTo.Owner)]
+    public void SpawnPlayerRpc(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        GetComponent<NetworkTransform>().Teleport(spawnPosition, spawnRotation, transform.localScale);
     }
 
     void Update()
@@ -469,7 +478,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    public void ResetPlayer()
+    public void ResetPlayer(bool resetInv = true)
     {
         // Remove ship relationship
         transform.SetParent(null, true);
@@ -501,8 +510,9 @@ public class PlayerController : NetworkBehaviour
         if (controller != null)
             controller.enabled = true;
         
-        ui.ResetUI();
-        inv.ResetInventory();
+        if (ui) ui.ResetUI();
+        cam.ToggleInput(true);
+        if (resetInv) inv.ResetInventory();
         GetComponent<HealthManager>().ResetHealth();
     }
 

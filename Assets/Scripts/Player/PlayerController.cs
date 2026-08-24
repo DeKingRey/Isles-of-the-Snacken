@@ -134,14 +134,7 @@ public class PlayerController : NetworkBehaviour
 
         currentStamina = maxStamina;
     }
-
-    // Spawns player at a spawnpoint
-    [Rpc(SendTo.Owner)]
-    public void SpawnPlayerRpc(Vector3 spawnPosition, Quaternion spawnRotation)
-    {
-        GetComponent<NetworkTransform>().Teleport(spawnPosition, spawnRotation, transform.localScale);
-    }
-
+    
     void Update()
     {
         if (!IsOwner) return;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Unity.VectorGraphics;
 using UnityEngine.SceneManagement;
 using Unity.Netcode.Components;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
 ///  Handles loading screens and syncronisation
@@ -103,17 +104,23 @@ public class SceneEventBus : MonoBehaviour
 
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
         {
-            Debug.Log(i);
             // Will spawn randomly if there are no available spawnpoints (though there should be)
             if (i >= spawnpoints.Length || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || spawnpoints[i] == null)
                 break;
-            Debug.Log(i);
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;
+            CharacterController controller = player.GetComponent<CharacterController>();
+            controller.enabled = false;
 
-            PlayerController controller = player.GetComponent<PlayerController>();
+            // Spawns player at a spawnpoint (must be server side)
+            player.GetComponent<NetworkTransform>().Teleport(
+                spawnpoints[i].transform.position, 
+                spawnpoints[i].transform.rotation, 
+                player.transform.localScale
+            );
 
-            // Spawns player at a spawnpoint (must be client side)
-            controller.SpawnPlayerRpc(spawnpoints[i].transform.position, spawnpoints[i].transform.rotation);
+            controller.enabled = true;
+
+            Debug.Log($"Spawnpoint: {spawnpoints[i].transform.position} \n Spawnpoint: {player.transform.position}");
         }
     }
 }

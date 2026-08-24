@@ -535,6 +535,7 @@ GameObject:
   - component: {fileID: -1317265876573411911}
   - component: {fileID: 528577106151877533}
   - component: {fileID: 2315957734064606934}
+  - component: {fileID: -521011897096233936}
   m_Layer: 8
   m_Name: Worg_Item
   m_TagString: Untagged
@@ -743,6 +744,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3068361, y: 1.3517556, z: 2.1138918}
   m_Center: {x: 0, y: 0.67419827, z: 0.0146564245}
+--- !u!114 &-521011897096233936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280837299687008598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6dbabc4dd59b74b8954c85d1ec19dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  enabledDuration: 2
 --- !u!1 &6579838702140999352
 GameObject:
   m_ObjectHideFlags: 0

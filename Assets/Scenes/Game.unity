@@ -1156,6 +1156,10 @@ MonoBehaviour:
   endHour: 18
   snackenObj: {fileID: 3348615901283373643}
   snackenEndPos: {x: 0, y: 0, z: 0}
+  stomachGrowlChance: 0.5
+  snackenRoarChance: 0.75
+  stomachGrowlSfx: {fileID: 8300000, guid: 3dffe9dc655394745ba88ab72be2a984, type: 3}
+  snackenRoarSfx: {fileID: 8300000, guid: 07bf881b1d4d4ad4e880d48e285c556b, type: 3}
   startThickness: 0.5
   endThickness: 5
 --- !u!4 &969287400

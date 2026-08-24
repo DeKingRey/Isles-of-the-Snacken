@@ -58,6 +58,7 @@ public class IslandGenerator : NetworkBehaviour
         if (!IsServer) return;
 
         _ = GenerateWorldAsync();
+        GetComponent<NetworkObject>().DestroyWithScene = true;
     }
 
     // Delayed slightly to ensure that all objects are initialized
@@ -162,7 +163,7 @@ public class IslandGenerator : NetworkBehaviour
 
     void SpawnIsland(GameObject prefab, Vector3 position, float radius)
     {
-        GameObject island = Instantiate(prefab, position, Quaternion.Euler(-90f, 0, 0));
+        GameObject island = Instantiate(prefab, position, Quaternion.Euler(-90f, 0, 0), transform);
         island.GetComponent<NetworkObject>().Spawn();
 
         island.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f); // Random rotation

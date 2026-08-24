@@ -12,6 +12,13 @@ public class TrapBullet : NetworkBehaviour
 
     private bool deployed = false;
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+
+        GetComponent<NetworkObject>().DestroyWithScene = true;
+    }
+
     void Update()
     {
         if (!IsServer) return;

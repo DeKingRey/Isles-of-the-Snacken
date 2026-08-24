@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class NommianController : NetworkBehaviour
 {
@@ -42,6 +43,13 @@ public class NommianController : NetworkBehaviour
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private float attackRange = 5f;
 
+    [Space(10)]
+
+    [Header("Juice")]
+    [SerializeField] private AudioClip walkSfx;
+    [SerializeField] private AudioClip runSfx;
+    [SerializeField] private AudioClip attackSfx;
+
     private float activationRadiusSqr;
 
     private State currentState;
@@ -59,6 +67,7 @@ public class NommianController : NetworkBehaviour
     private Animator animator;
     private Rigidbody rb;
     private NavMeshAgent agent;
+    private AudioSource source;
 
     private float idleState = 0f;
     private float walkState = 1f;
@@ -70,6 +79,7 @@ public class NommianController : NetworkBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        source = GetComponent<AudioSource>();
 
         activationRadiusSqr = activationRadius * activationRadius;
 
@@ -79,6 +89,7 @@ public class NommianController : NetworkBehaviour
         roamTarget = GetRandomPoint();
 
         animator.SetFloat("State", idleState);
+        GetComponent<NetworkObject>().DestroyWithScene = true;
     }
 
     void Update()
@@ -97,7 +108,16 @@ public class NommianController : NetworkBehaviour
                 ToggleNommian(shouldBeActive);
             }
 
-            if (!isActive) return;
+            if (!isActive) 
+            {
+                // Disables audio
+                if (source.clip != null) 
+                {
+                    source.clip = null;
+                    source.Stop();
+                }
+                return;
+            }
 
             HandleDetection();
         }
@@ -189,7 +209,9 @@ public class NommianController : NetworkBehaviour
 
     // Randomly moves around
     private void Roaming()
-    {
+    {   
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         agent.speed = speed;
 
         if (Vector3.Distance(transform.position, roamTarget) < 1f)
@@ -197,12 +219,19 @@ public class NommianController : NetworkBehaviour
             roamTarget = GetRandomPoint();
         }
         
+        if (source.clip != walkSfx)
+        {
+            source.clip = walkSfx;
+            source.Play();
+        }
         agent.SetDestination(roamTarget);
     }
 
     // Runs away from the player
     private void Fleeing()
     {
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
 
@@ -234,18 +263,32 @@ public class NommianController : NetworkBehaviour
             }
         }
 
+        if (source.clip != runSfx)
+        {
+            source.clip = runSfx;
+            source.Play();
+        }
+
         agent.SetDestination(bestPoint);
     }
 
     // Chases the player
     private void Chasing()
     {
+        if (!agent.isActiveAndEnabled || !agent.isOnNavMesh) return;
+
         if (currentTarget == null) return;
         agent.speed = speed * speedMultiplier;
 
         if (NavMesh.SamplePosition(currentTarget.position, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
+        }
+
+        if (source.clip != runSfx)
+        {
+            source.clip = runSfx;
+            source.Play();
         }
     }
 

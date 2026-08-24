@@ -5,6 +5,8 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using Unity.VectorGraphics;
 using UnityEngine.SceneManagement;
+using Unity.Netcode.Components;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
 ///  Handles loading screens and syncronisation
@@ -16,7 +18,6 @@ public class SceneEventBus : MonoBehaviour
     public static SceneEventBus Instance;
     public static event Action SceneChanged;
     public static event Action<ulong> ClientFinishedLoading;
-    private HashSet<ulong> loadedClients = new();
 
     void Awake()
     {
@@ -45,7 +46,7 @@ public class SceneEventBus : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (NetworkManager.Singleton != null)
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
         {
             NetworkManager.Singleton.SceneManager.OnSceneEvent -= OnSceneEvent;   
         }
@@ -53,35 +54,27 @@ public class SceneEventBus : MonoBehaviour
 
     void OnSceneEvent(SceneEvent sceneEvent)
     {
-        if (sceneEvent.SceneEventType != SceneEventType.LoadComplete)
-            return;
-
-        if (sceneEvent.ClientId == NetworkManager.Singleton.LocalClientId)
+        switch (sceneEvent.SceneEventType)
         {
-            SceneChanged?.Invoke();
+            // Local to individual clients
+            case SceneEventType.LoadComplete:
+                if (sceneEvent.ClientId == NetworkManager.Singleton.LocalClientId)
+                {
+                    SceneChanged?.Invoke();
 
-            // Allows island generator to control loading screen
-            if (!FindAnyObjectByType<IslandGenerator>())
-                loadingScreen.SetActive(false);
-        }
+                    // Allows island generator to control loading screen
+                    if (!FindAnyObjectByType<IslandGenerator>())
+                        loadingScreen.SetActive(false);
+                }
 
-        ClientFinishedLoading?.Invoke(sceneEvent.ClientId);
-
-        // Only the server counts up loaded clients
-        if (NetworkManager.Singleton.IsServer)
-            OnClientFinishedLoading(sceneEvent.ClientId);
-    }
-
-    private void OnClientFinishedLoading(ulong clientId)
-    {
-        if (!NetworkManager.Singleton.IsServer) return;
-
-        loadedClients.Add(clientId);
-
-        // Hides loading screen when all players load in
-        if (loadedClients.Count == NetworkManager.Singleton.ConnectedClients.Count)
-        {
-            AllPlayersLoaded();
+                ClientFinishedLoading?.Invoke(sceneEvent.ClientId);
+                break;
+            
+            // Runs when all clients have loaded
+            case SceneEventType.LoadEventCompleted:
+                if (NetworkManager.Singleton.IsServer)
+                    AllPlayersLoaded();
+                break;
         }
     }
 
@@ -114,18 +107,20 @@ public class SceneEventBus : MonoBehaviour
             // Will spawn randomly if there are no available spawnpoints (though there should be)
             if (i >= spawnpoints.Length || NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject == null || spawnpoints[i] == null)
                 break;
-            
             var player =  NetworkManager.Singleton.ConnectedClientsList[i].PlayerObject;
-            PlayerController controller = player.GetComponent<PlayerController>();
-
+            CharacterController controller = player.GetComponent<CharacterController>();
             controller.enabled = false;
-            player.transform.position = spawnpoints[i].transform.position;
+
+            // Spawns player at a spawnpoint (must be server side)
+            player.GetComponent<NetworkTransform>().Teleport(
+                spawnpoints[i].transform.position, 
+                spawnpoints[i].transform.rotation, 
+                player.transform.localScale
+            );
+
             controller.enabled = true;
 
-            if (controller != null && controller.isSteering)
-            {
-                FindAnyObjectByType<SteeringWheel>().TrySteerShip(controller);
-            }
+            Debug.Log($"Spawnpoint: {spawnpoints[i].transform.position} \n Spawnpoint: {player.transform.position}");
         }
     }
 }

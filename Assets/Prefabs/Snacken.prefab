@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8837412869803404615}
   m_Layer: 0
   m_Name: SnackenEntrance
-  m_TagString: SnackenEntrance
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096630746770251177}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 70, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 25}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 7353723139730683480}
+  m_Father: {fileID: 3906480362215664933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1849477112902390123
 BoxCollider:
@@ -52,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 13.925503, y: 8.038465, z: 11.330146}
-  m_Center: {x: -0.03165222, y: 11.141061, z: -1.455935}
+  m_Size: {x: 13.925503, y: 31.878117, z: 7.5250487}
+  m_Center: {x: -0.03165222, y: 23.060913, z: 0.44660643}
 --- !u!114 &8837412869803404615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnackenSceneTrigger
   ShowTopMostFoldoutHeaderGroup: 1
+  cutsceneCam: {fileID: 0}
 --- !u!1 &4501983516685371583
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +207,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3906480362215664933}
-  - {fileID: 787511806691329635}
   m_Father: {fileID: 235025242098979350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7684155888612158017
@@ -448,6 +448,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &1848181065456518493
 Animator:
   serializedVersion: 7
@@ -511,9 +513,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 1848181065456518493}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1001 &1655494812421994969
 PrefabInstance:
@@ -631,6 +644,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &5074235478110505073
 Animator:
   serializedVersion: 7
@@ -694,9 +709,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 5074235478110505073}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1001 &2014468282798399592
 PrefabInstance:
@@ -809,6 +835,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &1812576296519544284
 Animator:
   serializedVersion: 7
@@ -872,9 +900,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 1812576296519544284}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!4 &2053198634417129347 stripped
 Transform:
@@ -1093,6 +1132,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &7367269583077906604
 Animator:
   serializedVersion: 7
@@ -1156,9 +1197,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 7367269583077906604}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1001 &3583777114792004302
 PrefabInstance:
@@ -1295,7 +1347,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -5117700066308340382, guid: 0a49e024174abc34ab5e0a3803140c04, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0a49e024174abc34ab5e0a3803140c04, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 787511806691329635}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0a49e024174abc34ab5e0a3803140c04, type: 3}
       insertIndex: -1
@@ -1352,27 +1407,13 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 7826888472675093326}
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1123912798
-    DestinationState: 1541689413
-    TransitionDuration: 0.25
-    TriggerNameHash: -332842610
-    TransitionIndex: 0
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1541689413
-    DestinationState: 1123912798
-    TransitionDuration: 1
-    TriggerNameHash: -332842610
-    TransitionIndex: 0
+  TransitionStateInfoList: []
   AnimatorParameterEntries:
     ParameterEntries:
-    - name: ToggleMouth
-      NameHash: -332842610
+    - name: mouthOpen
+      NameHash: -532037861
       Synchronize: 1
-      ParameterType: 9
+      ParameterType: 4
   AnimatorParametersExpanded: 0
 --- !u!1001 &3762976840582436048
 PrefabInstance:
@@ -1490,6 +1531,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &821901155294971121
 Animator:
   serializedVersion: 7
@@ -1553,9 +1596,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 821901155294971121}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1001 &4692852967146173166
 PrefabInstance:
@@ -1673,6 +1727,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &6368060508704574216
 Animator:
   serializedVersion: 7
@@ -1736,9 +1792,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 6368060508704574216}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1001 &6382872018669005886
 PrefabInstance:
@@ -1851,6 +1918,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &1641996265622728631
 Animator:
   serializedVersion: 7
@@ -1914,9 +1983,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 1641996265622728631}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!4 &6853982980901604309 stripped
 Transform:
@@ -2155,6 +2235,8 @@ MonoBehaviour:
   maxSizes: {x: 120, y: 85, z: 120}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &5624812592814897063
 Animator:
   serializedVersion: 7
@@ -2193,9 +2275,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 5624812592814897063}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!4 &6538004738745888545 stripped
 Transform:
@@ -2313,6 +2406,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &4539892843596571092
 Animator:
   serializedVersion: 7
@@ -2376,9 +2471,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 4539892843596571092}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!4 &6497902605818420179 stripped
 Transform:
@@ -2496,6 +2602,8 @@ MonoBehaviour:
   maxSizes: {x: 100, y: 65, z: 100}
   minAnimSpeed: 0.8
   maxAnimSpeed: 1.5
+  minSlamDelay: 0
+  maxSlamDelay: 7
 --- !u!95 &1741472774478036279
 Animator:
   serializedVersion: 7
@@ -2559,9 +2667,20 @@ MonoBehaviour:
   NetworkAnimatorExpanded: 0
   AuthorityMode: 0
   m_Animator: {fileID: 1741472774478036279}
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1861696849
+    DestinationState: -415850633
+    TransitionDuration: 0.25
+    TriggerNameHash: -153875945
+    TransitionIndex: 0
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Slam
+      NameHash: -153875945
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!4 &9071017683072359500 stripped
 Transform:

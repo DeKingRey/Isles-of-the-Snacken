@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 
 public class TimeManager : NetworkBehaviour
 {
@@ -18,7 +16,6 @@ public class TimeManager : NetworkBehaviour
 
     [SerializeField] private float startArrowRotation;
     [SerializeField] private float endArrowRotation;
-    private Quaternion targetArrowRotation;
 
     [Header("Time Settings")]
     public float dayDurationSeconds = 600;
@@ -30,6 +27,10 @@ public class TimeManager : NetworkBehaviour
     [Header("Snacken")]
     [SerializeField] private GameObject snackenObj;
     [SerializeField] private Vector3 snackenEndPos;
+    [SerializeField] private float stomachGrowlChance = 0.5f;
+    [SerializeField] private float snackenRoarChance = 0.75f;
+    [SerializeField] private AudioClip stomachGrowlSfx;
+    [SerializeField] private AudioClip snackenRoarSfx;
 
     [Space(10)]
 
@@ -55,6 +56,8 @@ public class TimeManager : NetworkBehaviour
         skyboxMaterial = RenderSettings.skybox;
         skyboxMaterial.SetFloat("_AtmosphereThickness", startThickness);
 
+        GetComponent<NetworkObject>().DestroyWithScene = true;
+
         if (IsServer)
         {
             elapsedTime.Value = 0f;
@@ -77,6 +80,21 @@ public class TimeManager : NetworkBehaviour
             {
                 hourTimer -= secondsPerHour; // Resets time
                 currentHour.Value++;
+
+                // Randomly may play a soud effect at each hour 
+                // The SFX are more likely to play later in the day
+                float randomGrowlChance = Random.Range(t, 1f);
+                float randomRoarChance = Random.Range(t, 1f);
+
+                if (randomGrowlChance >= stomachGrowlChance)
+                {
+                    SoundManager.Instance.PlayAudio(stomachGrowlSfx, 1, transform, 0f);
+                }
+
+                if (randomRoarChance >= snackenRoarChance)
+                {
+                    SoundManager.Instance.PlayAudio(snackenRoarSfx, 1, transform, 0f);
+                }
             }
 
             // Makes the snacken rise over time
@@ -112,9 +130,12 @@ public class TimeManager : NetworkBehaviour
         timeText.text = $"{hour:00}:00 {meridiem}";
         
         // Smoothly rotates arrow in accordance to day time
-        timeArrow.localRotation = Quaternion.Lerp(
-            Quaternion.Euler(0, 0, startArrowRotation),
-            Quaternion.Euler(0, 0, endArrowRotation),
-            t);
+        float currentRotation = Mathf.Lerp(
+            startArrowRotation,
+            endArrowRotation,
+            t
+        );
+
+        timeArrow.localRotation = Quaternion.Euler(0, 0, currentRotation);
     }
 }

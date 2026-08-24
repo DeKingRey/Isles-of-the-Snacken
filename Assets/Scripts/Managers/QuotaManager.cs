@@ -1,9 +1,13 @@
+using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuotaManager : NetworkBehaviour
 {
+    public static QuotaManager Instance;
+
     [Header("Quota")]
     [SerializeField] private TextMeshProUGUI quotaText;
 
@@ -13,14 +17,41 @@ public class QuotaManager : NetworkBehaviour
 
     [Tooltip("How much the required nommians will increment per level")]
     [SerializeField] private int quotaMultiplier = 2;
+
+    [Space(10)]
+
+    [Header("Feeding Snacken")]
+
+    [Tooltip("The wait time between feeding the Snacken and finding out the result")]
+    [SerializeField] private float checkDuration = 10f;
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private float coinMinigameDuration = 10f;
+
+    [HideInInspector] public int coinAmount = 0;
+    private bool minigameActive = false;
     private NetworkVariable<int> deliveredNommians = new(0);
     private NetworkVariable<int> requiredNommians = new();
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
         // Assign on quota changed so that text isn't constantly updating
         deliveredNommians.OnValueChanged += OnQuotaChanged;
         requiredNommians.OnValueChanged += OnQuotaChanged;
+        SceneEventBus.SceneChanged += RebindScene;
+        RebindScene();
 
         if (!IsServer) return;
 
@@ -33,10 +64,78 @@ public class QuotaManager : NetworkBehaviour
     {
         deliveredNommians.OnValueChanged -= OnQuotaChanged;
         requiredNommians.OnValueChanged -= OnQuotaChanged;
+        SceneEventBus.SceneChanged -= RebindScene;
+    }
+
+    void RebindScene()
+    {
+        GameUI ui = FindAnyObjectByType<GameUI>();
+
+        if (ui == null) return;
+
+        quotaText = ui.quotaText;
+    }
+
+    void Update()
+    {
+        // Sends players to next level if all coins are collected
+        if (minigameActive)
+        {
+            if (coinAmount <= 0)
+            {
+                SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
+                NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            }
+        }
+    }
+
+    // This is called when the players feed the Snacken
+    public IEnumerator CheckQuotaReached(int amount, float totalProfit)
+    {
+        yield return new WaitForSeconds(checkDuration);
+
+        if (amount < requiredNommians.Value)
+        {
+            // Lose :(
+            GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
+        } else
+        {   
+            CoinSpawnpoint[] coinSpawnpoints = FindObjectsByType<CoinSpawnpoint>();
+
+            // Spawns Coins
+            for (int i = 0; i < totalProfit; i++)
+            {
+                Transform randomSpawnpoint = coinSpawnpoints[Random.Range(0, coinSpawnpoints.Length)].spawnTransform;
+                GameObject coin = Instantiate(coinPrefab, randomSpawnpoint.position, randomSpawnpoint.rotation);
+                coin.GetComponent<NetworkObject>().Spawn();
+            }
+
+            coinAmount = (int) totalProfit;
+
+            StartCoroutine(CoinMinigameCountdown());
+        }
+    }
+
+    // Sends players to next level after the coin collection minigame
+    private IEnumerator CoinMinigameCountdown()
+    {
+        minigameActive = true;
+
+        yield return new WaitForSeconds(coinMinigameDuration);
+
+        minigameActive = false;
+
+        if (coinAmount > 0)
+        {
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
+            NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        }
+
+        coinAmount = 0;
     }
 
     private void OnQuotaChanged(int previous, int current)
     {
-        quotaText.text = $"{deliveredNommians.Value}/{requiredNommians.Value}";
+        quotaText.text = $"{requiredNommians.Value}";
     }
 }

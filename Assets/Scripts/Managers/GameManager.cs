@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,16 +23,18 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GameObject playAgainButton;
     [SerializeField] private GameObject waitingForHostUI;
     [SerializeField] private GameObject gameOverUI;
-    
 
     [HideInInspector] public int currentLevel = 0;
     private List<ItemData> deliveredNommians = new List<ItemData>();
+    private NetworkVariable<int> coinAmount = new NetworkVariable<int>(0);
+    private TextMeshProUGUI coinText;
 
     public enum GameState
     {
         Playing,
         GameOver,
-        Snacken
+        Snacken,
+        SnackenEating
     }
 
     void Awake()
@@ -51,6 +54,9 @@ public class GameManager : NetworkBehaviour
     {
         State.OnValueChanged += OnStateChanged; // Triggers when state changes on all clients
         SceneEventBus.SceneChanged += RebindScene;
+        coinAmount.OnValueChanged += OnCoinAmountChanged;
+
+        RebindScene();
     }
 
     public override void OnNetworkDespawn()
@@ -61,14 +67,18 @@ public class GameManager : NetworkBehaviour
 
     void RebindScene()
     {
-        GameOverUI ui = FindAnyObjectByType<GameOverUI>();
+        GameUI ui = FindAnyObjectByType<GameUI>();
 
         if (ui == null) return;
 
         playAgainButton = ui.playAgainButton;
         waitingForHostUI = ui.waitingForHostUI;
-        gameOverUI = ui.gameObject;
+        gameOverUI = ui.gameOverUI;
 
+        coinText = ui.coinText;
+        coinText.text = coinAmount.Value.ToString();
+
+        playAgainButton.GetComponent<Button>().onClick.RemoveListener(PlayAgain);
         playAgainButton.GetComponent<Button>().onClick.AddListener(PlayAgain);
     }
 
@@ -83,16 +93,27 @@ public class GameManager : NetworkBehaviour
         return -1; // Not found
     }
 
+    public void AddCoin()
+    {
+        if (!IsServer) return;
+
+        coinAmount.Value++;
+    }
+
+    private void OnCoinAmountChanged(int prev, int current)
+    {
+        if (coinText != null)
+            coinText.text = current.ToString();
+    }
+
     // Keeps track of delivered nommians to spawn them upon scene change 
-    [Rpc(SendTo.Server)]
-    public void AddDeliveredNommianRpc(int itemId)
+    public void AddDeliveredNommian(int itemId)
     {
         deliveredNommians.Add(itemDatabase[itemId]);
     }
 
     // Spawns delivered nommians upon entering the Snacken
-    [Rpc(SendTo.Server)]
-    private void SpawnDeliveredNommiansRpc()
+    private void SpawnDeliveredNommians()
     {
         DeliveryManager dm = FindAnyObjectByType<DeliveryManager>();
         foreach (ItemData nommian in deliveredNommians)
@@ -134,21 +155,40 @@ public class GameManager : NetworkBehaviour
                     }
                 }
 
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
                 gameOverUI.SetActive(true);
                 if (IsHost) playAgainButton.SetActive(true);
                 else waitingForHostUI.SetActive(true);
 
                 break;
             case GameState.Snacken:
-                if (IsServer) SpawnDeliveredNommiansRpc();
+                if (IsServer) SpawnDeliveredNommians();
+                break;
+            case GameState.SnackenEating:
                 break;
         }
     }
 
     public void PlayAgain()
     {
-        if (NetworkManager.Singleton.IsHost)
+        if (NetworkManager.Singleton.IsServer)
         {
+            IslandGenerator.Instance.ClearIslands(); // Despawns islands
+
+            // Despawns nommians
+            foreach (var spawner in FindObjectsByType<NommianSpawner>())
+            {
+                spawner.DespawnNommians();
+            }
+
+            foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+            {
+                client.PlayerObject.GetComponent<PlayerController>().ResetPlayer();
+            }
+
+            SceneEventBus.Instance.ToggleLoadingScreenRpc(true);
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
     }

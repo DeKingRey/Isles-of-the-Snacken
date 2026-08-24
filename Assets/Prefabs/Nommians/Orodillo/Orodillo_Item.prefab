@@ -184,5 +184,27 @@ PrefabInstance:
     - {fileID: 1977769920446804765, guid: 9754918c725c9434185d880f067f930a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8394277500704858425, guid: 9754918c725c9434185d880f067f930a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3187471325771972327}
   m_SourcePrefab: {fileID: 100100000, guid: 9754918c725c9434185d880f067f930a, type: 3}
+--- !u!1 &8361265113623116797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8394277500704858425, guid: 9754918c725c9434185d880f067f930a, type: 3}
+  m_PrefabInstance: {fileID: 33593083850267332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3187471325771972327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8361265113623116797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6dbabc4dd59b74b8954c85d1ec19dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  enabledDuration: 2

@@ -36,6 +36,13 @@ public abstract class Trap : NetworkBehaviour
     private Interactable interaction;
     private bool contentEscaped = false;
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+        
+        GetComponent<NetworkObject>().DestroyWithScene = true;
+    }   
+
     public virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();

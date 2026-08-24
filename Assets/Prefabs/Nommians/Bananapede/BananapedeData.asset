@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Bananapede
   weight: 3
-  value: 3
+  value: 2
   itemModel: {fileID: 3211030995451379955, guid: ac7c10b613f06764eb7ae0abc1ba1fc8, type: 3}
   itemSprite: {fileID: 21300000, guid: 24d042137540b354ab7c7b90494ab2c7, type: 3}

@@ -36,23 +36,50 @@ public class ShipController : NetworkBehaviour
     [Header("References")]
     [SerializeField] private Transform steerPosition;
 
+    [Tooltip("Minimum speed required for sailing sfx")]
+    [SerializeField] private float minSoundSpeed = 3f;
+
     [Space(10)]
     [Header("Island Collision")]
     [SerializeField] private float collisionRadius = 20f;
     [SerializeField] private LayerMask islandLayer;
 
     private PlayerController currentPlayer;
+    private AudioSource source;
 
-    private float currentSpeed = 0f;
+    private NetworkVariable<float> currentSpeed = new NetworkVariable<float>(0f);
     private float accelerationInput = 0f;
     private float steeringInput = 0f;
     private float cachedAccelInput = 0f;
     private float cachedSteerInput = 0f;
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+
+        source = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
             return;
+        
+        // Plays sailing sfx depending on speed
+        if (IsOwner)
+        {
+            if (Mathf.Abs(currentSpeed.Value) >= minSoundSpeed)
+            {
+                if (!source.isPlaying)
+                    source.Play();
+
+                source.volume = Mathf.Abs(currentSpeed.Value) / maxSpeed;
+            } else
+            {
+                if (source.isPlaying)
+                    source.Stop();
+            }
+        }
 
         if (steeringClientId.Value != NetworkManager.Singleton.LocalClientId)
             return;
@@ -101,29 +128,29 @@ public class ShipController : NetworkBehaviour
         if (accelerationInput != 0)
         {
             // Increases speed
-            currentSpeed += accelerationInput * acceleration * Time.fixedDeltaTime;
+            currentSpeed.Value += accelerationInput * acceleration * Time.fixedDeltaTime;
         } else
         {
             // Decreases speed when no accel
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, targetDrag * Time.fixedDeltaTime);
+            currentSpeed.Value = Mathf.MoveTowards(currentSpeed.Value, 0f, targetDrag * Time.fixedDeltaTime);
         }
 
         // The ship can only go half as fast backwards as it goes forward
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed * 0.5f, maxSpeed);
+        currentSpeed.Value = Mathf.Clamp(currentSpeed.Value, -maxSpeed * 0.5f, maxSpeed);
 
-        Vector3 movement = transform.forward * currentSpeed * Time.fixedDeltaTime;
+        Vector3 movement = transform.forward * currentSpeed.Value * Time.fixedDeltaTime;
 
         // Moves the ship
         if (CanMove(movement))
         {
-            transform.position += transform.forward * currentSpeed * Time.fixedDeltaTime;
+            transform.position += transform.forward * currentSpeed.Value * Time.fixedDeltaTime;
         }
     }
 
     void HandleSteering()
     {
         // How fast the ship turns is based on speed 
-        float speedFactor = Mathf.Clamp01(Mathf.Abs(currentSpeed) / minSpeedFactor);
+        float speedFactor = Mathf.Clamp01(Mathf.Abs(currentSpeed.Value) / minSpeedFactor);
 
         float turn = steeringInput * turnSpeed * speedFactor * Time.fixedDeltaTime;
 

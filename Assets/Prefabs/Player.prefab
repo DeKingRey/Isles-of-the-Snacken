@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1359723878
+  GlobalObjectIdHash: 3407166162
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1061,6 +1061,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 122.54245
       objectReference: {fileID: 0}
+    - target: {fileID: -5366236093625026440, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+      propertyPath: m_Name
+      value: FootLeft
+      objectReference: {fileID: 0}
     - target: {fileID: -5087302254568536366, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.0000013697834
@@ -1311,12 +1315,60 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4271249507582224677, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1186979866048059546}
+    - targetCorrespondingSourceObject: {fileID: -5366236093625026440, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4124786360805622483}
+    - targetCorrespondingSourceObject: {fileID: -5366236093625026440, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3197985314538075386}
   m_SourcePrefab: {fileID: 100100000, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
 --- !u!4 &299858853360592650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3944548670213545442, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
   m_PrefabInstance: {fileID: 3644689817389841128}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &509969574538019472 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5366236093625026440, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}
+  m_PrefabInstance: {fileID: 3644689817389841128}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &4124786360805622483
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509969574538019472}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.003
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3197985314538075386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509969574538019472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e485270fe5747e34a9ed6cd59d4a5c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFeet
+  oceanLayer:
+    serializedVersion: 2
+    m_Bits: 16
+  splashParticles: {fileID: 0}
 --- !u!1 &707642213647061965 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4271249507582224677, guid: 2fec3d51a18acbd42a695e125b5c7508, type: 3}

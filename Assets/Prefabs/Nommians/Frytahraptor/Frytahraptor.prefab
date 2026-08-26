@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4258727199
+  GlobalObjectIdHash: 3807785795
   InScenePlacedSourceGlobalObjectIdHash: 2715283233
   DeferredDespawnTick: 0
   Ownership: 1
@@ -950,6 +950,9 @@ MonoBehaviour:
   damage: 15
   attackCooldown: 2
   attackRange: 5
+  walkSfx: {fileID: 8300000, guid: 2a501a3a798c950499445b6f4ad6cd11, type: 3}
+  runSfx: {fileID: 8300000, guid: 2a501a3a798c950499445b6f4ad6cd11, type: 3}
+  attackSfx: {fileID: 0}
   isCaptured: 0
   canDamage: 0
 --- !u!114 &3705204809454131184
@@ -990,6 +993,15 @@ MonoBehaviour:
   maxHealth: 50
   invulnerabilityDuration: 1
   entityType: 1
+  vignetteFadeDuration: 0.5
+  maxDamageVignetteIntensity: 0.4
+  damageVolume: {fileID: 0}
+  drownTime: 1
+  drownInterval: 1
+  drownDamage: 20
+  drowningVolume: {fileID: 0}
+  maxDrownVignetteIntensity: 1
+  drownFadeOutDuration: 1
   currentHealth:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
